@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Same bottom nav as home */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Learn specific styles */
+        .search-box {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: none;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            font-size: 16px;
+        }
+
+        .search-box input:focus {
+            outline: 2px solid #0c4a6e;
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #0c4a6e;
+        }
+
+        .category-chips {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+        }
+
+        .category-chips::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-chips::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        .category-chips::-webkit-scrollbar-thumb {
+            background: #0c4a6e;
+            border-radius: 10px;
+        }
+
+        .category-chip {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .category-chip:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .category-chip.active {
+            background: #0c4a6e;
+            color: white;
+        }
+
+        /* Skill Cards Grid */
+        .skills-grid-enhanced {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .skill-card-enhanced {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-card-enhanced:hover {
+            transform: translateY(-5px);
+            border-color: #0c4a6e;
+            box-shadow: 0 15px 25px rgba(12, 74, 110, 0.2);
+        }
+
+        .skill-icon-large {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .skill-title-large {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #082032;
+        }
+
+        .skill-desc {
+            color: #334155;
+            font-size: 13px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .skill-stats {
+            display: flex;
+            gap: 15px;
+            color: #0c4a6e;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .skill-tag {
+            background: rgba(255,255,255,0.5);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            color: #0c4a6e;
+        }
+
+        /* CBT and Mindfulness Cards */
+        .info-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 6px solid #0c4a6e;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .info-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .info-icon-large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .info-title-section {
+            flex: 1;
+        }
+
+        .info-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #082032;
+            margin-bottom: 5px;
+        }
+
+        .info-subtitle {
+            color: #334155;
+            font-size: 16px;
+        }
+
+        .principle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .principle-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .principle-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .principle-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #082032;
+        }
+
+        .principle-desc {
+            color: #334155;
+            font-size: 13px;
+        }
+
+        .technique-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .technique-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .technique-item:last-child {
+            border-bottom: none;
+        }
+
+        .technique-icon {
+            width: 50px;
+            height: 50px;
+            background: #0c4a6e;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .technique-content {
+            flex: 1;
+        }
+
+        .technique-name {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 3px;
+            color: #082032;
+        }
+
+        .technique-desc {
+            color: #334155;
+            font-size: 14px;
+        }
+
+        .mindfulness-exercise {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mindfulness-exercise:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .exercise-icon-large {
+            width: 80px;
+            height: 80px;
+            background: #0c4a6e;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .exercise-info {
+            flex: 1;
+        }
+
+        .exercise-info h4 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #082032;
+        }
+
+        .exercise-info p {
+            color: #334155;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .exercise-duration {
+            background: rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #0c4a6e;
+            font-weight: 600;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 30px;
+            padding: 40px;
+            color: white;
+            margin: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-box::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 150px;
+            opacity: 0.1;
+            color: white;
+        }
+
+        .quote-text {
+            font-size: 22px;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-author {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .article-card {
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        .article-icon {
+            width: 60px;
+            height: 60px;
+            background: #0c4a6e;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .article-content {
+            flex: 1;
+        }
+
+        .article-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #082032;
+        }
+
+        .article-meta {
+            color: #334155;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .article-excerpt {
+            color: #082032;
+            font-size: 14px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .video-thumb {
+            height: 120px;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            position: relative;
+        }
+
+        .video-thumb::after {
+            content: '▶️';
+            position: absolute;
+            font-size: 50px;
+            opacity: 0.8;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #082032;
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #334155;
+            font-size: 13px;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .resource-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .resource-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .resource-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #082032;
+        }
+
+        .resource-desc {
+            color: #334155;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .resource-link {
+            color: #0c4a6e;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .skills-grid-enhanced {
+                grid-template-columns: 1fr;
+            }
+            
+            .principle-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .technique-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .mindfulness-exercise {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header (same as home) -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">📚 Learn & Grow</h1>
+
+        <!-- Search -->
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search skills, articles, or techniques...">
+        </div>
+
+        <!-- Categories -->
+        <div class="category-chips">
+            <span class="category-chip active">All</span>
+            <span class="category-chip">Skills</span>
+            <span class="category-chip">CBT</span>
+            <span class="category-chip">Mindfulness</span>
+            <span class="category-chip">Articles</span>
+            <span class="category-chip">Videos</span>
+            <span class="category-chip">Resources</span>
+        </div>
+
+        <!-- Skill of the Day -->
+        <div class="skill-card-enhanced" onclick="window.location.href='quickbreathing.html'" style="background: linear-gradient(135deg, #0c4a6e, #082032); color: white; margin-bottom: 30px;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 30px; margin-bottom: 15px; font-size: 13px; font-weight: 600;">
+                🔥 SKILL OF THE DAY
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <div style="font-size: 60px;">🌬️</div>
+                <div style="flex: 1;">
+                    <h2 style="font-size: 28px; margin-bottom: 5px; color: white;">Grounding Breath</h2>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">5-4-3-2-1 technique to stop panic attacks and anchor yourself in the present moment</p>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">⚡ 8 DMG</span>
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">🔋 3 EN</span>
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">⏱️ 5 min</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Battle Skills Section -->
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">⚔️ All Battle Skills</h2>
+        <p style="color: #334155; margin-bottom: 20px;">Each skill has a unique mini-intervention to help you fight your monsters</p>
+
+        <div class="skills-grid-enhanced">
+            <!-- Skill 1: Grounding Breath -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickbreathing.html'">
+                <div class="skill-icon-large">🌬️</div>
+                <div class="skill-title-large">Grounding Breath</div>
+                <div class="skill-desc">Box breathing technique (4-4-4-4) to calm your nervous system</div>
+                <div class="skill-stats">
+                    <span>⚡ 8 DMG</span>
+                    <span>🔋 3 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Anxiety</span>
+                    <span class="skill-tag">Panic</span>
+                    <span class="skill-tag">Beginner</span>
+                </div>
+            </div>
+
+            <!-- Skill 2: Cognitive Shield -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickcbt.html'">
+                <div class="skill-icon-large">🛡️</div>
+                <div class="skill-title-large">Cognitive Shield</div>
+                <div class="skill-desc">Challenge negative thoughts with CBT techniques and evidence testing</div>
+                <div class="skill-stats">
+                    <span>⚡ 12 DMG</span>
+                    <span>🔋 5 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">CBT</span>
+                    <span class="skill-tag">Intermediate</span>
+                    <span class="skill-tag">Thoughts</span>
+                </div>
+            </div>
+
+            <!-- Skill 3: Self-Compassion -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickaffirmation.html'">
+                <div class="skill-icon-large">💚</div>
+                <div class="skill-title-large">Self-Compassion</div>
+                <div class="skill-desc">Read loving affirmations to counter self-criticism</div>
+                <div class="skill-stats">
+                    <span>⚡ 6 DMG</span>
+                    <span>🔋 2 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Self-esteem</span>
+                    <span class="skill-tag">Beginner</span>
+                    <span class="skill-tag">Affirmations</span>
+                </div>
+            </div>
+
+            <!-- Skill 4: Mindful Microbreak -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickmicrobreak.html'">
+                <div class="skill-icon-large">🚶</div>
+                <div class="skill-title-large">Mindful Microbreak</div>
+                <div class="skill-desc">Step away mindfully for 2-3 minutes to reset your focus</div>
+                <div class="skill-stats">
+                    <span>⚡ 10 DMG</span>
+                    <span>🔋 4 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Break</span>
+                    <span class="skill-tag">Focus</span>
+                    <span class="skill-tag">Beginner</span>
+                </div>
+            </div>
+
+            <!-- Skill 5: Progressive Muscle Relaxation -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickpmr.html'">
+                <div class="skill-icon-large">💪</div>
+                <div class="skill-title-large">Progressive Muscle Relaxation</div>
+                <div class="skill-desc">Tense and release muscle groups to release physical tension</div>
+                <div class="skill-stats">
+                    <span>⚡ 14 DMG</span>
+                    <span>🔋 6 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Body</span>
+                    <span class="skill-tag">Intermediate</span>
+                    <span class="skill-tag">Tension</span>
+                </div>
+            </div>
+
+            <!-- Skill 6: Sensory Anchor -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quicksensory.html'">
+                <div class="skill-icon-large">🪨</div>
+                <div class="skill-title-large">Sensory Anchor</div>
+                <div class="skill-desc">Use physical touch to ground yourself during anxiety</div>
+                <div class="skill-stats">
+                    <span>⚡ 7 DMG</span>
+                    <span>🔋 3 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Grounding</span>
+                    <span class="skill-tag">Sensory</span>
+                    <span class="skill-tag">Beginner</span>
+                </div>
+            </div>
+
+            <!-- Skill 7: Calming Sounds -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickmusic.html'">
+                <div class="skill-icon-large">🎵</div>
+                <div class="skill-title-large">Calming Sounds</div>
+                <div class="skill-desc">Imagine soothing nature sounds for mental reset</div>
+                <div class="skill-stats">
+                    <span>⚡ 9 DMG</span>
+                    <span>🔋 4 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Music</span>
+                    <span class="skill-tag">Relaxation</span>
+                    <span class="skill-tag">Beginner</span>
+                </div>
+            </div>
+
+            <!-- Skill 8: Thought Labeling -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quicklabeling.html'">
+                <div class="skill-icon-large">🏷️</div>
+                <div class="skill-title-large">Thought Labeling</div>
+                <div class="skill-desc">Label thoughts as "worry," "planning," etc. to create distance</div>
+                <div class="skill-stats">
+                    <span>⚡ 11 DMG</span>
+                    <span>🔋 5 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">CBT</span>
+                    <span class="skill-tag">Intermediate</span>
+                    <span class="skill-tag">Awareness</span>
+                </div>
+            </div>
+
+            <!-- Skill 9: WAIT Rule -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickwait.html'">
+                <div class="skill-icon-large">⏳</div>
+                <div class="skill-title-large">WAIT Rule</div>
+                <div class="skill-desc">Watch, Acknowledge, Invoke calm, Talk with compassion</div>
+                <div class="skill-stats">
+                    <span>⚡ 13 DMG</span>
+                    <span>🔋 6 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Advanced</span>
+                    <span class="skill-tag">Emotions</span>
+                    <span class="skill-tag">Response</span>
+                </div>
+            </div>
+
+            <!-- Skill 10: Calm Place Visualization -->
+            <div class="skill-card-enhanced" onclick="window.location.href='quickvisualize.html'">
+                <div class="skill-icon-large">🏝️</div>
+                <div class="skill-title-large">Calm Place Visualization</div>
+                <div class="skill-desc">Imagine a peaceful scene using all five senses</div>
+                <div class="skill-stats">
+                    <span>⚡ 15 DMG</span>
+                    <span>🔋 7 EN</span>
+                </div>
+                <div class="skill-tags">
+                    <span class="skill-tag">Visualization</span>
+                    <span class="skill-tag">Advanced</span>
+                    <span class="skill-tag">Imagination</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CBT Section -->
+        <div class="info-card">
+            <div class="info-header">
+                <div class="info-icon-large">🧠</div>
+                <div class="info-title-section">
+                    <div class="info-title">Cognitive Behavioral Therapy (CBT)</div>
+                    <div class="info-subtitle">Change your thoughts, change your battles</div>
+                </div>
+            </div>
+
+            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">
+                CBT helps you identify and change negative thought patterns that feed your monsters. 
+                The core idea: your thoughts, feelings, and behaviors are all connected. By changing one, you change all.
+            </p>
+
+            <!-- Core Principles -->
+            <h3 style="margin: 30px 0 20px; color: #082032;">Core Principles</h3>
+            <div class="principle-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🔺</div>
+                    <div class="principle-name">Cognitive Triangle</div>
+                    <div class="principle-desc">Thoughts → Feelings → Behaviors</div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">⚠️</div>
+                    <div class="principle-name">Cognitive Distortions</div>
+                    <div class="principle-desc">Identify thinking traps</div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">🔄</div>
+                    <div class="principle-name">Cognitive Restructuring</div>
+                    <div class="principle-desc">Replace negative thoughts</div>
+                </div>
+            </div>
+
+            <!-- CBT Techniques -->
+            <h3 style="margin: 30px 0 20px; color: #082032;">CBT Techniques</h3>
+            
+            <div class="technique-list">
+                <div class="technique-item">
+                    <div class="technique-icon">📝</div>
+                    <div class="technique-content">
+                        <div class="technique-name">Thought Record</div>
+                        <div class="technique-desc">Write down automatic negative thoughts and challenge them with evidence. Ask: "What's the proof? What's a balanced perspective?"</div>
+                    </div>
+                </div>
+                
+                <div class="technique-item">
+                    <div class="technique-icon">🔍</div>
+                    <div class="technique-content">
+                        <div class="technique-name">Cognitive Distortions</div>
+                        <div class="technique-desc">Identify thinking traps: all-or-nothing, overgeneralization, catastrophizing, mind reading, emotional reasoning</div>
+                    </div>
+                </div>
+                
+                <div class="technique-item">
+                    <div class="technique-icon">⚖️</div>
+                    <div class="technique-content">
+                        <div class="technique-name">Evidence Testing</div>
+                        <div class="technique-desc">Treat thoughts as hypotheses, not facts. Look for evidence that supports AND contradicts the thought.</div>
+                    </div>
+                </div>
+                
+                <div class="technique-item">
+                    <div class="technique-icon">🔄</div>
+                    <div class="technique-content">
+                        <div class="technique-name">Reframing</div>
+                        <div class="technique-desc">Create balanced, realistic alternative thoughts. "I'm not a failure, I just made a mistake."</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Cognitive Distortions -->
+            <h3 style="margin: 30px 0 20px; color: #082032;">Common Cognitive Distortions</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">All-or-nothing thinking</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Overgeneralization</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Mental filter</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Disqualifying positive</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Jumping to conclusions</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Magnification</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Emotional reasoning</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Should statements</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Labeling</span>
+                <span style="background: rgba(255,255,255,0.5); padding: 8px 16px; border-radius: 30px; font-size: 13px;">Personalization</span>
+            </div>
+        </div>
+
+        <!-- Mindfulness Section -->
+        <div class="info-card">
+            <div class="info-header">
+                <div class="info-icon-large">🧘</div>
+                <div class="info-title-section">
+                    <div class="info-title">Mindfulness</div>
+                    <div class="info-subtitle">Be present with your monsters, don't become them</div>
+                </div>
+            </div>
+
+            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">
+                Mindfulness is the practice of paying attention to the present moment without judgment. 
+                It helps you observe your thoughts and feelings without getting caught up in them.
+            </p>
+
+            <!-- Core Mindfulness Principles -->
+            <h3 style="margin: 30px 0 20px; color: #082032;">Core Principles</h3>
+            <div class="principle-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🎯</div>
+                    <div class="principle-name">Present Moment</div>
+                    <div class="principle-desc">Focus on now, not past or future</div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">👁️</div>
+                    <div class="principle-name">Non-judgment</div>
+                    <div class="principle-desc">Observe without labeling good/bad</div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon">💨</div>
+                    <div class="principle-name">Acceptance</div>
+                    <div class="principle-desc">Let thoughts come and go</div>
+                </div>
+            </div>
+
+            <!-- Mindfulness Exercises -->
+            <h3 style="margin: 30px 0 20px; color: #082032;">Mindfulness Exercises</h3>
+
+            <div class="mindfulness-exercise" onclick="window.location.href='quickbreathing.html'">
+                <div class="exercise-icon-large">🌬️</div>
+                <div class="exercise-info">
+                    <h4>Mindful Breathing</h4>
+                    <p>Focus on your breath—notice the sensation of inhaling and exhaling. When your mind wanders, gently bring it back.</p>
+                    <div class="exercise-meta">
+                        <span class="exercise-duration">⏱️ 5 minutes</span>
+                        <span class="exercise-duration">🎯 Beginner</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindfulness-exercise" onclick="window.location.href='quickgrounding.html'">
+                <div class="exercise-icon-large">🌍</div>
+                <div class="exercise-info">
+                    <h4>Body Scan</h4>
+                    <p>Slowly bring attention to each part of your body, from head to toe, noticing sensations without judgment.</p>
+                    <div class="exercise-meta">
+                        <span class="exercise-duration">⏱️ 10 minutes</span>
+                        <span class="exercise-duration">🎯 Intermediate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindfulness-exercise">
+                <div class="exercise-icon-large">👂</div>
+                <div class="exercise-info">
+                    <h4>Mindful Listening</h4>
+                    <p>Pick a sound and listen to it fully—music, nature sounds, or even silence. Notice the layers and textures.</p>
+                    <div class="exercise-meta">
+                        <span class="exercise-duration">⏱️ 3 minutes</span>
+                        <span class="exercise-duration">🎯 Beginner</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mindfulness-exercise">
+                <div class="exercise-icon-large">🚶</div>
+                <div class="exercise-info">
+                    <h4>Mindful Walking</h4>
+                    <p>Walk slowly and deliberately, feeling each step. Notice the ground beneath your feet, the air on your skin.</p>
+                    <div class="exercise-meta">
+                        <span class="exercise-duration">⏱️ 5 minutes</span>
+                        <span class="exercise-duration">🎯 Beginner</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mindfulness Quote -->
+            <div class="quote-box">
+                <div class="quote-text">
+                    "You can't stop the waves, but you can learn to surf."
+                </div>
+                <div class="quote-author">— Jon Kabat-Zinn</div>
+            </div>
+        </div>
+
+        <!-- Articles Section -->
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">📖 Featured Articles</h2>
+
+        <div class="article-card">
+            <div class="article-icon">🧠</div>
+            <div class="article-content">
+                <div class="article-title">CBT for Anxiety: A Beginner's Guide</div>
+                <div class="article-meta">7 min read • Dr. Sarah Chen</div>
+                <div class="article-excerpt">Learn how to identify and challenge anxious thoughts using proven CBT techniques...</div>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-icon">🧘</div>
+            <div class="article-content">
+                <div class="article-title">Mindfulness for Stress Relief</div>
+                <div class="article-meta">5 min read • Dr. Michael Reyes</div>
+                <div class="article-excerpt">Simple mindfulness practices you can do anywhere, anytime to reduce stress...</div>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-icon">📊</div>
+            <div class="article-content">
+                <div class="article-title">Combining CBT and Mindfulness</div>
+                <div class="article-meta">8 min read • Dr. Emma Watson</div>
+                <div class="article-excerpt">How to integrate these two powerful approaches for maximum benefit...</div>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <div class="article-icon">🔄</div>
+            <div class="article-content">
+                <div class="article-title">Breaking the Cycle of Negative Thoughts</div>
+                <div class="article-meta">6 min read • Dr. James Park</div>
+                <div class="article-excerpt">Practical strategies to stop rumination and break free from negative thinking patterns...</div>
+            </div>
+        </div>
+
+        <!-- Video Tutorials -->
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">🎥 Video Tutorials</h2>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-thumb"></div>
+                <div class="video-info">
+                    <div class="video-title">CBT Basics for Beginners</div>
+                    <div class="video-meta">
+                        <span>4:30</span>
+                        <span>Beginner</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb"></div>
+                <div class="video-info">
+                    <div class="video-title">10-Minute Mindfulness Meditation</div>
+                    <div class="video-meta">
+                        <span>10:15</span>
+                        <span>All levels</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb"></div>
+                <div class="video-info">
+                    <div class="video-title">Challenge Cognitive Distortions</div>
+                    <div class="video-meta">
+                        <span>6:45</span>
+                        <span>Intermediate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">📚 Helpful Resources</h2>
+
+        <div class="resource-grid">
+            <div class="resource-card">
+                <div class="resource-icon">📱</div>
+                <div class="resource-title">Recommended Apps</div>
+                <div class="resource-desc">Calm, Headspace, Woebot, and other mental health tools</div>
+                <a href="#" class="resource-link">Learn more →</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">📞</div>
+                <div class="resource-title">Crisis Hotlines</div>
+                <div class="resource-desc">24/7 support when you need someone to talk to</div>
+                <a href="emergency.html" class="resource-link">View numbers →</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">📖</div>
+                <div class="resource-title">Recommended Books</div>
+                <div class="resource-desc">"Feeling Good" by David Burns, "Wherever You Go, There You Are"</div>
+                <a href="#" class="resource-link">Read more →</a>
+            </div>
+            <div class="resource-card">
+                <div class="resource-icon">🌐</div>
+                <div class="resource-title">Online Communities</div>
+                <div class="resource-desc">Connect with others on their mental health journey</div>
+                <a href="community.html" class="resource-link">Join →</a>
+            </div>
+        </div>
+
+        <!-- Recommended for You -->
+        <div style="background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 25px; margin: 40px 0;">
+            <h3 style="font-size: 20px; margin-bottom: 15px; color: #082032;">🎯 Recommended for You</h3>
+            <p style="color: #334155; margin-bottom: 20px;">Based on your Thesis Panic Monster</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <span style="background: white; padding: 10px 20px; border-radius: 40px; color: #0c4a6e; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onclick="window.location.href='quickbreathing.html'">🌬️ Grounding Breath</span>
+                <span style="background: white; padding: 10px 20px; border-radius: 40px; color: #0c4a6e; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onclick="window.location.href='quickcbt.html'">🛡️ Cognitive Shield</span>
+                <span style="background: white; padding: 10px 20px; border-radius: 40px; color: #0c4a6e; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">📝 Thought Record</span>
+                <span style="background: white; padding: 10px 20px; border-radius: 40px; color: #0c4a6e; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">🧘 Body Scan</span>
+                <span style="background: white; padding: 10px 20px; border-radius: 40px; color: #0c4a6e; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">🏷️ Thought Labeling</span>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item active" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Category chips
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Simple filter simulation
+                const category = this.textContent.toLowerCase();
+                if (category === 'cbt') {
+                    document.querySelectorAll('.info-card')[0].scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'mindfulness') {
+                    document.querySelectorAll('.info-card')[1].scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'skills') {
+                    document.querySelector('.skills-grid-enhanced').scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'articles') {
+                    document.querySelectorAll('.article-card')[0].scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'videos') {
+                    document.querySelector('.video-grid').scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'resources') {
+                    document.querySelector('.resource-grid').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Update stress indicator
+        function updateStressIndicator() {
+            const hours = new Date().getHours();
+            const dots = document.querySelectorAll('.dot');
+            
+            let stressLevel = 3;
+            if (hours < 10) stressLevel = 4;
+            else if (hours < 15) stressLevel = 3;
+            else if (hours < 19) stressLevel = 4;
+            else stressLevel = 2;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Initialize
+        window.onload = function() {
+            updateStressIndicator();
+        };
+    </script>
+</body>
+</html>

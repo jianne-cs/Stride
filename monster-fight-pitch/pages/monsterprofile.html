@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Profile - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #1e3a5f;
+        }
+        
+        .stat-label {
+            color: #7dd3fc;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+        }
+        
+        .trigger-tag {
+            background: #1e3a5f;
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: #1e3a5f;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #1e3a5f;
+        }
+        
+        .timeline-date {
+            min-width: 80px;
+            color: #9ca3af;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: #7dd3fc;
+            border-bottom-color: #7dd3fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+            <button class="back-btn" onclick="window.location.href='home.html'">←</button>
+            <h1>Monster Profile</h1>
+        </div>
+
+        <!-- Monster Header -->
+        <div class="card" style="text-align: center;">
+            <div class="monster-shape medium" style="margin: 0 auto 20px; background: #7dd3fc; position: relative;">
+                <div style="position: absolute; width: 100%; height: 100%;">
+                    <div style="position: absolute; width: 20px; height: 20px; background: white; border-radius: 50%; top: 30px; left: 25px;"></div>
+                    <div style="position: absolute; width: 20px; height: 20px; background: white; border-radius: 50%; top: 30px; right: 25px;"></div>
+                    <div style="position: absolute; width: 8px; height: 8px; background: #082032; border-radius: 50%; top: 38px; left: 33px;"></div>
+                    <div style="position: absolute; width: 8px; height: 8px; background: #082032; border-radius: 50%; top: 38px; right: 33px;"></div>
+                </div>
+            </div>
+            
+            <h1 style="font-size: 32px; margin-bottom: 5px;">Thesis Panic Monster</h1>
+            <div style="color: #7dd3fc; margin-bottom: 15px;">Anxiety Type • Created 47 days ago</div>
+            
+            <div style="display: flex; gap: 20px; justify-content: center; margin: 20px 0;">
+                <div>
+                    <div style="color: #9ca3af; font-size: 12px;">Current HP</div>
+                    <div style="font-size: 28px; color: #ef4444;">78</div>
+                </div>
+                <div>
+                    <div style="color: #9ca3af; font-size: 12px;">Max HP</div>
+                    <div style="font-size: 28px;">100</div>
+                </div>
+                <div>
+                    <div style="color: #9ca3af; font-size: 12px;">Battles</div>
+                    <div style="font-size: 28px;">47</div>
+                </div>
+                <div>
+                    <div style="color: #9ca3af; font-size: 12px;">Win Rate</div>
+                    <div style="font-size: 28px;">68%</div>
+                </div>
+            </div>
+
+            <div class="hp-bar" style="margin: 20px 0;">
+                <div class="hp-fill" style="width: 78%;"></div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display: flex; border-bottom: 1px solid #1e3a5f; margin: 30px 0 20px;">
+            <button class="tab-btn active" onclick="showTab('stats')">Stats</button>
+            <button class="tab-btn" onclick="showTab('triggers')">Triggers</button>
+            <button class="tab-btn" onclick="showTab('history')">History</button>
+            <button class="tab-btn" onclick="showTab('insights')">Insights</button>
+        </div>
+
+        <!-- Stats Tab -->
+        <div id="stats-tab">
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">📊 Monster Statistics</h3>
+                
+                <div class="stat-row">
+                    <span class="stat-label">Average Daily HP</span>
+                    <span class="stat-value">82</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Peak HP (All Time)</span>
+                    <span class="stat-value">100 (Day 1)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Lowest HP</span>
+                    <span class="stat-value">45 (Last week)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Most Effective Skill</span>
+                    <span class="stat-value">Grounding Breath (92%)</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Squad Battle Success</span>
+                    <span class="stat-value">+35% vs Solo</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Evolution Stage</span>
+                    <span class="stat-value">Stage 2 (Evolved)</span>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3 style="margin-bottom: 20px;">🎨 Monster Features</h3>
+                
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div class="feature-icon">🦷</div>
+                        <div style="margin-top: 5px;">Sharp Teeth</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="feature-icon">👁️</div>
+                        <div style="margin-top: 5px;">Many Eyes</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="feature-icon">🌫️</div>
+                        <div style="margin-top: 5px;">Fog Aura</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="feature-icon">⛓️</div>
+                        <div style="margin-top: 5px;">Heavy Chains</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Triggers Tab (Hidden by default) -->
+        <div id="triggers-tab" style="display: none;">
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">⚡ What Triggers This Monster</h3>
+                
+                <div style="margin-bottom: 30px;">
+                    <div class="trigger-tag">📧 Opening laptop</div>
+                    <div class="trigger-tag">📅 Thinking about deadlines</div>
+                    <div class="trigger-tag">🌙 Sunday evenings</div>
+                    <div class="trigger-tag">☀️ Monday mornings</div>
+                    <div class="trigger-tag">📱 Social media comparison</div>
+                    <div class="trigger-tag">📝 Seeing advisor emails</div>
+                    <div class="trigger-tag">👥 Group project meetings</div>
+                    <div class="trigger-tag">🌃 2 AM (peak strength)</div>
+                </div>
+
+                <h3 style="margin: 30px 0 20px;">⏰ Attack Patterns</h3>
+                
+                <div class="stat-row">
+                    <span class="stat-label">Most Active Day</span>
+                    <span class="stat-value">Monday</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Peak Time</span>
+                    <span class="stat-value">8-10 AM, 2-4 AM</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Weakest Time</span>
+                    <span class="stat-value">Saturday afternoons</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">After Squad Battles</span>
+                    <span class="stat-value">HP -22% average</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab (Hidden by default) -->
+        <div id="history-tab" style="display: none;">
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">📜 Recent Battles</h3>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Today</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">Victory</span>
+                            <span style="color: #10b981;">HP 78 → 0</span>
+                        </div>
+                        <div style="color: #9ca3af; font-size: 14px;">With squad • 8 min</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Yesterday</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">Partial</span>
+                            <span style="color: #f59e0b;">HP 65 → 32</span>
+                        </div>
+                        <div style="color: #9ca3af; font-size: 14px;">Solo • 5 min</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Mar 3</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">Victory</span>
+                            <span style="color: #10b981;">HP 92 → 0</span>
+                        </div>
+                        <div style="color: #9ca3af; font-size: 14px;">Squad battle • 12 min</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Mar 2</div>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: bold;">Defeat</span>
+                            <span style="color: #ef4444;">HP 85 → 92</span>
+                        </div>
+                        <div style="color: #9ca3af; font-size: 14px;">Solo at 3 AM • 3 min</div>
+                    </div>
+                </div>
+                
+                <button class="secondary-btn" style="margin-top: 20px;" onclick="window.location.href='monsterdiary.html'">View Full Diary →</button>
+            </div>
+        </div>
+
+        <!-- Insights Tab (Hidden by default) -->
+        <div id="insights-tab" style="display: none;">
+            <div class="card">
+                <h3 style="margin-bottom: 20px;">💡 AI Insights</h3>
+                
+                <div style="background: #1e3a5f; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <span style="font-size: 24px;">📊</span>
+                        <div>
+                            <strong>Pattern Detected:</strong> Monster is 40% stronger on Monday mornings
+                            <div style="color: #7dd3fc; font-size: 14px; margin-top: 5px;">Consider Sunday evening squad battles</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #1e3a5f; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <span style="font-size: 24px;">⚡</span>
+                        <div>
+                            <strong>Skill Recommendation:</strong> Grounding Breath works 92% of the time
+                            <div style="color: #7dd3fc; font-size: 14px; margin-top: 5px;">Use as opening move</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: #1e3a5f; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <span style="font-size: 24px;">👥</span>
+                        <div>
+                            <strong>Squad Advantage:</strong> You win 35% more with squad
+                            <div style="color: #7dd3fc; font-size: 14px; margin-top: 5px;">Alex and Jordan have similar monsters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 10px; margin: 30px 0;">
+            <button class="primary-btn" style="margin: 0;" onclick="window.location.href='battle.html?monster=1'">⚔️ Battle Now</button>
+            <button class="secondary-btn" style="margin: 0;" onclick="window.location.href='createmonster.html'">✏️ Edit Monster</button>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.getElementById('stats-tab').style.display = 'none';
+            document.getElementById('triggers-tab').style.display = 'none';
+            document.getElementById('history-tab').style.display = 'none';
+            document.getElementById('insights-tab').style.display = 'none';
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').style.display = 'block';
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Monster Fight</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Welcome banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .greeting {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* Quick stats row */
+        .quick-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-pill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-pill-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0c4a6e;
+        }
+        
+        .stat-pill-label {
+            font-size: 12px;
+            color: #334155;
+        }
+        
+        /* Monster grid improvements */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 15px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-all-link {
+            color: #0c4a6e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .view-all-link:hover {
+            background: #0c4a6e;
+            color: white;
+        }
+        
+        /* Monster card improvements */
+        .monster-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .monster-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .monster-card:hover {
+            border-color: #0c4a6e;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .monster-card.create-card {
+            border: 2px dashed #0c4a6e;
+            background: rgba(255, 255, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .monster-card.create-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .monster-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .monster-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #334155;
+        }
+        
+        .feature-tags {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #0c4a6e;
+        }
+        
+        /* Delete button */
+        .delete-monster {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 10;
+            border: none;
+        }
+        
+        .delete-monster:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            grid-column: span 2;
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            color: #334155;
+        }
+        
+        .empty-state .plus-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #0c4a6e;
+        }
+        
+        /* Squad section improvements */
+        .squad-preview {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .squad-preview:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .squad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .squad-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #082032;
+        }
+        
+        .online-count {
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .squad-avatars {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .squad-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        
+        .squad-activity {
+            display: flex;
+            gap: 15px;
+            color: #334155;
+            font-size: 13px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            flex-wrap: wrap;
+        }
+        
+        /* Insight cards */
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .insight-mini-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+        }
+        
+        .insight-mini-card:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            background: #0c4a6e;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .insight-content h4 {
+            font-size: 14px;
+            margin-bottom: 3px;
+            color: #082032;
+        }
+        
+        .insight-content p {
+            font-size: 11px;
+            color: #334155;
+        }
+        
+        /* Quick actions enhancement */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+        
+        .quick-action-btn {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 15px 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .quick-action-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #0c4a6e;
+        }
+        
+        /* Motivational quote */
+        .quote-card {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 30px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-text {
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-author {
+            font-size: 12px;
+            opacity: 0.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Bottom navigation enhancement */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+        
+        .nav-label {
+            font-size: 11px;
+        }
+        
+        /* Stress indicator enhancement */
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 10px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .stress-indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .stress-label {
+            font-size: 13px;
+            color: #0c4a6e;
+            margin-right: 5px;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #94a3b8;
+            transition: background 0.3s ease;
+        }
+        
+        .dot.filled {
+            background: #0c4a6e;
+        }
+        
+        /* App header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #0c4a6e;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #082032;
+        }
+        
+        /* HP Bar */
+        .hp-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .hp-fill {
+            height: 100%;
+            background: #ef4444;
+            transition: width 0.3s ease;
+        }
+        
+        .hp-fill.green {
+            background: #10b981;
+        }
+        
+        /* ===== FLOATING EMERGENCY BUTTON ===== */
+        .emergency-float-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            border: 4px solid white;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: emergencyPulse 2s infinite;
+        }
+
+        .emergency-float-btn:hover {
+            transform: scale(1.15);
+            background: #dc2626;
+            box-shadow: 0 15px 35px rgba(239, 68, 68, 0.8);
+        }
+
+        @keyframes emergencyPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        .emergency-tooltip {
+            position: absolute;
+            right: 85px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #082032;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            border: 1px solid white;
+        }
+
+        .emergency-float-btn:hover .emergency-tooltip {
+            opacity: 1;
+            visibility: visible;
+            right: 95px;
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 640px) {
+            .monster-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .empty-state {
+                grid-column: span 1;
+            }
+            
+            .quick-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .greeting {
+                font-size: 24px;
+            }
+            
+            .squad-avatars {
+                justify-content: center;
+            }
+
+            .emergency-float-btn {
+                bottom: 90px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Profile and Stress -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <span class="logo">MONSTER FIGHT</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="welcome-content">
+                <div class="greeting">Welcome back, Marco! 👋</div>
+                <div>Your monsters are waiting for you...</div>
+                <div class="date-badge" id="currentDate">
+                    📅 
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="quick-stats-row">
+            <div class="stat-pill">
+                <div class="stat-pill-value" id="totalBattles">47</div>
+                <div class="stat-pill-label">Battles Won</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-pill-value" id="streakCount">🔥5</div>
+                <div class="stat-pill-label">Day Streak</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-pill-value" id="totalMonsters">3</div>
+                <div class="stat-pill-label">Monsters</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-pill-value" id="squadBattles">12</div>
+                <div class="stat-pill-label">Squad Battles</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Row -->
+        <div class="quick-actions">
+            <button class="quick-action-btn" onclick="window.location.href='quickbreathing.html'">
+                <div class="quick-action-icon">🌬️</div>
+                <div class="quick-action-label">Breathe</div>
+            </button>
+            <button class="quick-action-btn" onclick="window.location.href='quickmoodcheck.html'">
+                <div class="quick-action-icon">😊</div>
+                <div class="quick-action-label">Mood</div>
+            </button>
+            <button class="quick-action-btn" onclick="window.location.href='quickgrounding.html'">
+                <div class="quick-action-icon">🌍</div>
+                <div class="quick-action-label">Ground</div>
+            </button>
+            <button class="quick-action-btn" onclick="window.location.href='quickjournal.html'">
+                <div class="quick-action-icon">📝</div>
+                <div class="quick-action-label">Journal</div>
+            </button>
+        </div>
+
+        <!-- My Monsters Section -->
+        <div class="section-header">
+            <div class="section-title">
+                <span>👾</span> My Monsters
+            </div>
+            <button class="view-all-link" onclick="window.location.href='createmonster.html'">+ Create New</button>
+        </div>
+
+        <div class="monster-grid" id="monsterGrid">
+            <!-- Monsters will be loaded dynamically -->
+        </div>
+
+        <!-- Squad Section -->
+        <div class="section-header">
+            <div class="section-title">
+                <span>👥</span> My Squad
+            </div>
+            <button class="view-all-link" onclick="window.location.href='squaddetail.html'">View Squad →</button>
+        </div>
+
+        <div class="squad-preview" onclick="window.location.href='squaddetail.html'">
+            <div class="squad-header">
+                <span class="squad-name">⚔️ CIIT Battle Squad</span>
+                <span class="online-count">● 3 online</span>
+            </div>
+            
+            <div class="squad-avatars">
+                <div class="squad-avatar">A</div>
+                <div class="squad-avatar">J</div>
+                <div class="squad-avatar">T</div>
+                <div class="squad-avatar" style="background: #7dd3fc; color: #082032;">M</div>
+                <div class="squad-avatar" style="background: #6b7280;">+2</div>
+            </div>
+            
+            <div class="squad-activity">
+                <span>⚔️ 47 squad battles</span>
+                <span>🏆 38 wins</span>
+                <span>🔥 5 streak</span>
+            </div>
+            
+            <!-- Recent activity preview -->
+            <div style="background: rgba(255,255,255,0.3); border-radius: 12px; padding: 10px; margin-top: 10px;">
+                <div style="display: flex; gap: 10px; font-size: 12px; color: #334155; flex-wrap: wrap;">
+                    <span>Alex defeated Thesis Panic</span>
+                    <span>•</span>
+                    <span>10m ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights Grid -->
+        <div class="section-header">
+            <div class="section-title">
+                <span>💡</span> Insights
+            </div>
+        </div>
+
+        <div class="insight-grid">
+            <div class="insight-mini-card" onclick="window.location.href='progress.html'">
+                <div class="insight-icon">📊</div>
+                <div class="insight-content">
+                    <h4>Peak Stress Time</h4>
+                    <p>Monday mornings, 8-10 AM</p>
+                </div>
+            </div>
+            
+            <div class="insight-mini-card" onclick="window.location.href='learn.html'">
+                <div class="insight-icon">⚡</div>
+                <div class="insight-content">
+                    <h4>Best Skill</h4>
+                    <p>Grounding Breath (94%)</p>
+                </div>
+            </div>
+            
+            <div class="insight-mini-card" onclick="window.location.href='squaddetail.html'">
+                <div class="insight-icon">👥</div>
+                <div class="insight-content">
+                    <h4>Squad Advantage</h4>
+                    <p>35% more wins together</p>
+                </div>
+            </div>
+            
+            <div class="insight-mini-card" onclick="window.location.href='monsterdiary.html'">
+                <div class="insight-icon">📈</div>
+                <div class="insight-content">
+                    <h4>Progress</h4>
+                    <p>Thesis Panic ↓22% this month</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="quote-card">
+            <div class="quote-text">
+                "You are not your monster. You are the warrior who fights it."
+            </div>
+            <div class="quote-author">— Marco, after 47 victories</div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- FLOATING EMERGENCY BUTTON -->
+    <button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+        <span class="emergency-tooltip">🚨 Need Help?</span>
+        🚨
+    </button>
+
+    <script>
+        // Load monsters from localStorage
+        function loadMonsters() {
+            const monsters = JSON.parse(localStorage.getItem('monsters')) || [];
+            const grid = document.getElementById('monsterGrid');
+            
+            // Update total monsters count
+            document.getElementById('totalMonsters').textContent = monsters.length;
+            
+            if (monsters.length === 0) {
+                // Show empty state
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="plus-icon">👾</div>
+                        <h3 style="margin-bottom: 10px;">No monsters yet</h3>
+                        <p style="margin-bottom: 20px;">Create your first monster to start fighting!</p>
+                        <button class="view-all-link" onclick="window.location.href='createmonster.html'" style="padding: 10px 20px;">Create Monster</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display monsters with corrected click handler
+            grid.innerHTML = monsters.map(monster => `
+                <div class="monster-card" data-id="${monster.id}">
+                    <button class="delete-monster" onclick="deleteMonster(${monster.id}, event)">✕</button>
+                    <div class="monster-shape small" style="background: ${monster.color}; margin: 0 auto 15px;"></div>
+                    <div class="monster-name">${monster.name}</div>
+                    <div class="monster-stats">
+                        <span>❤️ ${monster.hp} HP</span>
+                        <span>⚔️ Fight</span>
+                    </div>
+                    <div class="hp-bar" style="margin: 10px 0;">
+                        <div class="hp-fill" style="width: ${monster.hp}%;"></div>
+                    </div>
+                    <div class="feature-tags">
+                        ${monster.features.slice(0, 3).map(f => 
+                            `<span class="feature-tag">${getFeatureEmoji(f)}</span>`
+                        ).join('')}
+                        ${monster.features.length > 3 ? '<span class="feature-tag">+</span>' : ''}
+                    </div>
+                    <div style="margin-top: 10px; font-size: 11px; color: #334155;">
+                        ${monster.triggers ? monster.triggers.length : 0} triggers
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add click handlers for battle
+            document.querySelectorAll('.monster-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('delete-monster')) {
+                        const monsterId = this.dataset.id;
+                        window.location.href = 'battle.html?monster=' + monsterId;
+                    }
+                });
+            });
+        }
+
+        // Helper to get feature emoji
+        function getFeatureEmoji(feature) {
+            const emojis = {
+                'teeth': '🦷',
+                'eyes': '👁️',
+                'chains': '⛓️',
+                'fog': '🌫️',
+                'claws': '👊',
+                'shadowForm': '🌑'
+            };
+            return emojis[feature] || '✨';
+        }
+
+        // Delete monster function
+        function deleteMonster(id, event) {
+            event.stopPropagation();
+            
+            if (confirm('Are you sure you want to delete this monster?')) {
+                let monsters = JSON.parse(localStorage.getItem('monsters')) || [];
+                monsters = monsters.filter(m => m.id !== id);
+                localStorage.setItem('monsters', JSON.stringify(monsters));
+                loadMonsters(); // Reload the grid
+            }
+        }
+
+        // Initialize with sample data if no monsters exist
+        function initializeSampleData() {
+            const monsters = JSON.parse(localStorage.getItem('monsters'));
+            if (!monsters || monsters.length === 0) {
+                const sampleMonsters = [
+                    {
+                        id: 1,
+                        name: 'Thesis Panic Monster',
+                        bodyType: 'imp',
+                        features: ['teeth', 'eyes', 'fog'],
+                        color: '#7dd3fc',
+                        triggers: ['opening laptop', 'deadlines', 'sunday evenings'],
+                        hp: 78
+                    },
+                    {
+                        id: 2,
+                        name: 'Social Anxiety Specter',
+                        bodyType: 'shadow',
+                        features: ['eyes', 'shadowForm'],
+                        color: '#10b981',
+                        triggers: ['social media', 'crowds', 'phone calls'],
+                        hp: 45
+                    },
+                    {
+                        id: 3,
+                        name: 'Procrastination Demon',
+                        bodyType: 'ogre',
+                        features: ['chains', 'claws'],
+                        color: '#f59e0b',
+                        triggers: ['deadlines', 'monday mornings'],
+                        hp: 92
+                    }
+                ];
+                localStorage.setItem('monsters', JSON.stringify(sampleMonsters));
+            }
+        }
+
+        // Update stress indicator based on time of day
+        function updateStressIndicator() {
+            const hours = new Date().getHours();
+            const dots = document.querySelectorAll('.dot');
+            
+            // Simulate stress level based on time
+            let stressLevel = 3; // default
+            
+            if (hours < 10) { // Morning
+                stressLevel = 4;
+            } else if (hours < 15) { // Afternoon
+                stressLevel = 3;
+            } else if (hours < 19) { // Evening
+                stressLevel = 4;
+            } else { // Night
+                stressLevel = 2;
+            }
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Set greeting based on time of day
+        function setGreeting() {
+            const hours = new Date().getHours();
+            const greetingEl = document.querySelector('.greeting');
+            
+            if (greetingEl) {
+                let greeting = 'Welcome back';
+                if (hours < 12) greeting = 'Good morning';
+                else if (hours < 18) greeting = 'Good afternoon';
+                else greeting = 'Good evening';
+                
+                greetingEl.textContent = `${greeting}, Marco! 👋`;
+            }
+        }
+
+        // Set current date
+        function setCurrentDate() {
+            const dateEl = document.getElementById('currentDate');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('en-US', options);
+            dateEl.textContent = `📅 ${today}`;
+        }
+
+        // Update battle stats (mock data)
+        function updateBattleStats() {
+            // In a real app, this would come from localStorage
+            document.getElementById('totalBattles').textContent = '47';
+            document.getElementById('streakCount').textContent = '🔥5';
+            document.getElementById('squadBattles').textContent = '12';
+        }
+
+        // Load on page load
+        window.onload = function() {
+            initializeSampleData();
+            loadMonsters();
+            updateStressIndicator();
+            setGreeting();
+            setCurrentDate();
+            updateBattleStats();
+        };
+    </script>
+</body>
+</html>

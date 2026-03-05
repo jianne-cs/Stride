@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounding Exercise - STRIDE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #7dd3fc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 560px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            box-shadow: 0 25px 50px rgba(12, 74, 110, 0.3);
+            padding: 24px 20px;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: rgba(255,255,255,0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #082032;
+            text-shadow: 0 2px 5px rgba(255,255,255,0.5);
+        }
+
+        .stress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(4px);
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .stress-indicator:hover {
+            background: rgba(255,255,255,0.9);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #94a3b8;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+        }
+
+        /* Back button */
+        .back-btn {
+            background: rgba(255,255,255,0.6);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #082032;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: white;
+        }
+
+        /* Exercise header */
+        .exercise-header {
+            text-align: center;
+            margin: 5px 0 25px;
+        }
+
+        .exercise-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #082032;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .exercise-subtitle {
+            color: #0c4a6e;
+            font-weight: 500;
+            background: rgba(255,255,255,0.5);
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 1rem;
+        }
+
+        /* Progress steps */
+        .progress-container {
+            margin: 30px 0;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-step {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            border: 2px solid rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #082032;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: #0c4a6e;
+            color: white;
+            border-color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(12,74,110,0.5);
+        }
+
+        .progress-step.completed {
+            background: #10b981;
+            color: white;
+            border-color: white;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            height: 3px;
+            background: rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #0c4a6e;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Sense card */
+        .sense-card {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 40px;
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+            margin: 30px 0;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sense-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sense-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .sense-emoji {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .sense-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sense-instruction {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .counter-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .counter-number {
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .counter-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Action buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            padding: 18px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.primary {
+            background: white;
+            color: #0c4a6e;
+            border-color: white;
+        }
+
+        .action-btn.primary:hover:not(:disabled) {
+            background: #f0f9ff;
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Input area */
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.8);
+            font-size: 1rem;
+        }
+
+        .input-area input:focus {
+            outline: none;
+            border-color: #0c4a6e;
+            background: white;
+        }
+
+        .add-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-btn:hover {
+            background: #082032;
+            transform: scale(1.1);
+        }
+
+        /* Items list */
+        .items-list {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .items-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #082032;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-chip {
+            background: rgba(255,255,255,0.5);
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .item-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 22px;
+            margin: 20px 0;
+            border-left: 4px solid #0c4a6e;
+        }
+
+        .info-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #082032;
+        }
+
+        .info-text {
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Tips list */
+        .tips-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .tips-list li {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            color: #334155;
+        }
+
+        .tips-list li span {
+            color: #0c4a6e;
+            font-size: 1.2rem;
+        }
+
+        /* Emergency button */
+        .emergency-btn {
+            background: rgba(255,255,255,0.3);
+            border: 2px solid #ef4444;
+            color: #b91c1c;
+            font-weight: 700;
+            padding: 14px 30px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
+            margin: 20px 0;
+        }
+
+        .emergency-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Bottom navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(16px);
+            border-radius: 50px;
+            padding: 12px 8px;
+            margin-top: 30px;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item.active {
+            background: rgba(12,74,110,0.2);
+            color: #0c4a6e;
+            font-weight: 700;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.6);
+        }
+
+        .nav-icon {
+            font-size: 1.4rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .sense-title {
+                font-size: 2.2rem;
+            }
+
+            .sense-instruction {
+                font-size: 1.2rem;
+            }
+
+            .progress-step {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Back button -->
+        <button class="back-btn" onclick="window.location.href='home.html'">
+            <span>←</span> Back to Home
+        </button>
+
+        <!-- Exercise header -->
+        <div class="exercise-header">
+            <h1 class="exercise-title">🌍 5-4-3-2-1 Grounding</h1>
+            <p class="exercise-subtitle">Anchor yourself in the present</p>
+        </div>
+
+        <!-- Progress steps -->
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-step active" id="step1">1</div>
+                <div class="progress-step" id="step2">2</div>
+                <div class="progress-step" id="step3">3</div>
+                <div class="progress-step" id="step4">4</div>
+                <div class="progress-step" id="step5">5</div>
+                <div class="progress-line">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sense card -->
+        <div class="sense-card">
+            <div class="sense-content">
+                <div class="sense-emoji" id="senseEmoji">👁️</div>
+                <div class="sense-title" id="senseTitle">LOOK</div>
+                <div class="sense-instruction" id="senseInstruction">Find 5 things you can see</div>
+                
+                <div class="counter-circle">
+                    <span class="counter-number" id="itemCounter">2</span>
+                    <span class="counter-label" id="targetCounter">/5</span>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="addItem()" id="addItemBtn">✓ I found one</button>
+                    <button class="action-btn primary" onclick="nextSense()" id="nextBtn">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add item input -->
+        <div class="input-area">
+            <input type="text" id="itemInput" placeholder="Type what you notice...">
+            <button class="add-btn" onclick="addCustomItem()">+</button>
+        </div>
+
+        <!-- Items list -->
+        <div class="items-list">
+            <div class="items-title">
+                <span>✨</span> Things you've noticed
+            </div>
+            <div id="itemsContainer">
+                <div class="item-chip">
+                    <span class="item-number">1</span>
+                    <span>Blue laptop screen</span>
+                </div>
+                <div class="item-chip">
+                    <span class="item-number">2</span>
+                    <span>Sunlight through window</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why it works -->
+        <div class="info-box">
+            <div class="info-title">
+                <span>🧠</span> Why it works
+            </div>
+            <p class="info-text">The 5-4-3-2-1 technique activates your prefrontal cortex and interrupts the stress response by engaging your senses in the present moment.</p>
+        </div>
+
+        <!-- Tips -->
+        <div class="info-box">
+            <div class="info-title">
+                <span>💡</span> Tips
+            </div>
+            <ul class="tips-list">
+                <li><span>•</span> Say each item out loud if you can</li>
+                <li><span>•</span> Take your time—there's no rush</li>
+                <li><span>•</span> Notice small details you'd usually miss</li>
+                <li><span>•</span> Breathe slowly while you observe</li>
+            </ul>
+        </div>
+
+        <!-- Emergency button -->
+        <button class="emergency-btn" onclick="window.location.href='emergency.html'">
+            🚨 Need immediate help
+        </button>
+
+        <!-- Bottom navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Grounding Exercise State
+        let currentSense = 0;
+        let currentCount = 2;
+        let items = ['Blue laptop screen', 'Sunlight through window'];
+        
+        const senses = [
+            { emoji: '👁️', title: 'LOOK', instruction: 'Find 5 things you can see', target: 5 },
+            { emoji: '👂', title: 'LISTEN', instruction: 'Find 4 things you can hear', target: 4 },
+            { emoji: '🫂', title: 'FEEL', instruction: 'Find 3 things you can physically feel', target: 3 },
+            { emoji: '👃', title: 'SMELL', instruction: 'Find 2 things you can smell', target: 2 },
+            { emoji: '👅', title: 'TASTE', instruction: 'Find 1 thing you can taste', target: 1 }
+        ];
+
+        function updateDisplay() {
+            // Update sense card
+            document.getElementById('senseEmoji').textContent = senses[currentSense].emoji;
+            document.getElementById('senseTitle').textContent = senses[currentSense].title;
+            document.getElementById('senseInstruction').textContent = senses[currentSense].instruction;
+            document.getElementById('itemCounter').textContent = currentCount;
+            document.getElementById('targetCounter').textContent = '/' + senses[currentSense].target;
+            
+            // Update progress steps
+            for (let i = 0; i < 5; i++) {
+                const step = document.getElementById('step' + (i + 1));
+                if (i < currentSense) {
+                    step.className = 'progress-step completed';
+                } else if (i === currentSense) {
+                    step.className = 'progress-step active';
+                } else {
+                    step.className = 'progress-step';
+                }
+            }
+            
+            // Update progress line
+            document.getElementById('progressFill').style.width = (currentSense / 4 * 100) + '%';
+            
+            // Update items list
+            updateItemsList();
+            
+            // Update button states
+            document.getElementById('addItemBtn').disabled = currentCount >= senses[currentSense].target;
+        }
+
+        function updateItemsList() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const chip = document.createElement('div');
+                chip.className = 'item-chip';
+                chip.innerHTML = `
+                    <span class="item-number">${index + 1}</span>
+                    <span>${item}</span>
+                `;
+                container.appendChild(chip);
+            });
+        }
+
+        function addItem() {
+            if (currentCount < senses[currentSense].target) {
+                currentCount++;
+                items.push(senses[currentSense].title.toLowerCase() + ' item ' + currentCount);
+                updateDisplay();
+                
+                if (currentCount === senses[currentSense].target && currentSense < senses.length - 1) {
+                    setTimeout(() => {
+                        if (confirm('Great! Ready for the next sense?')) {
+                            nextSense();
+                        }
+                    }, 500);
+                } else if (currentCount === senses[currentSense].target && currentSense === senses.length - 1) {
+                    setTimeout(() => {
+                        completeGrounding();
+                    }, 500);
+                }
+            }
+        }
+
+        function addCustomItem() {
+            const input = document.getElementById('itemInput');
+            const value = input.value.trim();
+            
+            if (value && currentCount < senses[currentSense].target) {
+                currentCount++;
+                items.push(value);
+                input.value = '';
+                updateDisplay();
+                
+                if (currentCount === senses[currentSense].target && currentSense < senses.length - 1) {
+                    setTimeout(() => {
+                        if (confirm('Great! Ready for the next sense?')) {
+                            nextSense();
+                        }
+                    }, 500);
+                } else if (currentCount === senses[currentSense].target && currentSense === senses.length - 1) {
+                    setTimeout(() => {
+                        completeGrounding();
+                    }, 500);
+                }
+            }
+        }
+
+        function nextSense() {
+            if (currentSense < senses.length - 1) {
+                currentSense++;
+                currentCount = 0;
+                updateDisplay();
+            } else {
+                completeGrounding();
+            }
+        }
+
+        function completeGrounding() {
+            alert('✨ Grounding complete! You are now present and grounded.');
+            window.location.href = 'home.html';
+        }
+
+        // Enter key support
+        document.getElementById('itemInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addCustomItem();
+            }
+        });
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>

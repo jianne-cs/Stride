@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Same bottom nav as home */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Progress page specific styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0c4a6e;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #334155;
+        }
+
+        .progress-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#0c4a6e 0deg 284deg, rgba(255,255,255,0.3) 284deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .progress-circle-inner {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 25px;
+            margin: 30px 0;
+            height: 350px;
+        }
+
+        .monster-progress-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0c4a6e;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header (same as home) -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <h1 style="font-size: 28px; margin: 20px 0; color: #082032;">📊 Battle Progress</h1>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">47</div>
+                <div class="stat-label">Battles Won</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Defeats</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">79%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Squad Battles</div>
+            </div>
+        </div>
+
+        <!-- Progress Circle -->
+        <div style="display: flex; justify-content: center; margin: 30px 0;">
+            <div class="progress-circle">
+                <div class="progress-circle-inner">
+                    <span style="font-size: 32px; font-weight: bold; color: #0c4a6e;">79%</span>
+                    <span style="font-size: 12px; color: #334155;">Win Rate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-container">
+            <canvas id="progressChart" style="width: 100%; height: 300px;"></canvas>
+        </div>
+
+        <!-- Monster Progress -->
+        <h2 style="margin: 30px 0 15px; color: #082032;">👾 Monster Progress</h2>
+
+        <div class="monster-progress-card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Thesis Panic Monster</span>
+                <span style="color: #10b981;">↓ 22%</span>
+            </div>
+            <div class="hp-bar">
+                <div class="hp-fill" style="width: 78%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #334155; font-size: 13px;">
+                <span>Peak: 100</span>
+                <span>Current: 78</span>
+                <span>Lowest: 45</span>
+            </div>
+        </div>
+
+        <div class="monster-progress-card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Social Anxiety Specter</span>
+                <span style="color: #10b981;">↓ 55%</span>
+            </div>
+            <div class="hp-bar">
+                <div class="hp-fill green" style="width: 45%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #334155; font-size: 13px;">
+                <span>Peak: 95</span>
+                <span>Current: 45</span>
+                <span>Lowest: 45</span>
+            </div>
+        </div>
+
+        <!-- Insights -->
+        <h2 style="margin: 30px 0 15px; color: #082032;">💡 Insights</h2>
+
+        <div class="insight-card">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 24px;">📅</span>
+                <div>
+                    <strong>Peak Stress Time:</strong> Monday mornings
+                    <div style="color: #334155; font-size: 13px;">40% stronger on Mondays</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-card">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 24px;">⚡</span>
+                <div>
+                    <strong>Best Skill:</strong> Grounding Breath
+                    <div style="color: #334155; font-size: 13px;">94% effective</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation (same as home) -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item active" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                    datasets: [{
+                        label: 'Thesis Panic HP',
+                        data: [100, 92, 85, 78, 72, 78],
+                        borderColor: '#0c4a6e',
+                        backgroundColor: 'rgba(12, 74, 110, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Social Anxiety HP',
+                        data: [95, 82, 70, 58, 49, 45],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#082032' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(255,255,255,0.3)' },
+                            ticks: { color: '#082032' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#082032' }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>

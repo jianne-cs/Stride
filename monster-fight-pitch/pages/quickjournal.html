@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Same bottom nav as home */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Journal specific styles */
+        .journal-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .mood-selector {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .mood-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .mood-option {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mood-emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+            filter: grayscale(0.5);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .mood-label {
+            font-size: 12px;
+            color: #334155;
+        }
+
+        .mood-option.selected .mood-emoji {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .mood-option.selected .mood-label {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .prompt-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .prompt-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #082032;
+        }
+
+        .prompt-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .prompt-chip {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #082032;
+        }
+
+        .prompt-chip:hover {
+            background: white;
+            border-color: #0c4a6e;
+            transform: translateY(-2px);
+        }
+
+        .journal-entry-area {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .journal-textarea {
+            width: 100%;
+            height: 250px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .journal-textarea:focus {
+            outline: none;
+            border-color: #0c4a6e;
+            background: white;
+        }
+
+        .entry-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .save-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #082032;
+            transform: scale(1.05);
+        }
+
+        .clear-btn {
+            background: transparent;
+            border: 2px solid #334155;
+            color: #334155;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
+        .previous-entries {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        .entries-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .entry-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .entry-card:hover {
+            background: white;
+            transform: translateX(5px);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .entry-date {
+            color: #0c4a6e;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .entry-mood {
+            font-size: 20px;
+        }
+
+        .entry-text {
+            color: #082032;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .entry-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .entry-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .entry-tag {
+            background: rgba(12, 74, 110, 0.1);
+            color: #0c4a6e;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+        }
+
+        .delete-entry {
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .delete-entry:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .mood-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .entry-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container journal-container">
+        <!-- Header (same as home) -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div style="margin-bottom: 20px;">
+            <button class="back-btn" onclick="window.location.href='home.html'">← Back</button>
+        </div>
+
+        <!-- Page Title -->
+        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">📝 Daily Journal</h1>
+        <p style="color: #334155; margin-bottom: 30px;">Write freely, no judgment, no rules.</p>
+
+        <!-- Mood Selector -->
+        <div class="mood-selector">
+            <div class="mood-title">
+                <span>😊</span> How are you feeling?
+            </div>
+            <div class="mood-grid" id="moodGrid">
+                <div class="mood-option" onclick="selectMood('amazing')">
+                    <div class="mood-emoji">😊</div>
+                    <div class="mood-label">Amazing</div>
+                </div>
+                <div class="mood-option" onclick="selectMood('good')">
+                    <div class="mood-emoji">🙂</div>
+                    <div class="mood-label">Good</div>
+                </div>
+                <div class="mood-option" onclick="selectMood('okay')">
+                    <div class="mood-emoji">😐</div>
+                    <div class="mood-label">Okay</div>
+                </div>
+                <div class="mood-option" onclick="selectMood('down')">
+                    <div class="mood-emoji">😔</div>
+                    <div class="mood-label">Down</div>
+                </div>
+                <div class="mood-option" onclick="selectMood('struggling')">
+                    <div class="mood-emoji">😫</div>
+                    <div class="mood-label">Struggling</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Prompts -->
+        <div class="prompt-section">
+            <div class="prompt-title">
+                <span>✨</span> Need inspiration?
+            </div>
+            <div class="prompt-chips">
+                <span class="prompt-chip" onclick="usePrompt('What made me smile today?')">😊 What made me smile?</span>
+                <span class="prompt-chip" onclick="usePrompt('What is my monster telling me?')">👾 What is my monster saying?</span>
+                <span class="prompt-chip" onclick="usePrompt('One thing I did well...')">💪 One thing I did well</span>
+                <span class="prompt-chip" onclick="usePrompt('I am grateful for...')">🙏 I am grateful for...</span>
+                <span class="prompt-chip" onclick="usePrompt('Tomorrow I want to...')">⭐ Tomorrow I want to...</span>
+                <span class="prompt-chip" onclick="usePrompt('A victory I had today...')">🏆 A victory I had</span>
+            </div>
+        </div>
+
+        <!-- Journal Entry -->
+        <div class="journal-entry-area">
+            <textarea id="journalEntry" class="journal-textarea" placeholder="Write your thoughts here... No rules, no judgment. Just let it out."></textarea>
+            
+            <div class="entry-actions">
+                <button class="clear-btn" onclick="clearJournal()">Clear</button>
+                <button class="save-btn" onclick="saveJournal()">Save Entry</button>
+            </div>
+        </div>
+
+        <!-- Previous Entries -->
+        <div class="previous-entries">
+            <div class="entries-title">
+                <span>📖</span> Previous Entries
+            </div>
+
+            <div class="entry-card" id="entry1">
+                <div class="entry-header">
+                    <span class="entry-date">March 6, 2025 • 10:30 PM</span>
+                    <span class="entry-mood">😊</span>
+                </div>
+                <div class="entry-text">
+                    "Today was better. My squad helped me fight my Thesis Panic Monster. Grounding breath really works. Grateful for Alex and Jordan."
+                </div>
+                <div class="entry-footer">
+                    <div class="entry-tags">
+                        <span class="entry-tag">victory</span>
+                        <span class="entry-tag">squad</span>
+                    </div>
+                    <span class="delete-entry" onclick="deleteEntry('entry1')">🗑️</span>
+                </div>
+            </div>
+
+            <div class="entry-card" id="entry2">
+                <div class="entry-header">
+                    <span class="entry-date">March 5, 2025 • 11:15 PM</span>
+                    <span class="entry-mood">😫</span>
+                </div>
+                <div class="entry-text">
+                    "Struggling tonight. Monster is strong. Can't sleep. Trying to remember this will pass. Used grounding exercise, helped a little."
+                </div>
+                <div class="entry-footer">
+                    <div class="entry-tags">
+                        <span class="entry-tag">struggle</span>
+                        <span class="entry-tag">anxiety</span>
+                    </div>
+                    <span class="delete-entry" onclick="deleteEntry('entry2')">🗑️</span>
+                </div>
+            </div>
+
+            <div class="entry-card" id="entry3">
+                <div class="entry-header">
+                    <span class="entry-date">March 4, 2025 • 8:00 PM</span>
+                    <span class="entry-mood">🙂</span>
+                </div>
+                <div class="entry-text">
+                    "Squad battle victory! We all fought together. Felt less alone. Need to do this more often. Alex said something that really helped."
+                </div>
+                <div class="entry-footer">
+                    <div class="entry-tags">
+                        <span class="entry-tag">squad</span>
+                        <span class="entry-tag">victory</span>
+                    </div>
+                    <span class="delete-entry" onclick="deleteEntry('entry3')">🗑️</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Option -->
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="secondary-btn" onclick="exportJournal()">📤 Export All Entries</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedMood = '';
+
+        function selectMood(mood) {
+            selectedMood = mood;
+            
+            // Clear previous selection
+            document.querySelectorAll('.mood-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Mark current as selected
+            event.currentTarget.classList.add('selected');
+        }
+
+        function usePrompt(prompt) {
+            const textarea = document.getElementById('journalEntry');
+            const currentText = textarea.value;
+            
+            if (currentText.trim() === '') {
+                textarea.value = prompt + '\n';
+            } else {
+                textarea.value = currentText + '\n\n' + prompt + '\n';
+            }
+            
+            textarea.focus();
+        }
+
+        function saveJournal() {
+            const entry = document.getElementById('journalEntry').value.trim();
+            
+            if (entry === '') {
+                alert('Please write something before saving.');
+                return;
+            }
+            
+            // Create new entry card
+            const entriesContainer = document.querySelector('.previous-entries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry-card';
+            
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            const moodEmoji = selectedMood ? 
+                document.querySelector('.mood-option.selected .mood-emoji')?.textContent || '📝' : '📝';
+            
+            newEntry.innerHTML = `
+                <div class="entry-header">
+                    <span class="entry-date">${dateStr} • ${timeStr}</span>
+                    <span class="entry-mood">${moodEmoji}</span>
+                </div>
+                <div class="entry-text">"${entry.substring(0, 100)}${entry.length > 100 ? '...' : ''}"</div>
+                <div class="entry-footer">
+                    <div class="entry-tags">
+                        <span class="entry-tag">new</span>
+                        ${selectedMood ? `<span class="entry-tag">${selectedMood}</span>` : ''}
+                    </div>
+                    <span class="delete-entry" onclick="deleteEntry(this.parentElement.parentElement.parentElement.id)">🗑️</span>
+                </div>
+            `;
+            
+            // Add to top of list
+            entriesContainer.insertBefore(newEntry, entriesContainer.children[1]);
+            
+            // Clear textarea and mood
+            document.getElementById('journalEntry').value = '';
+            document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
+            selectedMood = '';
+            
+            alert('✨ Journal entry saved!');
+        }
+
+        function clearJournal() {
+            if (confirm('Clear this entry?')) {
+                document.getElementById('journalEntry').value = '';
+            }
+        }
+
+        function deleteEntry(entryId) {
+            if (confirm('Delete this entry?')) {
+                const entry = document.getElementById(entryId);
+                if (entry) {
+                    entry.remove();
+                } else {
+                    // For dynamically created entries
+                    event.target.closest('.entry-card').remove();
+                }
+            }
+        }
+
+        function exportJournal() {
+            alert('📤 Export feature coming soon! Your entries will be downloadable as PDF/JSON.');
+        }
+
+        // Auto-save draft
+        let draftTimeout;
+        document.getElementById('journalEntry').addEventListener('input', function() {
+            clearTimeout(draftTimeout);
+            draftTimeout = setTimeout(() => {
+                localStorage.setItem('journalDraft', this.value);
+                console.log('Draft saved');
+            }, 1000);
+        });
+
+        // Load draft
+        window.onload = function() {
+            const draft = localStorage.getItem('journalDraft');
+            if (draft) {
+                document.getElementById('journalEntry').value = draft;
+            }
+        };
+    </script>
+</body>
+</html>

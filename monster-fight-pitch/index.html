@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> STRIDE - Intro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: #7dd3fc;  /* Light blue background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #7dd3fc, #0c4a6e);
+        }
+        
+        /* Monster */
+        .monster-wrapper {
+            margin-top: 60px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .monster-shape {
+            width: 200px;
+            height: 200px;
+            background-color: #0c4a6e;  /* Dark blue monster */
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+            box-shadow: 0 0 30px rgba(12, 74, 110, 0.5);
+            position: relative;
+        }
+        
+        /* White eyes */
+        .monster-shape::before,
+        .monster-shape::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            top: 60px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .monster-shape::before {
+            left: 50px;
+        }
+        
+        .monster-shape::after {
+            right: 50px;
+        }
+        
+        /* Pupils */
+        .pupil-left,
+        .pupil-right {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #082032;
+            border-radius: 50%;
+            top: 75px;
+            z-index: 2;
+        }
+        
+        .pupil-left {
+            left: 67px;
+        }
+        
+        .pupil-right {
+            right: 67px;
+        }
+        
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Text */
+        .text-wrapper {
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.3s forwards;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #082032;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: #0c4a6e;
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+        
+        .subtagline {
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        
+        /* Buttons */
+        .button-wrapper {
+            width: 100%;
+            max-width: 320px;
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.6s forwards;
+        }
+        
+        .primary-btn {
+            width: 100%;
+            background-color: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(12, 74, 110, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .primary-btn:hover {
+            background-color: #082032;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(8, 32, 50, 0.4);
+        }
+        
+        .secondary-btn {
+            width: 100%;
+            background: transparent;
+            color: #082032;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        
+        .secondary-btn:hover {
+            color: #0c4a6e;
+        }
+        
+        .footer {
+            color: #334155;
+            font-size: 0.8rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.9s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Monster -->
+        <div class="monster-wrapper">
+            <div class="monster-shape float">
+                <div class="pupil-left"></div>
+                <div class="pupil-right"></div>
+            </div>
+        </div>
+
+        <!-- Text -->
+        <div class="text-wrapper">
+            <h1 class="title">STRIDE</h1>
+            <p class="tagline">Labanan ang nasa loob</p>
+            <p class="subtagline">Fight what's inside</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-wrapper">
+            <button class="primary-btn" onclick="window.location.href='pages/createmonster.html'">
+                Create Your Monster
+            </button>
+            <button class="secondary-btn" onclick="window.location.href='pages/home.html'">
+                I already have a monster
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <p class="footer">CIIT → PHILIPPINES → WORLD</p>
+    </div>
+</body>
+</html>

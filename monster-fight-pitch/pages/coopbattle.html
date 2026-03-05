@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-op Battle - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Same bottom nav as home */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Enhanced Boss Monster */
+        .boss-container {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 40px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #ef4444;
+            box-shadow: 0 20px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .boss-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, transparent 70%);
+            animation: slowRotate 30s linear infinite;
+        }
+
+        @keyframes slowRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .boss-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boss-badge {
+            background: #ef4444;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5);
+        }
+
+        .boss-level {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+
+        .boss-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .boss-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            margin: 15px 0 5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .boss-hp-container {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .boss-hp-label {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .boss-hp-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .boss-hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boss-hp-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .boss-dialogue {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            color: #fecaca;
+            font-style: italic;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        /* Enhanced Squad Members */
+        .squad-section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 15px;
+        }
+
+        .squad-section-title h3 {
+            font-size: 22px;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ready-count {
+            background: #10b981;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .squad-member-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .squad-member-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .squad-member-card.active {
+            border-color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .squad-member-card.ready {
+            border-left: 6px solid #10b981;
+        }
+
+        .squad-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+
+        .ready-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 2px solid white;
+        }
+
+        .not-ready-dot {
+            background: #6b7280;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .member-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #082032;
+        }
+
+        .member-status {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-ready {
+            color: #10b981;
+        }
+
+        .status-not-ready {
+            color: #6b7280;
+        }
+
+        .member-monster {
+            color: #334155;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .member-energy {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .member-energy-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .member-energy-fill {
+            height: 100%;
+            background: #10b981;
+            transition: width 0.3s ease;
+        }
+
+        /* Enhanced Skills Section */
+        .skills-category {
+            margin: 30px 0 20px;
+        }
+
+        .skills-category h3 {
+            font-size: 20px;
+            color: #082032;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .squad-skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .squad-skill-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .squad-skill-card:hover {
+            transform: translateY(-5px);
+            border-color: #0c4a6e;
+            box-shadow: 0 15px 25px rgba(12, 74, 110, 0.2);
+        }
+
+        .squad-skill-card:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .squad-skill-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .squad-skill-name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #082032;
+        }
+
+        .squad-skill-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .squad-skill-damage {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .squad-skill-energy {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .squad-skill-desc {
+            font-size: 12px;
+            color: #334155;
+        }
+
+        /* Enhanced Chat */
+        .chat-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            height: 200px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-message {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 12px 18px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-message.own {
+            background: #0c4a6e;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-message.own strong {
+            color: white;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
+        .chat-send-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.1);
+            background: #082032;
+        }
+
+        /* Enhanced Battle Log */
+        .battle-log-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .battle-log-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #082032;
+        }
+
+        .battle-log {
+            height: 150px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Combo Indicator */
+        .combo-indicator {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 20px 0;
+            animation: pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Battle Controls */
+        .battle-controls {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .battle-controls .primary-btn {
+            flex: 1;
+            margin: 0;
+            font-size: 18px;
+            padding: 18px;
+        }
+
+        .reset-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .reset-btn:hover {
+            background: #d97706;
+            transform: scale(1.05);
+        }
+
+        /* Modal styles for mini-interventions */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-content {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #082032;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .modal-body {
+            margin: 20px 0;
+        }
+
+        .affirmation-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0c4a6e;
+            text-align: center;
+            margin: 30px 0;
+            line-height: 1.4;
+        }
+
+        .task-item {
+            background: rgba(12,74,110,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .task-item:hover {
+            background: rgba(12,74,110,0.2);
+            border-color: #0c4a6e;
+        }
+
+        .task-item.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .task-item.completed .task-text {
+            color: white;
+        }
+
+        .task-text {
+            font-size: 16px;
+            color: #082032;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0c4a6e;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .complete-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .complete-btn:hover {
+            background: #082032;
+            transform: scale(1.02);
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .squad-skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .boss-name {
+                font-size: 22px;
+            }
+            
+            .squad-member-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .member-name-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="app-header" style="margin-bottom: 20px;">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='squaddetail.html'">←</button>
+                <span class="logo">CO-OP BATTLE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Boss Monster Section -->
+        <div class="boss-container">
+            <div class="boss-header">
+                <span class="boss-badge">🔥 BOSS BATTLE</span>
+                <span class="boss-level">Level 5 • 4 Players</span>
+            </div>
+            
+            <div class="boss-content">
+                <div class="monster-shape medium" style="width: 150px; height: 150px; background: #ef4444; margin: 10px auto;"></div>
+                <h2 class="boss-name">Group Project Stress Beast</h2>
+                
+                <div class="boss-hp-container">
+                    <div class="boss-hp-label">
+                        <span>BOSS HP</span>
+                        <span id="bossHpText">450/500</span>
+                    </div>
+                    <div class="boss-hp-bar">
+                        <div class="boss-hp-fill" id="bossHpFill" style="width: 90%;"></div>
+                    </div>
+                </div>
+                
+                <div class="boss-dialogue" id="bossDialogue">
+                    "You'll never finish your group project on time!"
+                </div>
+            </div>
+        </div>
+
+        <!-- Ready Count -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+            <span class="ready-count" id="readyCount">● 3/4 Ready</span>
+        </div>
+
+        <!-- Squad Members Section -->
+        <div class="squad-section-title">
+            <h3>👥 Squad Members</h3>
+            <span class="ready-count" id="memberCount">4 members</span>
+        </div>
+
+        <!-- Alex -->
+        <div class="squad-member-card ready" id="memberAlex">
+            <div class="squad-avatar-large">
+                A
+                <span class="ready-dot"></span>
+            </div>
+            <div class="member-info">
+                <div class="member-name-row">
+                    <span class="member-name">Alex</span>
+                    <span class="member-status status-ready">● Ready</span>
+                </div>
+                <div class="member-monster">Thesis Panic • 78 HP</div>
+                <div class="member-energy">
+                    <span>Energy</span>
+                    <div class="member-energy-bar">
+                        <div class="member-energy-fill" style="width: 85%;"></div>
+                    </div>
+                    <span>85/100</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jordan -->
+        <div class="squad-member-card ready" id="memberJordan">
+            <div class="squad-avatar-large">
+                J
+                <span class="ready-dot"></span>
+            </div>
+            <div class="member-info">
+                <div class="member-name-row">
+                    <span class="member-name">Jordan</span>
+                    <span class="member-status status-ready">● Ready</span>
+                </div>
+                <div class="member-monster">Social Anxiety • 45 HP</div>
+                <div class="member-energy">
+                    <span>Energy</span>
+                    <div class="member-energy-bar">
+                        <div class="member-energy-fill" style="width: 92%;"></div>
+                    </div>
+                    <span>92/100</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taylor -->
+        <div class="squad-member-card ready" id="memberTaylor">
+            <div class="squad-avatar-large">
+                T
+                <span class="ready-dot"></span>
+            </div>
+            <div class="member-info">
+                <div class="member-name-row">
+                    <span class="member-name">Taylor</span>
+                    <span class="member-status status-ready">● Ready</span>
+                </div>
+                <div class="member-monster">Perfectionism • 92 HP</div>
+                <div class="member-energy">
+                    <span>Energy</span>
+                    <div class="member-energy-bar">
+                        <div class="member-energy-fill" style="width: 78%;"></div>
+                    </div>
+                    <span>78/100</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- You -->
+        <div class="squad-member-card active ready" id="memberYou">
+            <div class="squad-avatar-large" style="background: #7dd3fc; color: #082032;">
+                M
+                <span class="ready-dot"></span>
+            </div>
+            <div class="member-info">
+                <div class="member-name-row">
+                    <span class="member-name">You (Marco)</span>
+                    <span class="member-status status-ready">● Ready</span>
+                </div>
+                <div class="member-monster">Procrastination • 65 HP</div>
+                <div class="member-energy">
+                    <span>Energy</span>
+                    <div class="member-energy-bar">
+                        <div class="member-energy-fill" id="userEnergyBar" style="width: 82%;"></div>
+                    </div>
+                    <span id="userEnergy">82/100</span>
+                </div>
+            </div>
+            <button class="secondary-btn" style="margin: 0; padding: 8px 15px;" onclick="toggleReady()">Not Ready</button>
+        </div>
+
+        <!-- Combo Indicator -->
+        <div class="combo-indicator" id="comboIndicator" style="display: none;">
+            🔥 SQUAD COMBO! +45% DAMAGE!
+        </div>
+
+        <!-- Squad Skills -->
+        <div class="skills-category">
+            <h3>⚔️ Squad Skills</h3>
+            <div class="squad-skills-grid">
+                <button class="squad-skill-card" onclick="useSquadSkill('attack')" id="squadAttack">
+                    <div class="squad-skill-icon">⚔️</div>
+                    <div class="squad-skill-name">Squad Attack</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">45 DMG</span>
+                        <span class="squad-skill-energy">8 EN</span>
+                    </div>
+                    <div class="squad-skill-desc">All members attack together</div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSquadSkill('heal')" id="squadHeal">
+                    <div class="squad-skill-icon">💚</div>
+                    <div class="squad-skill-name">Mass Heal</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">+15 EN</span>
+                        <span class="squad-skill-energy">10 EN</span>
+                    </div>
+                    <div class="squad-skill-desc">Restore all members' energy</div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSquadSkill('boost')" id="squadBoost">
+                    <div class="squad-skill-icon">⬆️</div>
+                    <div class="squad-skill-name">Squad Boost</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">2x DMG</span>
+                        <span class="squad-skill-energy">6 EN</span>
+                    </div>
+                    <div class="squad-skill-desc">Next attack deals double</div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSquadSkill('shield')" id="squadShield">
+                    <div class="squad-skill-icon">🛡️</div>
+                    <div class="squad-skill-name">Team Shield</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">Block</span>
+                        <span class="squad-skill-energy">7 EN</span>
+                    </div>
+                    <div class="squad-skill-desc">Block next boss attack</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Individual Skills -->
+        <div class="skills-category">
+            <h3>🎯 Your Skills</h3>
+            <div class="squad-skills-grid">
+                <button class="squad-skill-card" onclick="useSkill('grounding')" id="skillGrounding">
+                    <div class="squad-skill-icon">🌬️</div>
+                    <div class="squad-skill-name">Grounding Breath</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">8 DMG</span>
+                        <span class="squad-skill-energy">3 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('cognitive')" id="skillCognitive">
+                    <div class="squad-skill-icon">🛡️</div>
+                    <div class="squad-skill-name">Cognitive Shield</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">12 DMG</span>
+                        <span class="squad-skill-energy">5 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('compassion')" id="skillCompassion">
+                    <div class="squad-skill-icon">💚</div>
+                    <div class="squad-skill-name">Self-Compassion</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">6 DMG</span>
+                        <span class="squad-skill-energy">2 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('microbreak')" id="skillMicrobreak">
+                    <div class="squad-skill-icon">🚶</div>
+                    <div class="squad-skill-name">Mindful Microbreak</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">10 DMG</span>
+                        <span class="squad-skill-energy">4 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('pmr')" id="skillPMR">
+                    <div class="squad-skill-icon">💪</div>
+                    <div class="squad-skill-name">Progressive Muscle Relaxation</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">14 DMG</span>
+                        <span class="squad-skill-energy">6 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('sensory')" id="skillSensory">
+                    <div class="squad-skill-icon">🪨</div>
+                    <div class="squad-skill-name">Sensory Anchor</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">7 DMG</span>
+                        <span class="squad-skill-energy">3 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('music')" id="skillMusic">
+                    <div class="squad-skill-icon">🎵</div>
+                    <div class="squad-skill-name">Calming Sounds</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">9 DMG</span>
+                        <span class="squad-skill-energy">4 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('labeling')" id="skillLabeling">
+                    <div class="squad-skill-icon">🏷️</div>
+                    <div class="squad-skill-name">Thought Labeling</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">11 DMG</span>
+                        <span class="squad-skill-energy">5 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('wait')" id="skillWAIT">
+                    <div class="squad-skill-icon">⏳</div>
+                    <div class="squad-skill-name">WAIT Rule</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">13 DMG</span>
+                        <span class="squad-skill-energy">6 EN</span>
+                    </div>
+                </button>
+
+                <button class="squad-skill-card" onclick="useSkill('visualize')" id="skillVisualize">
+                    <div class="squad-skill-icon">🏝️</div>
+                    <div class="squad-skill-name">Calm Place Visualization</div>
+                    <div class="squad-skill-stats">
+                        <span class="squad-skill-damage">15 DMG</span>
+                        <span class="squad-skill-energy">7 EN</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="skills-category">
+            <h3>💬 Squad Chat</h3>
+            <div class="chat-container" id="chatContainer">
+                <div class="chat-message">
+                    <strong>Alex:</strong> Ready to take this thing down?
+                </div>
+                <div class="chat-message">
+                    <strong>Jordan:</strong> Let's do this! My social anxiety is ready.
+                </div>
+                <div class="chat-message">
+                    <strong>Taylor:</strong> I'll heal if things get rough.
+                </div>
+                <div class="chat-message own">
+                    <strong>You:</strong> I'm ready! Let's go!
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Type a message...">
+                <button class="chat-send-btn" onclick="sendChat()">➤</button>
+            </div>
+        </div>
+
+        <!-- Battle Log -->
+        <div class="battle-log-container">
+            <div class="battle-log-title">
+                <span>📋</span> Battle Log
+                <button class="reset-btn" onclick="resetBattle()">↻ Reset Battle</button>
+            </div>
+            <div class="battle-log" id="battleLog">
+                <div class="log-entry">🎮 Squad battle started! Boss HP: 450/500</div>
+                <div class="log-entry">👤 Alex joined the battle (ready)</div>
+                <div class="log-entry">👤 Jordan joined the battle (ready)</div>
+                <div class="log-entry">👤 Taylor joined the battle (ready)</div>
+                <div class="log-entry">👤 You joined the battle (ready)</div>
+            </div>
+        </div>
+
+        <!-- Battle Controls -->
+        <div class="battle-controls">
+            <button class="primary-btn" onclick="startSquadBattle()" id="startBattleBtn">⚔️ Start Battle!</button>
+            <button class="secondary-btn" onclick="window.location.href='squaddetail.html'">Leave Squad</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item active" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal for mini-interventions -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <!-- Content dynamically loaded -->
+        </div>
+    </div>
+
+    <script>
+        // Battle State
+        let bossMaxHp = 500;
+        let bossCurrentHp = 450;
+        let userEnergy = 82;
+        let squadMembers = [
+            { name: 'Alex', ready: true, energy: 85 },
+            { name: 'Jordan', ready: true, energy: 92 },
+            { name: 'Taylor', ready: true, energy: 78 },
+            { name: 'You', ready: true, energy: 82 }
+        ];
+        let battleActive = false;
+        let comboActive = false;
+        let skillInProgress = false;
+
+        const bossDialogues = [
+            "You'll never finish your group project on time!",
+            "Your group mates are all waiting for you to fail!",
+            "One of you will crack under pressure!",
+            "You can't coordinate with all these different monsters!",
+            "The deadline is coming! You're running out of time!"
+        ];
+
+        // Skill definitions (same as battle.html)
+        const skills = {
+            grounding: { name: 'Grounding Breath', damage: 8, cost: 3, type: 'breathing' },
+            cognitive: { name: 'Cognitive Shield', damage: 12, cost: 5, type: 'cbt' },
+            compassion: { name: 'Self-Compassion', damage: 6, cost: 2, type: 'affirmation' },
+            microbreak: { name: 'Mindful Microbreak', damage: 10, cost: 4, type: 'microbreak' },
+            pmr: { name: 'Progressive Muscle Relaxation', damage: 14, cost: 6, type: 'pmr' },
+            sensory: { name: 'Sensory Anchor', damage: 7, cost: 3, type: 'sensory' },
+            music: { name: 'Calming Sounds', damage: 9, cost: 4, type: 'music' },
+            labeling: { name: 'Thought Labeling', damage: 11, cost: 5, type: 'labeling' },
+            wait: { name: 'WAIT Rule', damage: 13, cost: 6, type: 'wait' },
+            visualize: { name: 'Calm Place Visualization', damage: 15, cost: 7, type: 'visualize' }
+        };
+
+        // CBT Tasks
+        const cbtTasks = [
+            { text: "Identify one cognitive distortion in your current thinking", completed: false },
+            { text: "Write down evidence that contradicts your negative thought", completed: false },
+            { text: "What would you tell a friend in this situation?", completed: false },
+            { text: "Rate your thought on a scale of 0-10 - how true does it feel?", completed: false },
+            { text: "What's a more balanced way to look at this?", completed: false }
+        ];
+
+        // Affirmations
+        const affirmations = [
+            "I am enough, exactly as I am",
+            "This feeling will pass, and I will be okay",
+            "I deserve compassion and kindness",
+            "My worth is not determined by my productivity",
+            "I am doing the best I can with what I have",
+            "It's okay to not be okay sometimes",
+            "I am stronger than I think",
+            "I choose to be kind to myself today"
+        ];
+
+        // Sensory anchor suggestions
+        const sensoryAnchors = [
+            "Hold a stress ball and squeeze for 10 seconds",
+            "Rub a smooth stone between your fingers",
+            "Gently massage your ear (Shen Men point)",
+            "Press your palms together firmly",
+            "Run your hands under cool water"
+        ];
+
+        // Calm sounds suggestions
+        const calmSounds = [
+            "Imagine gentle waves lapping on a shore 🌊",
+            "Picture rain falling on leaves ☔",
+            "Think of soft wind through pine trees 🍃",
+            "Visualize a crackling fireplace 🔥",
+            "Imagine birds singing at dawn 🐦"
+        ];
+
+        // Calm places for visualization
+        const calmPlaces = [
+            "A peaceful beach at sunset with warm sand beneath your feet",
+            "A quiet forest with sunlight filtering through the trees",
+            "A mountain meadow with wildflowers and a gentle breeze",
+            "A cozy cabin with a fireplace during snowfall",
+            "A serene lake reflecting the stars at night"
+        ];
+
+        // Show modal
+        function showModal(title, content) {
+            const modal = document.getElementById('modalOverlay');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <span class="modal-title">${title}</span>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    ${content}
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        // Grounding Breath - Box Breathing
+        function startBreathingExercise(callback) {
+            let breathingStep = 0;
+            const steps = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+            let countdown = 4;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 60px; margin: 20px 0;">🌬️</div>
+                    <div class="timer-display" id="breathTimer">4</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="breathInstruction">Inhale</div>
+                    <div class="progress-bar" style="margin: 20px 0;">
+                        <div class="progress-fill" id="breathProgress" style="width: 0%;"></div>
+                    </div>
+                    <button class="complete-btn" onclick="completeBreathing()" id="completeBreathBtn" disabled>Complete Breathing</button>
+                </div>
+            `;
+            
+            showModal('Grounding Breath', content);
+            
+            const interval = setInterval(() => {
+                countdown--;
+                document.getElementById('breathTimer').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    breathingStep++;
+                    if (breathingStep < steps.length) {
+                        document.getElementById('breathInstruction').textContent = steps[breathingStep];
+                        countdown = 4;
+                    } else {
+                        clearInterval(interval);
+                        document.getElementById('breathInstruction').textContent = 'Complete!';
+                        document.getElementById('completeBreathBtn').disabled = false;
+                    }
+                }
+                
+                const progress = (breathingStep * 4 + (4 - countdown)) / 16 * 100;
+                document.getElementById('breathProgress').style.width = progress + '%';
+            }, 1000);
+            
+            window.completeBreathing = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // CBT Tasks
+        function startCBTExercise(callback) {
+            const shuffled = [...cbtTasks].sort(() => 0.5 - Math.random()).slice(0, 3);
+            let completed = 0;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🛡️</div>
+                    <p style="margin-bottom: 20px;">Complete these CBT tasks to challenge negative thoughts:</p>
+                    <div id="cbtTasks">
+                        ${shuffled.map((task, index) => `
+                            <div class="task-item" onclick="completeTask(${index})" id="task${index}">
+                                <div class="task-text">${task.text}</div>
+                                <div style="font-size: 12px; color: #666;">Click when done</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="complete-btn" onclick="completeCBT()" id="completeCBTBtn" disabled>Complete Exercise</button>
+                </div>
+            `;
+            
+            showModal('Cognitive Shield', content);
+            
+            window.completeTask = function(index) {
+                const task = document.getElementById(`task${index}`);
+                if (!task.classList.contains('completed')) {
+                    task.classList.add('completed');
+                    completed++;
+                    
+                    if (completed === 3) {
+                        document.getElementById('completeCBTBtn').disabled = false;
+                    }
+                }
+            };
+            
+            window.completeCBT = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // Self-Compassion Affirmations
+        function startAffirmation(callback) {
+            const affirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">💚</div>
+                    <div class="affirmation-text">${affirmation}</div>
+                    <p style="margin: 20px 0;">Read this affirmation slowly, letting it sink in.</p>
+                    <button class="complete-btn" onclick="completeAffirmation()">I Accept This</button>
+                </div>
+            `;
+            
+            showModal('Self-Compassion', content);
+            
+            window.completeAffirmation = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // Mindful Microbreak
+        function startMicrobreak(callback) {
+            let timer = 30;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🚶</div>
+                    <p>Step away from your desk. Walk mindfully, stretch, or just breathe.</p>
+                    <div class="timer-display" id="microbreakTimer">0:30</div>
+                    <button class="complete-btn" onclick="completeMicrobreak()" id="completeMicrobreakBtn">I'm Back</button>
+                </div>
+            `;
+            
+            showModal('Mindful Microbreak', content);
+            
+            const interval = setInterval(() => {
+                timer--;
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                document.getElementById('microbreakTimer').textContent = 
+                    `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('completeMicrobreakBtn').disabled = false;
+                }
+            }, 1000);
+            
+            window.completeMicrobreak = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // Progressive Muscle Relaxation
+        function startPMR(callback) {
+            const muscleGroups = [
+                { name: 'Feet', duration: 5 },
+                { name: 'Calves', duration: 5 },
+                { name: 'Thighs', duration: 5 },
+                { name: 'Hands', duration: 5 },
+                { name: 'Arms', duration: 5 },
+                { name: 'Shoulders', duration: 5 },
+                { name: 'Jaw', duration: 5 }
+            ];
+            
+            let currentGroup = 0;
+            let tensionTime = 0;
+            let relaxationTime = 0;
+            let phase = 'tension';
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">💪</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="pmrInstruction">Tense your Feet</div>
+                    <div style="font-size: 18px; margin: 10px 0;" id="pmrPhase">Hold for 5 seconds</div>
+                    <div class="timer-display" id="pmrTimer">5</div>
+                    <button class="complete-btn" onclick="completePMR()" id="completePMRBtn">Complete Exercise</button>
+                </div>
+            `;
+            
+            showModal('Progressive Muscle Relaxation', content);
+            
+            const interval = setInterval(() => {
+                if (phase === 'tension') {
+                    tensionTime++;
+                    document.getElementById('pmrTimer').textContent = 5 - tensionTime;
+                    
+                    if (tensionTime >= 5) {
+                        phase = 'relaxation';
+                        tensionTime = 0;
+                        document.getElementById('pmrInstruction').textContent = `Relax your ${muscleGroups[currentGroup].name}`;
+                        document.getElementById('pmrPhase').textContent = 'Release and relax';
+                        document.getElementById('pmrTimer').textContent = '3';
+                    }
+                } else {
+                    relaxationTime++;
+                    document.getElementById('pmrTimer').textContent = 3 - relaxationTime;
+                    
+                    if (relaxationTime >= 3) {
+                        relaxationTime = 0;
+                        phase = 'tension';
+                        currentGroup++;
+                        
+                        if (currentGroup < muscleGroups.length) {
+                            document.getElementById('pmrInstruction').textContent = `Tense your ${muscleGroups[currentGroup].name}`;
+                            document.getElementById('pmrPhase').textContent = 'Hold for 5 seconds';
+                            document.getElementById('pmrTimer').textContent = '5';
+                        } else {
+                            clearInterval(interval);
+                            document.getElementById('pmrInstruction').textContent = 'Complete!';
+                            document.getElementById('completePMRBtn').disabled = false;
+                        }
+                    }
+                }
+            }, 1000);
+            
+            window.completePMR = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // Sensory Anchor
+        function startSensoryAnchor(callback) {
+            const anchor = sensoryAnchors[Math.floor(Math.random() * sensoryAnchors.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🪨</div>
+                    <div class="affirmation-text">${anchor}</div>
+                    <p style="margin: 20px 0;">Do this for 30 seconds</p>
+                    <button class="complete-btn" onclick="completeSensory()">Done</button>
+                </div>
+            `;
+            
+            showModal('Sensory Anchor', content);
+            
+            window.completeSensory = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // Calming Sounds
+        function startCalmingSounds(callback) {
+            const sound = calmSounds[Math.floor(Math.random() * calmSounds.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🎵</div>
+                    <div class="affirmation-text">${sound}</div>
+                    <p style="margin: 20px 0;">Take 30 seconds to listen with your mind</p>
+                    <button class="complete-btn" onclick="completeSound()">I'm Calmer Now</button>
+                </div>
+            `;
+            
+            showModal('Calming Sounds', content);
+            
+            window.completeSound = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // Thought Labeling
+        function startThoughtLabeling(callback) {
+            const thoughts = [
+                "I'm not good enough",
+                "What if I fail?",
+                "Everyone is judging me",
+                "I can't handle this"
+            ];
+            
+            const randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🏷️</div>
+                    <p style="margin-bottom: 20px;">Label this thought:</p>
+                    <div class="affirmation-text">"${randomThought}"</div>
+                    <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 20px 0;">
+                        <button class="task-item" onclick="labelThought('worry')">Worry</button>
+                        <button class="task-item" onclick="labelThought('planning')">Planning</button>
+                        <button class="task-item" onclick="labelThought('judgment')">Judgment</button>
+                        <button class="task-item" onclick="labelThought('fear')">Fear</button>
+                    </div>
+                </div>
+            `;
+            
+            showModal('Thought Labeling', content);
+            
+            window.labelThought = function(label) {
+                alert(`You labeled this as "${label}". Great! This creates mental distance.`);
+                closeModal();
+                callback();
+            };
+        }
+
+        // WAIT Rule
+        function startWAIT(callback) {
+            const steps = [
+                "👁️ Watch your reaction",
+                "✅ Acknowledge it",
+                "💪 Invoke calm ('I've got this')",
+                "💬 Talk to your stress with compassion"
+            ];
+            
+            let stepIndex = 0;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">⏳</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="waitStep">${steps[0]}</div>
+                    <button class="complete-btn" onclick="nextWAITStep()" id="waitBtn">Next</button>
+                </div>
+            `;
+            
+            showModal('WAIT Rule', content);
+            
+            window.nextWAITStep = function() {
+                stepIndex++;
+                if (stepIndex < steps.length) {
+                    document.getElementById('waitStep').textContent = steps[stepIndex];
+                } else {
+                    closeModal();
+                    callback();
+                }
+            };
+        }
+
+        // Calm Place Visualization
+        function startVisualization(callback) {
+            const place = calmPlaces[Math.floor(Math.random() * calmPlaces.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🏝️</div>
+                    <div class="affirmation-text">${place}</div>
+                    <p style="margin: 20px 0;">Close your eyes and imagine this scene for 30 seconds</p>
+                    <button class="complete-btn" onclick="completeVisualization()">I Feel Calmer</button>
+                </div>
+            `;
+            
+            showModal('Calm Place Visualization', content);
+            
+            window.completeVisualization = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // Use individual skill (same as battle.html)
+        function useSkill(skillKey) {
+            if (!battleActive) {
+                alert('Start the battle first!');
+                return;
+            }
+            
+            if (skillInProgress) {
+                alert('Complete your current skill first!');
+                return;
+            }
+            
+            const skill = skills[skillKey];
+            
+            if (userEnergy < skill.cost) {
+                addToLog('❌ Not enough energy! Need ' + skill.cost + ' energy');
+                return;
+            }
+            
+            if (bossCurrentHp <= 0) {
+                addToLog('Boss already defeated!');
+                return;
+            }
+            
+            skillInProgress = true;
+            disableAllSkillButtons(true);
+            
+            const afterSkill = function() {
+                let damage = skill.damage;
+                if (comboActive) {
+                    damage = Math.floor(damage * 1.5);
+                    addToLog('🔥 COMBO! 50% bonus damage!');
+                    comboActive = false;
+                    document.getElementById('comboIndicator').style.display = 'none';
+                }
+                
+                bossCurrentHp = Math.max(0, bossCurrentHp - damage);
+                userEnergy -= skill.cost;
+                
+                updateBossHP();
+                addToLog('🎯 You used ' + skill.name + '! Deals ' + damage + ' damage');
+                
+                if (bossCurrentHp <= 0) {
+                    victory();
+                } else {
+                    updateBossDialogue();
+                    setTimeout(() => {
+                        bossCounterAttack();
+                        skillInProgress = false;
+                        disableAllSkillButtons(false);
+                        updateUI();
+                    }, 800);
+                }
+                
+                updateUI();
+            };
+            
+            // Trigger appropriate intervention
+            switch(skill.type) {
+                case 'breathing':
+                    startBreathingExercise(afterSkill);
+                    break;
+                case 'cbt':
+                    startCBTExercise(afterSkill);
+                    break;
+                case 'affirmation':
+                    startAffirmation(afterSkill);
+                    break;
+                case 'microbreak':
+                    startMicrobreak(afterSkill);
+                    break;
+                case 'pmr':
+                    startPMR(afterSkill);
+                    break;
+                case 'sensory':
+                    startSensoryAnchor(afterSkill);
+                    break;
+                case 'music':
+                    startCalmingSounds(afterSkill);
+                    break;
+                case 'labeling':
+                    startThoughtLabeling(afterSkill);
+                    break;
+                case 'wait':
+                    startWAIT(afterSkill);
+                    break;
+                case 'visualize':
+                    startVisualization(afterSkill);
+                    break;
+                default:
+                    afterSkill();
+            }
+        }
+
+        function disableAllSkillButtons(disabled) {
+            document.getElementById('skillGrounding').disabled = disabled;
+            document.getElementById('skillCognitive').disabled = disabled;
+            document.getElementById('skillCompassion').disabled = disabled;
+            document.getElementById('skillMicrobreak').disabled = disabled;
+            document.getElementById('skillPMR').disabled = disabled;
+            document.getElementById('skillSensory').disabled = disabled;
+            document.getElementById('skillMusic').disabled = disabled;
+            document.getElementById('skillLabeling').disabled = disabled;
+            document.getElementById('skillWAIT').disabled = disabled;
+            document.getElementById('skillVisualize').disabled = disabled;
+        }
+
+        function useSquadSkill(skill) {
+            if (!battleActive) {
+                alert('Start the battle first!');
+                return;
+            }
+
+            const squadSkills = {
+                attack: { name: 'Squad Attack', damage: 45, cost: 8 },
+                heal: { name: 'Mass Heal', damage: 0, cost: 10 },
+                boost: { name: 'Squad Boost', damage: 0, cost: 6 },
+                shield: { name: 'Team Shield', damage: 0, cost: 7 }
+            };
+            
+            const selectedSkill = squadSkills[skill];
+            
+            if (userEnergy < selectedSkill.cost) {
+                addToLog('❌ Not enough energy!');
+                return;
+            }
+            
+            userEnergy -= selectedSkill.cost;
+            
+            if (skill === 'attack') {
+                let damage = selectedSkill.damage;
+                bossCurrentHp = Math.max(0, bossCurrentHp - damage);
+                updateBossHP();
+                addToLog('⚔️ Squad attack deals ' + damage + ' damage!');
+                updateBossDialogue();
+                
+                if (bossCurrentHp <= 0) {
+                    victory();
+                } else {
+                    setTimeout(bossCounterAttack, 1000);
+                }
+            } else if (skill === 'heal') {
+                squadMembers.forEach(member => {
+                    member.energy = Math.min(100, member.energy + 15);
+                });
+                userEnergy = Math.min(100, userEnergy + 15);
+                addToLog('💚 Mass heal restores 15 energy to all squad members!');
+            } else if (skill === 'boost') {
+                comboActive = true;
+                document.getElementById('comboIndicator').style.display = 'block';
+                addToLog('⬆️ Squad boost activated! Next attack deals double damage!');
+            } else if (skill === 'shield') {
+                addToLog('🛡️ Team shield blocks the next boss attack!');
+            }
+            
+            updateUI();
+        }
+
+        function bossCounterAttack() {
+            if (bossCurrentHp <= 0) return;
+            
+            const damage = Math.floor(Math.random() * 10) + 5;
+            userEnergy = Math.max(0, userEnergy - damage);
+            
+            addToLog('👾 Boss attacks! Your energy -' + damage);
+            
+            if (userEnergy <= 0) {
+                addToLog('😔 You ran out of energy...');
+                battleActive = false;
+            }
+            
+            updateUI();
+        }
+
+        function updateBossHP() {
+            const fill = document.getElementById('bossHpFill');
+            const text = document.getElementById('bossHpText');
+            if (fill) fill.style.width = (bossCurrentHp / bossMaxHp * 100) + '%';
+            if (text) text.textContent = bossCurrentHp + '/' + bossMaxHp + ' HP';
+        }
+
+        function updateBossDialogue() {
+            const dialogue = document.getElementById('bossDialogue');
+            if (dialogue) {
+                const randomIndex = Math.floor(Math.random() * bossDialogues.length);
+                dialogue.textContent = '"' + bossDialogues[randomIndex] + '"';
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('userEnergy').textContent = userEnergy + '/100';
+            document.getElementById('userEnergyBar').style.width = (userEnergy / 100 * 100) + '%';
+            
+            // Update skill buttons based on energy
+            if (!skillInProgress) {
+                document.getElementById('skillGrounding').disabled = userEnergy < 3;
+                document.getElementById('skillCognitive').disabled = userEnergy < 5;
+                document.getElementById('skillCompassion').disabled = userEnergy < 2;
+                document.getElementById('skillMicrobreak').disabled = userEnergy < 4;
+                document.getElementById('skillPMR').disabled = userEnergy < 6;
+                document.getElementById('skillSensory').disabled = userEnergy < 3;
+                document.getElementById('skillMusic').disabled = userEnergy < 4;
+                document.getElementById('skillLabeling').disabled = userEnergy < 5;
+                document.getElementById('skillWAIT').disabled = userEnergy < 6;
+                document.getElementById('skillVisualize').disabled = userEnergy < 7;
+            }
+            
+            // Update squad skills
+            document.getElementById('squadAttack').disabled = userEnergy < 8;
+            document.getElementById('squadHeal').disabled = userEnergy < 10;
+            document.getElementById('squadBoost').disabled = userEnergy < 6;
+            document.getElementById('squadShield').disabled = userEnergy < 7;
+        }
+
+        function addToLog(message) {
+            const log = document.getElementById('battleLog');
+            if (!log) return;
+            
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = message;
+            log.insertBefore(entry, log.firstChild);
+            
+            while (log.children.length > 8) {
+                if (log.lastChild) log.removeChild(log.lastChild);
+            }
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chatInput');
+            const container = document.getElementById('chatContainer');
+            
+            if (!input || !container) return;
+            
+            const message = input.value.trim();
+            if (message) {
+                const msg = document.createElement('div');
+                msg.className = 'chat-message own';
+                msg.innerHTML = '<strong>You:</strong> ' + message;
+                container.appendChild(msg);
+                container.scrollTop = container.scrollHeight;
+                input.value = '';
+            }
+        }
+
+        function startSquadBattle() {
+            battleActive = true;
+            const btn = document.getElementById('startBattleBtn');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = '⚔️ Battle in Progress';
+            }
+            addToLog('🔥 Battle started! All squad members engaged!');
+            
+            setTimeout(() => {
+                const container = document.getElementById('chatContainer');
+                if (container) {
+                    const msg = document.createElement('div');
+                    msg.className = 'chat-message';
+                    msg.innerHTML = '<strong>Alex:</strong> Using Cognitive Shield!';
+                    container.appendChild(msg);
+                    container.scrollTop = container.scrollHeight;
+                }
+            }, 2000);
+            
+            setTimeout(() => {
+                const container = document.getElementById('chatContainer');
+                if (container) {
+                    const msg = document.createElement('div');
+                    msg.className = 'chat-message';
+                    msg.innerHTML = '<strong>Jordan:</strong> I\'ll boost your attack!';
+                    container.appendChild(msg);
+                    container.scrollTop = container.scrollHeight;
+                }
+            }, 4000);
+        }
+
+        function toggleReady() {
+            const you = squadMembers[3];
+            you.ready = !you.ready;
+            const btn = event.target;
+            if (btn) btn.textContent = you.ready ? 'Not Ready' : 'Ready';
+            
+            const readyCount = squadMembers.filter(m => m.ready).length;
+            document.getElementById('readyCount').innerHTML = `● ${readyCount}/4 Ready`;
+        }
+
+        function resetBattle() {
+            if (confirm('Reset this battle? Boss HP and your energy will be restored.')) {
+                bossCurrentHp = 450;
+                userEnergy = 82;
+                battleActive = false;
+                comboActive = false;
+                skillInProgress = false;
+                
+                updateBossHP();
+                updateUI();
+                disableAllSkillButtons(false);
+                
+                document.getElementById('comboIndicator').style.display = 'none';
+                document.getElementById('startBattleBtn').disabled = false;
+                document.getElementById('startBattleBtn').textContent = '⚔️ Start Battle!';
+                
+                addToLog('🔄 Battle reset!');
+            }
+        }
+
+        function victory() {
+            addToLog('🎉 VICTORY! Squad defeated the boss!');
+            document.getElementById('bossDialogue').textContent = '"Nooo... defeated..."';
+            
+            disableAllSkillButtons(true);
+            document.getElementById('squadAttack').disabled = true;
+            document.getElementById('squadHeal').disabled = true;
+            document.getElementById('squadBoost').disabled = true;
+            document.getElementById('squadShield').disabled = true;
+            
+            setTimeout(() => {
+                alert('🎉 Squad Victory! You defeated the boss together!');
+                window.location.href = 'squaddetail.html';
+            }, 1500);
+        }
+
+        // Enter key sends chat
+        document.getElementById('chatInput')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendChat();
+        });
+    </script>
+</body>
+</html>

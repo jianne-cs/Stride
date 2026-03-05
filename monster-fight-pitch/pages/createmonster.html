@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Monster - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Same bottom nav as home */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Create Monster specific styles */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .step.active .step-circle {
+            background: #0c4a6e;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(12, 74, 110, 0.5);
+        }
+
+        .step.completed .step-circle {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            color: #334155;
+        }
+
+        .step.active .step-label {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.3);
+            z-index: -1;
+        }
+
+        .step-fill {
+            height: 100%;
+            background: #0c4a6e;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .creation-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .monster-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .preview-title {
+            font-size: 18px;
+            color: #334155;
+            margin-bottom: 15px;
+        }
+
+        .preview-monster {
+            width: 150px;
+            height: 150px;
+            background-color: #7dd3fc;
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+            box-shadow: 0 0 30px rgba(125, 211, 252, 0.5);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .preview-monster::before,
+        .preview-monster::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            top: 40px;
+        }
+
+        .preview-monster::before {
+            left: 35px;
+        }
+
+        .preview-monster::after {
+            right: 35px;
+        }
+
+        .preview-pupil-left,
+        .preview-pupil-right {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #082032;
+            border-radius: 50%;
+            top: 52px;
+            z-index: 2;
+        }
+
+        .preview-pupil-left {
+            left: 47px;
+        }
+
+        .preview-pupil-right {
+            right: 47px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .feature-card.selected {
+            border-color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(12, 74, 110, 0.3);
+        }
+
+        .feature-emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .feature-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #082032;
+        }
+
+        .feature-desc {
+            font-size: 11px;
+            color: #334155;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: white;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .trigger-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 30px;
+            background: rgba(255,255,255,0.7);
+            font-size: 16px;
+        }
+
+        .trigger-input:focus {
+            outline: none;
+            border-color: #0c4a6e;
+        }
+
+        .trigger-tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .trigger-tag {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trigger-tag:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .trigger-tag.selected {
+            background: #0c4a6e;
+            color: white;
+        }
+
+        .remove-trigger {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .remove-trigger:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 18px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255, 255, 255, 0.5);
+            color: #082032;
+        }
+
+        .nav-btn.prev:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .nav-btn.next {
+            background: #0c4a6e;
+            color: white;
+        }
+
+        .nav-btn.next:hover {
+            background: #082032;
+            transform: scale(1.02);
+        }
+
+        .nav-btn.next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">Create Your Monster</h1>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Name</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Build</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Face</div>
+            </div>
+            <div class="step-line">
+                <div class="step-fill" id="stepFill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Name -->
+        <div id="step1Content">
+            <div class="creation-card">
+                <h2 style="margin-bottom: 20px; color: #082032;">What do you call this struggle?</h2>
+                <p style="color: #334155; margin-bottom: 20px;">Give your monster a name that feels right to you.</p>
+                
+                <input type="text" id="monsterName" class="trigger-input" placeholder="e.g., Thesis Panic Monster" value="Thesis Panic Monster">
+                
+                <div style="margin-top: 30px;">
+                    <p style="color: #082032; font-weight: bold; margin-bottom: 15px;">Common struggles:</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <span class="trigger-tag" onclick="setName('Thesis Panic')">Thesis Panic</span>
+                        <span class="trigger-tag" onclick="setName('Social Anxiety')">Social Anxiety</span>
+                        <span class="trigger-tag" onclick="setName('Procrastination')">Procrastination</span>
+                        <span class="trigger-tag" onclick="setName('Imposter Syndrome')">Imposter Syndrome</span>
+                        <span class="trigger-tag" onclick="setName('Monday Dread')">Monday Dread</span>
+                        <span class="trigger-tag" onclick="setName('Perfectionism')">Perfectionism</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Build -->
+        <div id="step2Content" style="display: none;">
+            <div class="creation-card">
+                <h2 style="margin-bottom: 20px; color: #082032;">Choose your monster's features</h2>
+                
+                <!-- Monster Preview -->
+                <div class="monster-preview">
+                    <div class="preview-title">Your Monster</div>
+                    <div class="preview-monster" id="monsterPreview" style="background-color: #7dd3fc;">
+                        <div class="preview-pupil-left" id="previewPupilLeft"></div>
+                        <div class="preview-pupil-right" id="previewPupilRight"></div>
+                    </div>
+                </div>
+
+                <!-- Body Type -->
+                <h3 style="margin: 20px 0 15px; color: #082032;">Body Type</h3>
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="selectBodyType('imp')" id="bodyImp">
+                        <div class="feature-emoji">👾</div>
+                        <div class="feature-name">Anxiety Imp</div>
+                        <div class="feature-desc">Wiry, jittery, restless</div>
+                    </div>
+                    <div class="feature-card" onclick="selectBodyType('ogre')" id="bodyOgre">
+                        <div class="feature-emoji">👹</div>
+                        <div class="feature-name">Irritability Ogre</div>
+                        <div class="feature-desc">Bulky, hunched, frustrated</div>
+                    </div>
+                    <div class="feature-card" onclick="selectBodyType('shadow')" id="bodyShadow">
+                        <div class="feature-emoji">👻</div>
+                        <div class="feature-name">Sadness Shadow</div>
+                        <div class="feature-desc">Wispy, translucent, heavy</div>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <h3 style="margin: 30px 0 15px; color: #082032;">Features</h3>
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="toggleFeature('teeth')" id="featureTeeth">
+                        <div class="feature-emoji">🦷</div>
+                        <div class="feature-name">Sharp Teeth</div>
+                        <div class="feature-desc">Harsh self-criticism</div>
+                    </div>
+                    <div class="feature-card" onclick="toggleFeature('eyes')" id="featureEyes">
+                        <div class="feature-emoji">👁️</div>
+                        <div class="feature-name">Many Eyes</div>
+                        <div class="feature-desc">Feeling watched/judged</div>
+                    </div>
+                    <div class="feature-card" onclick="toggleFeature('chains')" id="featureChains">
+                        <div class="feature-emoji">⛓️</div>
+                        <div class="feature-name">Heavy Chains</div>
+                        <div class="feature-desc">Exhaustion, weight</div>
+                    </div>
+                    <div class="feature-card" onclick="toggleFeature('fog')" id="featureFog">
+                        <div class="feature-emoji">🌫️</div>
+                        <div class="feature-name">Fog Aura</div>
+                        <div class="feature-desc">Brain fog, confusion</div>
+                    </div>
+                    <div class="feature-card" onclick="toggleFeature('claws')" id="featureClaws">
+                        <div class="feature-emoji">👊</div>
+                        <div class="feature-name">Sharp Claws</div>
+                        <div class="feature-desc">Sudden anxiety spikes</div>
+                    </div>
+                    <div class="feature-card" onclick="toggleFeature('shadowForm')" id="featureShadowForm">
+                        <div class="feature-emoji">🌑</div>
+                        <div class="feature-name">Shadow Form</div>
+                        <div class="feature-desc">Hard to identify</div>
+                    </div>
+                </div>
+
+                <!-- Color -->
+                <h3 style="margin: 30px 0 15px; color: #082032;">Color</h3>
+                <div class="color-palette">
+                    <div class="color-option" style="background: #7dd3fc;" onclick="selectColor('#7dd3fc')" id="colorBlue"></div>
+                    <div class="color-option" style="background: #0c4a6e;" onclick="selectColor('#0c4a6e')" id="colorDarkBlue"></div>
+                    <div class="color-option" style="background: #ef4444;" onclick="selectColor('#ef4444')" id="colorRed"></div>
+                    <div class="color-option" style="background: #f59e0b;" onclick="selectColor('#f59e0b')" id="colorOrange"></div>
+                    <div class="color-option" style="background: #10b981;" onclick="selectColor('#10b981')" id="colorGreen"></div>
+                    <div class="color-option" style="background: #8b5cf6;" onclick="selectColor('#8b5cf6')" id="colorPurple"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Face -->
+        <div id="step3Content" style="display: none;">
+            <div class="creation-card">
+                <h2 style="margin-bottom: 20px; color: #082032;">Face Your Monster</h2>
+                
+                <!-- Final Preview -->
+                <div class="monster-preview">
+                    <div class="preview-monster" id="finalMonster" style="background-color: #7dd3fc;">
+                        <div class="preview-pupil-left"></div>
+                        <div class="preview-pupil-right"></div>
+                    </div>
+                    <h3 id="finalMonsterName" style="margin: 20px 0 10px; color: #082032;">Thesis Panic Monster</h3>
+                    <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <span style="background: #ef4444; padding: 5px 15px; border-radius: 30px; color: white;">78 HP</span>
+                        <span style="background: #0c4a6e; padding: 5px 15px; border-radius: 30px; color: white;" id="monsterType">Anxiety</span>
+                    </div>
+                </div>
+
+                <!-- Triggers -->
+                <h3 style="margin: 30px 0 15px; color: #082032;">What triggers this monster?</h3>
+                
+                <div class="trigger-tag-container" id="triggerTags">
+                    <span class="trigger-tag selected" onclick="toggleTrigger('opening laptop')">📧 Opening laptop</span>
+                    <span class="trigger-tag selected" onclick="toggleTrigger('deadlines')">📅 Thinking about deadlines</span>
+                    <span class="trigger-tag" onclick="toggleTrigger('sunday evenings')">🌙 Sunday evenings</span>
+                    <span class="trigger-tag" onclick="toggleTrigger('monday mornings')">☀️ Monday mornings</span>
+                    <span class="trigger-tag" onclick="toggleTrigger('social media')">📱 Social media</span>
+                    <span class="trigger-tag" onclick="toggleTrigger('emails')">📧 Emails</span>
+                </div>
+
+                <!-- Custom Trigger -->
+                <div style="display: flex; gap: 10px; margin: 20px 0;">
+                    <input type="text" id="customTrigger" class="trigger-input" placeholder="Add custom trigger..." style="margin: 0;">
+                    <button class="nav-btn next" style="flex: 0 0 auto; padding: 15px 25px;" onclick="addCustomTrigger()">Add</button>
+                </div>
+
+                <!-- Monster Stats Preview -->
+                <div style="background: rgba(255,255,255,0.5); border-radius: 20px; padding: 20px; margin: 30px 0;">
+                    <h4 style="margin-bottom: 15px; color: #082032;">Monster Stats</h4>
+                    <div style="display: flex; justify-content: space-around;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #ef4444;">78</div>
+                            <div style="font-size: 12px; color: #334155;">Starting HP</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #0c4a6e;" id="featureCount">3</div>
+                            <div style="font-size: 12px; color: #334155;">Features</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 24px; font-weight: bold; color: #0c4a6e;" id="triggerCount">2</div>
+                            <div style="font-size: 12px; color: #334155;">Triggers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="nav-btn prev" id="prevBtn" onclick="prevStep()" style="display: none;">← Previous</button>
+            <button class="nav-btn next" id="nextBtn" onclick="nextStep()">Next: Build Monster →</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Monster Creation State
+        let currentStep = 1;
+        let monsterData = {
+            id: Date.now(),
+            name: 'Thesis Panic Monster',
+            bodyType: 'imp',
+            features: [],
+            color: '#7dd3fc',
+            triggers: ['opening laptop', 'deadlines'],
+            hp: Math.floor(Math.random() * 30) + 70 // Random HP between 70-100
+        };
+
+        // Step Navigation
+        function nextStep() {
+            if (currentStep < 3) {
+                // Validate current step
+                if (currentStep === 1 && !monsterData.name) {
+                    alert('Please name your monster');
+                    return;
+                }
+                
+                currentStep++;
+                updateStepDisplay();
+            } else if (currentStep === 3) {
+                saveMonster();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function updateStepDisplay() {
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById('step' + i);
+                step.className = 'step';
+                if (i < currentStep) {
+                    step.classList.add('completed');
+                } else if (i === currentStep) {
+                    step.classList.add('active');
+                }
+            }
+            
+            // Update step fill
+            document.getElementById('stepFill').style.width = ((currentStep - 1) * 50) + '%';
+            
+            // Show/hide content
+            document.getElementById('step1Content').style.display = currentStep === 1 ? 'block' : 'none';
+            document.getElementById('step2Content').style.display = currentStep === 2 ? 'block' : 'none';
+            document.getElementById('step3Content').style.display = currentStep === 3 ? 'block' : 'none';
+            
+            // Update buttons
+            document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentStep === 3) {
+                nextBtn.textContent = '✓ Create Monster';
+            } else {
+                nextBtn.textContent = 'Next: ' + (currentStep === 1 ? 'Build Monster' : 'Face Monster') + ' →';
+            }
+            
+            // Update final preview if on step 3
+            if (currentStep === 3) {
+                document.getElementById('finalMonsterName').textContent = monsterData.name;
+                document.getElementById('finalMonster').style.backgroundColor = monsterData.color;
+                document.getElementById('featureCount').textContent = monsterData.features.length;
+                document.getElementById('triggerCount').textContent = monsterData.triggers.length;
+                
+                // Determine monster type based on features
+                let type = 'Anxiety';
+                if (monsterData.features.includes('chains')) type = 'Depression';
+                if (monsterData.features.includes('teeth')) type = 'Self-Criticism';
+                document.getElementById('monsterType').textContent = type;
+            }
+        }
+
+        // Step 1: Name
+        function setName(name) {
+            document.getElementById('monsterName').value = name;
+            monsterData.name = name;
+        }
+
+        document.getElementById('monsterName').addEventListener('input', function(e) {
+            monsterData.name = e.target.value;
+        });
+
+        // Step 2: Body Type
+        function selectBodyType(type) {
+            monsterData.bodyType = type;
+            
+            // Update UI
+            document.querySelectorAll('[id^="body"]').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.getElementById('body' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('selected');
+        }
+
+        // Step 2: Features
+        function toggleFeature(feature) {
+            const index = monsterData.features.indexOf(feature);
+            if (index === -1) {
+                monsterData.features.push(feature);
+                document.getElementById('feature' + feature.charAt(0).toUpperCase() + feature.slice(1)).classList.add('selected');
+            } else {
+                monsterData.features.splice(index, 1);
+                document.getElementById('feature' + feature.charAt(0).toUpperCase() + feature.slice(1)).classList.remove('selected');
+            }
+            
+            // Update preview - in a real app, this would change the monster's appearance
+            console.log('Features:', monsterData.features);
+        }
+
+        // Step 2: Color
+        function selectColor(color) {
+            monsterData.color = color;
+            document.getElementById('monsterPreview').style.backgroundColor = color;
+            document.getElementById('finalMonster').style.backgroundColor = color;
+            
+            // Update UI
+            document.querySelectorAll('.color-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+        }
+
+        // Step 3: Triggers
+        function toggleTrigger(trigger) {
+            const index = monsterData.triggers.indexOf(trigger);
+            const element = event.target;
+            
+            if (index === -1) {
+                monsterData.triggers.push(trigger);
+                element.classList.add('selected');
+            } else {
+                monsterData.triggers.splice(index, 1);
+                element.classList.remove('selected');
+            }
+            
+            document.getElementById('triggerCount').textContent = monsterData.triggers.length;
+        }
+
+        function addCustomTrigger() {
+            const input = document.getElementById('customTrigger');
+            const trigger = input.value.trim();
+            
+            if (trigger && !monsterData.triggers.includes(trigger)) {
+                monsterData.triggers.push(trigger);
+                
+                // Add to UI
+                const container = document.getElementById('triggerTags');
+                const newTag = document.createElement('span');
+                newTag.className = 'trigger-tag selected';
+                newTag.onclick = function() { toggleTrigger(trigger); };
+                newTag.textContent = trigger;
+                container.appendChild(newTag);
+                
+                input.value = '';
+                document.getElementById('triggerCount').textContent = monsterData.triggers.length;
+            }
+        }
+
+        // Save Monster to localStorage
+        function saveMonster() {
+            // Get existing monsters
+            let monsters = JSON.parse(localStorage.getItem('monsters')) || [];
+            
+            // Add new monster
+            monsters.push(monsterData);
+            
+            // Save back to localStorage
+            localStorage.setItem('monsters', JSON.stringify(monsters));
+            
+            alert('✨ Monster created successfully!');
+            window.location.href = 'home.html';
+        }
+
+        // Initialize default selections
+        window.onload = function() {
+            selectBodyType('imp');
+            selectColor('#7dd3fc');
+        };
+    </script>
+</body>
+</html>

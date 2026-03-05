@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* All your existing styles remain the same */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: #334155;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        .battle-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .monster-battle-card {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 40px;
+            padding: 30px;
+            margin: 20px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .monster-battle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .monster-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .monster-name-badge {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .monster-type {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .monster-visual {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .monster-shape-large {
+            width: 180px;
+            height: 180px;
+            background-color: #7dd3fc;
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+            box-shadow: 0 0 50px rgba(125, 211, 252, 0.5);
+            position: relative;
+            animation: monsterFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes monsterFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .monster-shape-large::before,
+        .monster-shape-large::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            top: 50px;
+        }
+
+        .monster-shape-large::before {
+            left: 40px;
+        }
+
+        .monster-shape-large::after {
+            right: 40px;
+        }
+
+        .monster-pupil-left,
+        .monster-pupil-right {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #082032;
+            border-radius: 50%;
+            top: 65px;
+            z-index: 3;
+            animation: pupilMove 5s ease-in-out infinite;
+        }
+
+        @keyframes pupilMove {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2px, 2px); }
+            75% { transform: translate(-2px, -2px); }
+        }
+
+        .monster-pupil-left {
+            left: 57px;
+        }
+
+        .monster-pupil-right {
+            right: 57px;
+        }
+
+        .hp-section {
+            position: relative;
+            z-index: 2;
+            margin: 25px 0;
+        }
+
+        .hp-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .hp-bar-large {
+            width: 100%;
+            height: 25px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .hp-fill-large {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hp-fill-large::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .monster-dialogue-box {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .energy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .energy-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #082032;
+        }
+
+        .energy-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .energy-bar-large {
+            width: 100%;
+            height: 15px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .energy-fill-large {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            transition: width 0.3s ease;
+        }
+
+        .skills-battle-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .battle-skill-card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .battle-skill-card:hover {
+            transform: translateY(-3px);
+            border-color: #0c4a6e;
+            box-shadow: 0 15px 25px rgba(12, 74, 110, 0.2);
+        }
+
+        .battle-skill-card:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .skill-icon-battle {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .skill-name-battle {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #082032;
+        }
+
+        .skill-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .skill-damage {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .skill-energy {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .battle-log-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .battle-log-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #082032;
+        }
+
+        .battle-log {
+            height: 150px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #334155;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 15px;
+        }
+
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .battle-controls {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .retreat-btn {
+            background: transparent;
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            padding: 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .retreat-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .squad-battle-link {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .squad-battle-link a {
+            color: #0c4a6e;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .squad-battle-link a:hover {
+            background: #0c4a6e;
+            color: white;
+        }
+
+        .retry-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .retry-btn:hover {
+            background: #d97706;
+            transform: scale(1.05);
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .modal-content {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #082032;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .modal-body {
+            margin: 20px 0;
+        }
+
+        .affirmation-text {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0c4a6e;
+            text-align: center;
+            margin: 30px 0;
+            line-height: 1.4;
+        }
+
+        .task-item {
+            background: rgba(12,74,110,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .task-item:hover {
+            background: rgba(12,74,110,0.2);
+            border-color: #0c4a6e;
+        }
+
+        .task-item.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .task-item.completed .task-text {
+            color: white;
+        }
+
+        .task-text {
+            font-size: 16px;
+            color: #082032;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: bold;
+            color: #0c4a6e;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .complete-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .complete-btn:hover {
+            background: #082032;
+            transform: scale(1.02);
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .skills-battle-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .monster-shape-large {
+                width: 140px;
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container battle-container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Battle Arena -->
+        <div class="monster-battle-card">
+            <div class="monster-header">
+                <span class="monster-name-badge" id="monsterName">Loading...</span>
+                <span class="monster-type" id="monsterType">Loading...</span>
+            </div>
+
+            <div class="monster-visual">
+                <div class="monster-shape-large" id="monsterColor" style="background: #7dd3fc;">
+                    <div class="monster-pupil-left"></div>
+                    <div class="monster-pupil-right"></div>
+                </div>
+            </div>
+
+            <div class="hp-section">
+                <div class="hp-header">
+                    <span>MONSTER HP</span>
+                    <span id="monsterHpText">--/100</span>
+                </div>
+                <div class="hp-bar-large">
+                    <div class="hp-fill-large" id="monsterHpFill" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="monster-dialogue-box" id="monsterDialogue">
+                "Loading monster..."
+            </div>
+        </div>
+
+        <!-- User Section -->
+        <div class="user-section">
+            <div class="energy-header">
+                <span class="energy-title">Your Energy</span>
+                <span class="energy-value" id="energyText">82/100</span>
+            </div>
+            <div class="energy-bar-large">
+                <div class="energy-fill-large" id="energyFill" style="width: 82%;"></div>
+            </div>
+
+            <div class="skills-battle-grid">
+                <button class="battle-skill-card" onclick="useSkill('grounding')" id="skillGrounding">
+                    <div class="skill-icon-battle">🌬️</div>
+                    <div class="skill-name-battle">Grounding Breath</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">8 DMG</span>
+                        <span class="skill-energy">3 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('cognitive')" id="skillCognitive">
+                    <div class="skill-icon-battle">🛡️</div>
+                    <div class="skill-name-battle">Cognitive Shield</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">12 DMG</span>
+                        <span class="skill-energy">5 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('compassion')" id="skillCompassion">
+                    <div class="skill-icon-battle">💚</div>
+                    <div class="skill-name-battle">Self-Compassion</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">6 DMG</span>
+                        <span class="skill-energy">2 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('microbreak')" id="skillMicrobreak">
+                    <div class="skill-icon-battle">🚶</div>
+                    <div class="skill-name-battle">Mindful Microbreak</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">10 DMG</span>
+                        <span class="skill-energy">4 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('pmr')" id="skillPMR">
+                    <div class="skill-icon-battle">💪</div>
+                    <div class="skill-name-battle">Progressive Muscle Relaxation</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">14 DMG</span>
+                        <span class="skill-energy">6 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('sensory')" id="skillSensory">
+                    <div class="skill-icon-battle">🪨</div>
+                    <div class="skill-name-battle">Sensory Anchor</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">7 DMG</span>
+                        <span class="skill-energy">3 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('music')" id="skillMusic">
+                    <div class="skill-icon-battle">🎵</div>
+                    <div class="skill-name-battle">Calming Sounds</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">9 DMG</span>
+                        <span class="skill-energy">4 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('labeling')" id="skillLabeling">
+                    <div class="skill-icon-battle">🏷️</div>
+                    <div class="skill-name-battle">Thought Labeling</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">11 DMG</span>
+                        <span class="skill-energy">5 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('wait')" id="skillWAIT">
+                    <div class="skill-icon-battle">⏳</div>
+                    <div class="skill-name-battle">WAIT Rule</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">13 DMG</span>
+                        <span class="skill-energy">6 EN</span>
+                    </div>
+                </button>
+
+                <button class="battle-skill-card" onclick="useSkill('visualize')" id="skillVisualize">
+                    <div class="skill-icon-battle">🏝️</div>
+                    <div class="skill-name-battle">Calm Place Visualization</div>
+                    <div class="skill-stats">
+                        <span class="skill-damage">15 DMG</span>
+                        <span class="skill-energy">7 EN</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Battle Log -->
+        <div class="battle-log-container">
+            <div class="battle-log-title">
+                <span>📋</span> Battle Log
+                <button class="retry-btn" onclick="resetBattle()" style="margin-left: auto;">↻ Reset Battle</button>
+            </div>
+            <div class="battle-log" id="battleLog">
+                <div class="log-entry">⚔️ Battle started!</div>
+            </div>
+        </div>
+
+        <!-- Battle Controls -->
+        <div class="battle-controls">
+            <button class="retreat-btn" onclick="retreat()">🏃 Retreat</button>
+        </div>
+
+        <!-- Squad Battle Link -->
+        <div class="squad-battle-link">
+            <a href="coopbattle.html">→ Fight with Squad instead (35% more effective)</a>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal for mini-interventions -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <!-- Content dynamically loaded -->
+        </div>
+    </div>
+
+    <script>
+        // ===== BATTLE STATE =====
+        let monsterMaxHp = 100;
+        let monsterCurrentHp = 0;
+        let userMaxEnergy = 100;
+        let userCurrentEnergy = 82;
+        let battleLog = [];
+        let skillInProgress = false;
+        let currentMonster = null;
+        
+        // Skill definitions
+        const skills = {
+            grounding: { name: 'Grounding Breath', damage: 8, cost: 3, type: 'breathing' },
+            cognitive: { name: 'Cognitive Shield', damage: 12, cost: 5, type: 'cbt' },
+            compassion: { name: 'Self-Compassion', damage: 6, cost: 2, type: 'affirmation' },
+            microbreak: { name: 'Mindful Microbreak', damage: 10, cost: 4, type: 'microbreak' },
+            pmr: { name: 'Progressive Muscle Relaxation', damage: 14, cost: 6, type: 'pmr' },
+            sensory: { name: 'Sensory Anchor', damage: 7, cost: 3, type: 'sensory' },
+            music: { name: 'Calming Sounds', damage: 9, cost: 4, type: 'music' },
+            labeling: { name: 'Thought Labeling', damage: 11, cost: 5, type: 'labeling' },
+            wait: { name: 'WAIT Rule', damage: 13, cost: 6, type: 'wait' },
+            visualize: { name: 'Calm Place Visualization', damage: 15, cost: 7, type: 'visualize' }
+        };
+
+        // Monster dialogues based on type
+        const monsterDialogues = {
+            default: [
+                "You can't defeat me...",
+                "Give up now...",
+                "You're not strong enough...",
+                "I'll always be here...",
+                "You're wasting your time..."
+            ],
+            thesis: [
+                "You'll never finish your thesis...",
+                "Your committee will hate this...",
+                "Everyone else is ahead of you...",
+                "You don't belong in academia...",
+                "This chapter is terrible..."
+            ],
+            social: [
+                "Everyone is judging you...",
+                "They're all laughing at you...",
+                "You said something wrong...",
+                "Just stay quiet...",
+                "They don't want you here..."
+            ],
+            procrastination: [
+                "You can do it later...",
+                "Just watch one more video...",
+                "You work better under pressure...",
+                "Tomorrow is another day...",
+                "Starting is the hardest part..."
+            ],
+            perfectionism: [
+                "It's not good enough...",
+                "One more revision...",
+                "You made a mistake...",
+                "It needs to be perfect...",
+                "Others are doing better..."
+            ]
+        };
+
+        // ===== CBT TASKS =====
+        const cbtTasks = [
+            { text: "Identify one cognitive distortion in your current thinking", completed: false },
+            { text: "Write down evidence that contradicts your negative thought", completed: false },
+            { text: "What would you tell a friend in this situation?", completed: false },
+            { text: "Rate your thought on a scale of 0-10 - how true does it feel?", completed: false },
+            { text: "What's a more balanced way to look at this?", completed: false }
+        ];
+
+        // Affirmations
+        const affirmations = [
+            "I am enough, exactly as I am",
+            "This feeling will pass, and I will be okay",
+            "I deserve compassion and kindness",
+            "My worth is not determined by my productivity",
+            "I am doing the best I can with what I have",
+            "It's okay to not be okay sometimes",
+            "I am stronger than I think",
+            "I choose to be kind to myself today"
+        ];
+
+        // Sensory anchor suggestions
+        const sensoryAnchors = [
+            "Hold a stress ball and squeeze for 10 seconds",
+            "Rub a smooth stone between your fingers",
+            "Gently massage your ear (Shen Men point)",
+            "Press your palms together firmly",
+            "Run your hands under cool water"
+        ];
+
+        // Calm sounds suggestions
+        const calmSounds = [
+            "Imagine gentle waves lapping on a shore 🌊",
+            "Picture rain falling on leaves ☔",
+            "Think of soft wind through pine trees 🍃",
+            "Visualize a crackling fireplace 🔥",
+            "Imagine birds singing at dawn 🐦"
+        ];
+
+        // Calm places for visualization
+        const calmPlaces = [
+            "A peaceful beach at sunset with warm sand beneath your feet",
+            "A quiet forest with sunlight filtering through the trees",
+            "A mountain meadow with wildflowers and a gentle breeze",
+            "A cozy cabin with a fireplace during snowfall",
+            "A serene lake reflecting the stars at night"
+        ];
+
+        // ===== LOAD MONSTER FROM URL =====
+        function loadMonsterFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const monsterId = urlParams.get('monster');
+            
+            if (!monsterId) {
+                // No monster ID, redirect to home
+                alert('No monster selected!');
+                window.location.href = 'home.html';
+                return;
+            }
+
+            // Get monsters from localStorage
+            const monsters = JSON.parse(localStorage.getItem('monsters')) || [];
+            
+            // Find the monster with matching ID (convert both to numbers for comparison)
+            currentMonster = monsters.find(m => Number(m.id) === Number(monsterId));
+            
+            if (!currentMonster) {
+                alert('Monster not found!');
+                window.location.href = 'home.html';
+                return;
+            }
+
+            // Set monster HP (use stored HP or generate random)
+            monsterCurrentHp = currentMonster.hp || Math.floor(Math.random() * 30) + 70;
+            
+            // Update UI with monster data
+            document.getElementById('monsterName').textContent = currentMonster.name;
+            
+            // Determine monster type based on features
+            let type = 'Anxiety';
+            if (currentMonster.features.includes('chains')) type = 'Depression';
+            if (currentMonster.features.includes('teeth')) type = 'Self-Criticism';
+            if (currentMonster.name.toLowerCase().includes('social')) type = 'Social Anxiety';
+            if (currentMonster.name.toLowerCase().includes('procrastination')) type = 'Motivation';
+            if (currentMonster.name.toLowerCase().includes('perfection')) type = 'Perfectionism';
+            
+            document.getElementById('monsterType').textContent = type;
+            
+            // Set monster color
+            document.getElementById('monsterColor').style.backgroundColor = currentMonster.color || '#7dd3fc';
+            
+            // Set HP
+            document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
+            document.getElementById('monsterHpFill').style.width = (monsterCurrentHp / monsterMaxHp * 100) + '%';
+            
+            // Set initial dialogue based on monster type
+            updateMonsterDialogue();
+            
+            // Add to log
+            addToLog('⚔️ Battle started with ' + currentMonster.name + '! HP: ' + monsterCurrentHp);
+            addToLog('⚡ Your energy: ' + userCurrentEnergy + '/100');
+        }
+
+        function updateMonsterDialogue() {
+            const dialogueBox = document.getElementById('monsterDialogue');
+            if (!dialogueBox) return;
+            
+            let dialogueSet = monsterDialogues.default;
+            
+            // Choose dialogue set based on monster type
+            if (currentMonster) {
+                if (currentMonster.name.toLowerCase().includes('thesis')) {
+                    dialogueSet = monsterDialogues.thesis;
+                } else if (currentMonster.name.toLowerCase().includes('social')) {
+                    dialogueSet = monsterDialogues.social;
+                } else if (currentMonster.name.toLowerCase().includes('procrastination')) {
+                    dialogueSet = monsterDialogues.procrastination;
+                } else if (currentMonster.name.toLowerCase().includes('perfection')) {
+                    dialogueSet = monsterDialogues.perfectionism;
+                }
+            }
+            
+            const randomIndex = Math.floor(Math.random() * dialogueSet.length);
+            dialogueBox.textContent = '"' + dialogueSet[randomIndex] + '"';
+        }
+
+        // ===== MODAL FUNCTIONS =====
+        function showModal(title, content) {
+            const modal = document.getElementById('modalOverlay');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <span class="modal-title">${title}</span>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    ${content}
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        // ===== BREATHING EXERCISE =====
+        function startBreathingExercise(callback) {
+            let breathingStep = 0;
+            const steps = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+            let countdown = 4;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 60px; margin: 20px 0;">🌬️</div>
+                    <div class="timer-display" id="breathTimer">4</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="breathInstruction">Inhale</div>
+                    <div class="progress-bar" style="margin: 20px 0;">
+                        <div class="progress-fill" id="breathProgress" style="width: 0%;"></div>
+                    </div>
+                    <button class="complete-btn" onclick="completeBreathing()" id="completeBreathBtn" disabled>Complete Breathing</button>
+                </div>
+            `;
+            
+            showModal('Grounding Breath', content);
+            
+            const interval = setInterval(() => {
+                countdown--;
+                document.getElementById('breathTimer').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    breathingStep++;
+                    if (breathingStep < steps.length) {
+                        document.getElementById('breathInstruction').textContent = steps[breathingStep];
+                        countdown = 4;
+                    } else {
+                        clearInterval(interval);
+                        document.getElementById('breathInstruction').textContent = 'Complete!';
+                        document.getElementById('completeBreathBtn').disabled = false;
+                    }
+                }
+                
+                const progress = (breathingStep * 4 + (4 - countdown)) / 16 * 100;
+                document.getElementById('breathProgress').style.width = progress + '%';
+            }, 1000);
+            
+            window.completeBreathing = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== CBT EXERCISE =====
+        function startCBTExercise(callback) {
+            const shuffled = [...cbtTasks].sort(() => 0.5 - Math.random()).slice(0, 3);
+            let completed = 0;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🛡️</div>
+                    <p style="margin-bottom: 20px;">Complete these CBT tasks to challenge negative thoughts:</p>
+                    <div id="cbtTasks">
+                        ${shuffled.map((task, index) => `
+                            <div class="task-item" onclick="completeTask(${index})" id="task${index}">
+                                <div class="task-text">${task.text}</div>
+                                <div style="font-size: 12px; color: #666;">Click when done</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="complete-btn" onclick="completeCBT()" id="completeCBTBtn" disabled>Complete Exercise</button>
+                </div>
+            `;
+            
+            showModal('Cognitive Shield', content);
+            
+            window.completeTask = function(index) {
+                const task = document.getElementById(`task${index}`);
+                if (!task.classList.contains('completed')) {
+                    task.classList.add('completed');
+                    completed++;
+                    
+                    if (completed === 3) {
+                        document.getElementById('completeCBTBtn').disabled = false;
+                    }
+                }
+            };
+            
+            window.completeCBT = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== AFFIRMATION =====
+        function startAffirmation(callback) {
+            const affirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">💚</div>
+                    <div class="affirmation-text">${affirmation}</div>
+                    <p style="margin: 20px 0;">Read this affirmation slowly, letting it sink in.</p>
+                    <button class="complete-btn" onclick="completeAffirmation()">I Accept This</button>
+                </div>
+            `;
+            
+            showModal('Self-Compassion', content);
+            
+            window.completeAffirmation = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== MICROBREAK =====
+        function startMicrobreak(callback) {
+            let timer = 30;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🚶</div>
+                    <p>Step away from your desk. Walk mindfully, stretch, or just breathe.</p>
+                    <div class="timer-display" id="microbreakTimer">0:30</div>
+                    <button class="complete-btn" onclick="completeMicrobreak()" id="completeMicrobreakBtn">I'm Back</button>
+                </div>
+            `;
+            
+            showModal('Mindful Microbreak', content);
+            
+            const interval = setInterval(() => {
+                timer--;
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                document.getElementById('microbreakTimer').textContent = 
+                    `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('completeMicrobreakBtn').disabled = false;
+                }
+            }, 1000);
+            
+            window.completeMicrobreak = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== PROGRESSIVE MUSCLE RELAXATION =====
+        function startPMR(callback) {
+            const muscleGroups = [
+                { name: 'Feet', duration: 5 },
+                { name: 'Calves', duration: 5 },
+                { name: 'Thighs', duration: 5 },
+                { name: 'Hands', duration: 5 },
+                { name: 'Arms', duration: 5 },
+                { name: 'Shoulders', duration: 5 },
+                { name: 'Jaw', duration: 5 }
+            ];
+            
+            let currentGroup = 0;
+            let tensionTime = 0;
+            let relaxationTime = 0;
+            let phase = 'tension';
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">💪</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="pmrInstruction">Tense your Feet</div>
+                    <div style="font-size: 18px; margin: 10px 0;" id="pmrPhase">Hold for 5 seconds</div>
+                    <div class="timer-display" id="pmrTimer">5</div>
+                    <button class="complete-btn" onclick="completePMR()" id="completePMRBtn">Complete Exercise</button>
+                </div>
+            `;
+            
+            showModal('Progressive Muscle Relaxation', content);
+            
+            const interval = setInterval(() => {
+                if (phase === 'tension') {
+                    tensionTime++;
+                    document.getElementById('pmrTimer').textContent = 5 - tensionTime;
+                    
+                    if (tensionTime >= 5) {
+                        phase = 'relaxation';
+                        tensionTime = 0;
+                        document.getElementById('pmrInstruction').textContent = `Relax your ${muscleGroups[currentGroup].name}`;
+                        document.getElementById('pmrPhase').textContent = 'Release and relax';
+                        document.getElementById('pmrTimer').textContent = '3';
+                    }
+                } else {
+                    relaxationTime++;
+                    document.getElementById('pmrTimer').textContent = 3 - relaxationTime;
+                    
+                    if (relaxationTime >= 3) {
+                        relaxationTime = 0;
+                        phase = 'tension';
+                        currentGroup++;
+                        
+                        if (currentGroup < muscleGroups.length) {
+                            document.getElementById('pmrInstruction').textContent = `Tense your ${muscleGroups[currentGroup].name}`;
+                            document.getElementById('pmrPhase').textContent = 'Hold for 5 seconds';
+                            document.getElementById('pmrTimer').textContent = '5';
+                        } else {
+                            clearInterval(interval);
+                            document.getElementById('pmrInstruction').textContent = 'Complete!';
+                            document.getElementById('completePMRBtn').disabled = false;
+                        }
+                    }
+                }
+            }, 1000);
+            
+            window.completePMR = function() {
+                clearInterval(interval);
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== SENSORY ANCHOR =====
+        function startSensoryAnchor(callback) {
+            const anchor = sensoryAnchors[Math.floor(Math.random() * sensoryAnchors.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🪨</div>
+                    <div class="affirmation-text">${anchor}</div>
+                    <p style="margin: 20px 0;">Do this for 30 seconds</p>
+                    <button class="complete-btn" onclick="completeSensory()">Done</button>
+                </div>
+            `;
+            
+            showModal('Sensory Anchor', content);
+            
+            window.completeSensory = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== CALMING SOUNDS =====
+        function startCalmingSounds(callback) {
+            const sound = calmSounds[Math.floor(Math.random() * calmSounds.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🎵</div>
+                    <div class="affirmation-text">${sound}</div>
+                    <p style="margin: 20px 0;">Take 30 seconds to listen with your mind</p>
+                    <button class="complete-btn" onclick="completeSound()">I'm Calmer Now</button>
+                </div>
+            `;
+            
+            showModal('Calming Sounds', content);
+            
+            window.completeSound = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== THOUGHT LABELING =====
+        function startThoughtLabeling(callback) {
+            const thoughts = [
+                "I'm not good enough",
+                "What if I fail?",
+                "Everyone is judging me",
+                "I can't handle this"
+            ];
+            
+            const randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🏷️</div>
+                    <p style="margin-bottom: 20px;">Label this thought:</p>
+                    <div class="affirmation-text">"${randomThought}"</div>
+                    <div style="display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 20px 0;">
+                        <button class="task-item" onclick="labelThought('worry')">Worry</button>
+                        <button class="task-item" onclick="labelThought('planning')">Planning</button>
+                        <button class="task-item" onclick="labelThought('judgment')">Judgment</button>
+                        <button class="task-item" onclick="labelThought('fear')">Fear</button>
+                    </div>
+                </div>
+            `;
+            
+            showModal('Thought Labeling', content);
+            
+            window.labelThought = function(label) {
+                alert(`You labeled this as "${label}". Great! This creates mental distance.`);
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== WAIT RULE =====
+        function startWAIT(callback) {
+            const steps = [
+                "👁️ Watch your reaction",
+                "✅ Acknowledge it",
+                "💪 Invoke calm ('I've got this')",
+                "💬 Talk to your stress with compassion"
+            ];
+            
+            let stepIndex = 0;
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">⏳</div>
+                    <div style="font-size: 24px; margin: 20px 0;" id="waitStep">${steps[0]}</div>
+                    <button class="complete-btn" onclick="nextWAITStep()" id="waitBtn">Next</button>
+                </div>
+            `;
+            
+            showModal('WAIT Rule', content);
+            
+            window.nextWAITStep = function() {
+                stepIndex++;
+                if (stepIndex < steps.length) {
+                    document.getElementById('waitStep').textContent = steps[stepIndex];
+                } else {
+                    closeModal();
+                    callback();
+                }
+            };
+        }
+
+        // ===== VISUALIZATION =====
+        function startVisualization(callback) {
+            const place = calmPlaces[Math.floor(Math.random() * calmPlaces.length)];
+            
+            const content = `
+                <div style="text-align: center;">
+                    <div style="font-size: 40px; margin: 20px 0;">🏝️</div>
+                    <div class="affirmation-text">${place}</div>
+                    <p style="margin: 20px 0;">Close your eyes and imagine this scene for 30 seconds</p>
+                    <button class="complete-btn" onclick="completeVisualization()">I Feel Calmer</button>
+                </div>
+            `;
+            
+            showModal('Calm Place Visualization', content);
+            
+            window.completeVisualization = function() {
+                closeModal();
+                callback();
+            };
+        }
+
+        // ===== USE SKILL =====
+        function useSkill(skillKey) {
+            if (skillInProgress) {
+                alert('Complete your current skill first!');
+                return;
+            }
+            
+            const skill = skills[skillKey];
+            
+            if (userCurrentEnergy < skill.cost) {
+                addToLog('❌ Not enough energy! Need ' + skill.cost + ' energy');
+                return;
+            }
+            
+            if (monsterCurrentHp <= 0) {
+                addToLog('Monster already defeated!');
+                return;
+            }
+            
+            skillInProgress = true;
+            disableAllSkillButtons(true);
+            
+            const afterSkill = function() {
+                monsterCurrentHp = Math.max(0, monsterCurrentHp - skill.damage);
+                userCurrentEnergy -= skill.cost;
+                
+                addToLog('✅ You used ' + skill.name + '! -' + skill.damage + ' HP');
+                
+                updateUI();
+                
+                if (monsterCurrentHp <= 0) {
+                    victory();
+                } else {
+                    setTimeout(() => {
+                        monsterCounterAttack();
+                        skillInProgress = false;
+                        disableAllSkillButtons(false);
+                    }, 800);
+                }
+            };
+            
+            switch(skill.type) {
+                case 'breathing':
+                    startBreathingExercise(afterSkill);
+                    break;
+                case 'cbt':
+                    startCBTExercise(afterSkill);
+                    break;
+                case 'affirmation':
+                    startAffirmation(afterSkill);
+                    break;
+                case 'microbreak':
+                    startMicrobreak(afterSkill);
+                    break;
+                case 'pmr':
+                    startPMR(afterSkill);
+                    break;
+                case 'sensory':
+                    startSensoryAnchor(afterSkill);
+                    break;
+                case 'music':
+                    startCalmingSounds(afterSkill);
+                    break;
+                case 'labeling':
+                    startThoughtLabeling(afterSkill);
+                    break;
+                case 'wait':
+                    startWAIT(afterSkill);
+                    break;
+                case 'visualize':
+                    startVisualization(afterSkill);
+                    break;
+                default:
+                    afterSkill();
+            }
+        }
+
+        function disableAllSkillButtons(disabled) {
+            document.getElementById('skillGrounding').disabled = disabled;
+            document.getElementById('skillCognitive').disabled = disabled;
+            document.getElementById('skillCompassion').disabled = disabled;
+            document.getElementById('skillMicrobreak').disabled = disabled;
+            document.getElementById('skillPMR').disabled = disabled;
+            document.getElementById('skillSensory').disabled = disabled;
+            document.getElementById('skillMusic').disabled = disabled;
+            document.getElementById('skillLabeling').disabled = disabled;
+            document.getElementById('skillWAIT').disabled = disabled;
+            document.getElementById('skillVisualize').disabled = disabled;
+        }
+
+        function monsterCounterAttack() {
+            const damage = Math.floor(Math.random() * 8) + 3;
+            userCurrentEnergy = Math.max(0, userCurrentEnergy - damage);
+            
+            updateMonsterDialogue();
+            
+            addToLog('👾 Monster attacks! Your energy -' + damage);
+            
+            updateUI();
+            
+            if (userCurrentEnergy <= 0) {
+                addToLog('😔 You ran out of energy...');
+                setTimeout(() => {
+                    alert('You ran out of energy. The monster is still here.');
+                    window.location.href = 'home.html';
+                }, 1000);
+            }
+        }
+
+        function updateUI() {
+            const hpPercent = (monsterCurrentHp / monsterMaxHp) * 100;
+            document.getElementById('monsterHpFill').style.width = hpPercent + '%';
+            document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
+            
+            const energyPercent = (userCurrentEnergy / userMaxEnergy) * 100;
+            document.getElementById('energyFill').style.width = energyPercent + '%';
+            document.getElementById('energyText').textContent = userCurrentEnergy + '/100';
+            
+            if (!skillInProgress) {
+                document.getElementById('skillGrounding').disabled = userCurrentEnergy < 3;
+                document.getElementById('skillCognitive').disabled = userCurrentEnergy < 5;
+                document.getElementById('skillCompassion').disabled = userCurrentEnergy < 2;
+                document.getElementById('skillMicrobreak').disabled = userCurrentEnergy < 4;
+                document.getElementById('skillPMR').disabled = userCurrentEnergy < 6;
+                document.getElementById('skillSensory').disabled = userCurrentEnergy < 3;
+                document.getElementById('skillMusic').disabled = userCurrentEnergy < 4;
+                document.getElementById('skillLabeling').disabled = userCurrentEnergy < 5;
+                document.getElementById('skillWAIT').disabled = userCurrentEnergy < 6;
+                document.getElementById('skillVisualize').disabled = userCurrentEnergy < 7;
+            }
+        }
+
+        function addToLog(message) {
+            battleLog.unshift(message);
+            if (battleLog.length > 8) battleLog.pop();
+            
+            const logContainer = document.getElementById('battleLog');
+            logContainer.innerHTML = battleLog.map(msg => 
+                '<div class="log-entry">' + msg + '</div>'
+            ).join('');
+        }
+
+        function resetBattle() {
+            if (!currentMonster) return;
+            
+            if (confirm('Reset this battle? Monster HP will be restored.')) {
+                monsterCurrentHp = currentMonster.hp || 78;
+                userCurrentEnergy = 82;
+                battleLog = [];
+                skillInProgress = false;
+                
+                updateUI();
+                disableAllSkillButtons(false);
+                
+                addToLog('⚔️ Battle reset!');
+                addToLog('⚡ Your energy restored');
+                
+                document.getElementById('monsterDialogue').textContent = '"Here we go again..."';
+            }
+        }
+
+        function retreat() {
+            if (confirm('Retreat from battle? The monster will remain at current HP.')) {
+                window.location.href = 'home.html';
+            }
+        }
+
+        function victory() {
+            addToLog('🎉 VICTORY! You defeated the monster!');
+            document.getElementById('monsterDialogue').textContent = '"Nooo... defeated..."';
+            
+            disableAllSkillButtons(true);
+            
+            setTimeout(() => {
+                alert('🎉 Victory! You defeated ' + currentMonster.name + '!');
+                window.location.href = 'home.html';
+            }, 1500);
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            loadMonsterFromUrl();
+        };
+    </script>
+</body>
+</html>
