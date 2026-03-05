@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Monster Fight</title>
+    <title>Home - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
+        /* Global body style - THIS WAS MISSING */
+        body {
+            background: #7dd3fc;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         /* Welcome banner */
         .welcome-banner {
             background: linear-gradient(135deg, #0c4a6e, #082032);
@@ -87,6 +101,34 @@
         .stat-pill-label {
             font-size: 12px;
             color: #334155;
+        }
+        
+        /* Header logo */
+        .header-logo {
+            width: 50px;
+            height: 52px;
+            object-fit: contain;
+            margin-right: 5px;
+        }
+        
+        /* Monster shape - THIS WAS MISSING */
+        .monster-shape {
+            width: 80px;
+            height: 80px;
+            background-color: #0c4a6e;
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+            margin: 0 auto 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .monster-shape.small {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .monster-shape.medium {
+            width: 100px;
+            height: 100px;
         }
         
         /* Monster grid improvements */
@@ -548,6 +590,7 @@
             background: rgba(255, 255, 255, 0.3);
             border-radius: 4px;
             overflow: hidden;
+            margin: 10px 0;
         }
         
         .hp-fill {
@@ -671,7 +714,8 @@
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">MONSTER FIGHT</span>
+                <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                <span class="logo">STRIDE</span>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
