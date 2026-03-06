@@ -437,11 +437,36 @@
             padding: 25px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .post-card:hover {
             border-color: #0c4a6e;
             transform: translateX(5px);
+        }
+
+        .post-card.urgent {
+            border-left: 6px solid #ef4444;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .post-card.victory {
+            border-left: 6px solid #10b981;
+        }
+
+        .post-card.achievement {
+            border-left: 6px solid #0c4a6e;
+        }
+
+        .post-card.struggling {
+            border-left: 6px solid #f59e0b;
         }
 
         .post-header {
@@ -461,17 +486,73 @@
             color: white;
             font-weight: bold;
             font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .post-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .avatar-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
         }
 
         .post-author-info {
             flex: 1;
         }
 
+        .author-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 5px;
+        }
+
         .post-author {
             font-weight: bold;
             font-size: 18px;
-            margin-bottom: 5px;
             color: #082032;
+        }
+
+        .author-badges {
+            display: flex;
+            gap: 5px;
+        }
+
+        .author-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: help;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .author-badge:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .post-meta {
@@ -481,26 +562,105 @@
             font-size: 13px;
         }
 
-        .post-badge {
-            padding: 4px 15px;
+        .monster-tag {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 4px 12px;
             border-radius: 30px;
             font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .post-badge-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .post-badge {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
             font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            to { left: 100%; }
         }
 
         .badge-victory {
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #34d399);
             color: white;
         }
 
         .badge-struggling {
-            background: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
             color: white;
         }
 
         .badge-achievement {
+            background: linear-gradient(135deg, #0c4a6e, #0284c7);
+            color: white;
+        }
+
+        .badge-urgent {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .badge-squad {
+            background: linear-gradient(135deg, #7e22ce, #a855f7);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Post Badges */
+        .post-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 10px 0 15px;
+        }
+
+        .post-badge-tag {
+            background: linear-gradient(135deg, rgba(12, 74, 110, 0.1), rgba(2, 132, 199, 0.1));
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #0c4a6e;
+            border: 1px solid rgba(12, 74, 110, 0.2);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+
+        .post-badge-tag:hover {
             background: #0c4a6e;
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(12, 74, 110, 0.2);
         }
 
         .post-content {
@@ -518,6 +678,14 @@
             align-items: center;
             gap: 15px;
             margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .monster-preview:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.02);
         }
 
         .preview-monster {
@@ -526,6 +694,10 @@
             background: #0c4a6e;
             clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
             transition: all 0.3s ease;
+        }
+
+        .preview-info {
+            flex: 1;
         }
 
         .preview-info h4 {
@@ -539,12 +711,52 @@
             color: #334155;
         }
 
+        .hp-progress {
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin: 8px 0 0;
+            overflow: hidden;
+        }
+
+        .hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .hp-fill.critical {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+        }
+
+        .victory-ribbon {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: rotate(5deg);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(5deg) translateY(0); }
+            50% { transform: rotate(5deg) translateY(-5px); }
+        }
+
         .post-actions {
             display: flex;
-            gap: 30px;
+            gap: 25px;
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.5);
+            flex-wrap: wrap;
         }
 
         .post-action {
@@ -555,10 +767,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 15px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            position: relative;
         }
 
         .post-action:hover {
             color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .post-action.liked {
@@ -567,6 +783,144 @@
 
         .post-action.liked .like-count {
             color: #ef4444;
+        }
+
+        .action-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            animation: pulse 2s infinite;
+        }
+
+        .action-badge.urgent {
+            background: #ef4444;
+            font-size: 8px;
+            width: 28px;
+            height: 22px;
+            border-radius: 12px;
+            animation: pulse 1s infinite;
+        }
+
+        .battle-btn.pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .celebrate-btn {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white !important;
+        }
+
+        .celebrate-btn:hover {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        /* Comment Section */
+        .comment-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            display: none;
+        }
+
+        .comment-section.visible {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+        }
+
+        .comment-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            font-size: 14px;
+            color: #082032;
+            margin-bottom: 3px;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #334155;
+        }
+
+        .comment-time {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 30px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .comment-input input:focus {
+            outline: none;
+            border-color: #0c4a6e;
+        }
+
+        .send-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: #082032;
+            transform: translateY(-2px);
         }
 
         /* Create Post Button */
@@ -596,6 +950,148 @@
             background: #082032;
         }
 
+        /* Create Post Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.visible {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 24px;
+            color: #082032;
+        }
+
+        .modal-close {
+            font-size: 30px;
+            cursor: pointer;
+            color: #334155;
+        }
+
+        .modal-close:hover {
+            color: #ef4444;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #082032;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 20px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #0c4a6e;
+        }
+
+        .monster-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .monster-option {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .monster-option:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .monster-option.selected {
+            border-color: #0c4a6e;
+            background: rgba(12, 74, 110, 0.1);
+        }
+
+        .monster-option-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .monster-option-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #082032;
+        }
+
+        .submit-post {
+            width: 100%;
+            padding: 18px;
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-post:hover {
+            background: #082032;
+            transform: translateY(-2px);
+        }
+
         /* Trending Topics */
         .trending-section {
             background: rgba(255, 255, 255, 0.5);
@@ -621,12 +1117,24 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .trending-tag:hover {
             background: #0c4a6e;
             color: white;
             transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(12, 74, 110, 0.2);
+        }
+
+        .trending-tag .count {
+            margin-left: 8px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .trending-tag:hover .count {
+            color: rgba(255,255,255,0.8);
         }
 
         /* Similar Warriors */
@@ -661,10 +1169,12 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
         .warrior-card:hover {
             transform: translateY(-5px);
+            border-color: #0c4a6e;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
@@ -694,6 +1204,12 @@
             margin-bottom: 15px;
         }
 
+        .warrior-hp {
+            font-size: 12px;
+            margin-bottom: 15px;
+            color: #0c4a6e;
+        }
+
         .connect-btn {
             background: transparent;
             border: 2px solid #0c4a6e;
@@ -717,6 +1233,71 @@
             color: white;
         }
 
+        /* Empty State */
+        .empty-feed {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 40px;
+            color: #334155;
+        }
+
+        .empty-feed-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .empty-feed h3 {
+            font-size: 24px;
+            color: #082032;
+            margin-bottom: 10px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0c4a6e;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Tooltip */
+        [title] {
+            position: relative;
+            cursor: help;
+        }
+
+        [title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #082032;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .squads-grid {
@@ -732,7 +1313,6 @@
             }
 
             .post-actions {
-                flex-wrap: wrap;
                 gap: 15px;
             }
 
@@ -742,6 +1322,21 @@
                 width: 55px;
                 height: 55px;
                 font-size: 28px;
+            }
+
+            .monster-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .post-badge {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+
+            .author-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
             }
         }
     </style>
@@ -768,21 +1363,21 @@
         <div class="community-header">
             <div class="community-header-content">
                 <div class="community-title">
-                    <span>👥</span> Community
+                    <span>👥</span> CIIT Floptropica Community
                 </div>
                 <p>Connect with warriors fighting the same battles</p>
                 
                 <div class="community-stats">
                     <div class="community-stat">
-                        <div class="community-stat-value">2,847</div>
+                        <div class="community-stat-value" id="activeWarriors">2,847</div>
                         <div class="community-stat-label">Active Warriors</div>
                     </div>
                     <div class="community-stat">
-                        <div class="community-stat-value">1,203</div>
+                        <div class="community-stat-value" id="activeSquads">1,203</div>
                         <div class="community-stat-label">Squads</div>
                     </div>
                     <div class="community-stat">
-                        <div class="community-stat-value">15.4K</div>
+                        <div class="community-stat-value" id="monstersDefeated">15.4K</div>
                         <div class="community-stat-label">Monsters Defeated</div>
                     </div>
                 </div>
@@ -801,23 +1396,22 @@
         <!-- Filter Chips -->
         <div class="filter-section">
             <div class="filter-chips" id="filterChips">
-                <span class="filter-chip active" onclick="filterPosts('all')">All</span>
-                <span class="filter-chip" onclick="filterPosts('squads')">Squads</span>
-                <span class="filter-chip" onclick="filterPosts('warriors')">Warriors</span>
-                <span class="filter-chip" onclick="filterPosts('ciit')">CIIT</span>
-                <span class="filter-chip" onclick="filterPosts('help')">Seeking Help</span>
-                <span class="filter-chip" onclick="filterPosts('victories')">Victories</span>
-                <span class="filter-chip" onclick="filterPosts('achievements')">Achievements</span>
+                <span class="filter-chip active" onclick="filterPosts('all', this)">All</span>
+                <span class="filter-chip" onclick="filterPosts('victory', this)">🏆 Victories</span>
+                <span class="filter-chip" onclick="filterPosts('struggling', this)">😔 Need Help</span>
+                <span class="filter-chip" onclick="filterPosts('achievement', this)">🌟 Achievements</span>
+                <span class="filter-chip" onclick="filterPosts('urgent', this)">⚠️ Urgent</span>
+                <span class="filter-chip" onclick="filterPosts('squad', this)">⚔️ Squad Battles</span>
             </div>
         </div>
 
         <!-- Featured Squads -->
         <div class="section-header">
-            <h2><span>🔥</span> Featured Squads</h2>
+            <h2><span>🔥</span> Active Squads</h2>
             <button class="view-all-link" onclick="viewAllSquads()">View All →</button>
         </div>
 
-        <div class="squads-grid">
+        <div class="squads-grid" id="squadsGrid">
             <!-- Squad 1 -->
             <div class="squad-card" onclick="window.location.href='squaddetail.html'">
                 <div class="squad-card-header">
@@ -841,19 +1435,20 @@
             <!-- Squad 2 -->
             <div class="squad-card" onclick="window.location.href='squaddetail.html'">
                 <div class="squad-card-header">
-                    <div class="squad-icon">📚</div>
-                    <span class="online-badge"><span>●</span> 2 online</span>
+                    <div class="squad-icon">😰</div>
+                    <span class="online-badge"><span>●</span> 3 online</span>
                 </div>
-                <h3 class="squad-name">Thesis Support Group</h3>
+                <h3 class="squad-name">Anxiety Slayers</h3>
                 <div class="squad-avatars">
                     <div class="squad-avatar">R</div>
                     <div class="squad-avatar">S</div>
                     <div class="squad-avatar">P</div>
                     <div class="squad-avatar">C</div>
+                    <div class="squad-avatar">K</div>
                 </div>
                 <div class="squad-stats">
-                    <span>⚔️ 89 battles</span>
-                    <span>👥 4 members</span>
+                    <span>⚔️ 189 battles</span>
+                    <span>👥 5 members</span>
                 </div>
             </div>
         </div>
@@ -865,190 +1460,73 @@
         </div>
 
         <div class="feed-container" id="feedContainer">
-            <!-- Post 1 - Victory -->
-            <div class="post-card" data-category="victory">
-                <div class="post-header">
-                    <div class="post-avatar">A</div>
-                    <div class="post-author-info">
-                        <div class="post-author">Alex from CIIT</div>
-                        <div class="post-meta">
-                            <span>2 hours ago</span>
-                            <span>•</span>
-                            <span>🏆 Victory</span>
-                        </div>
-                    </div>
-                    <span class="post-badge badge-victory">🏆 VICTORY</span>
-                </div>
-                
-                <div class="post-content">
-                    Just defeated my Thesis Panic Monster after 3 weeks of fighting! Squad support made all the difference. Anyone else struggling with thesis stress?
-                </div>
-                
-                <div class="monster-preview">
-                    <div class="preview-monster" style="background: #7dd3fc;"></div>
-                    <div class="preview-info">
-                        <h4>Thesis Panic Monster</h4>
-                        <p>Defeated • 3 weeks • Solo + Squad</p>
-                    </div>
-                </div>
-                
-                <div class="post-actions">
-                    <span class="post-action like-btn" onclick="toggleLike(this)">
-                        <span>❤️</span>
-                        <span class="like-count">24</span>
-                    </span>
-                    <span class="post-action comment-btn" onclick="toggleComment(this)">
-                        <span>💬</span>
-                        <span>12</span>
-                    </span>
-                    <span class="post-action share-btn" onclick="sharePost(this)">
-                        <span>🔄</span>
-                        <span>5</span>
-                    </span>
-                    <span class="post-action battle-btn" onclick="joinBattle()">
-                        <span>⚔️</span>
-                        <span>Join Battle</span>
-                    </span>
-                </div>
-            </div>
-
-            <!-- Post 2 - Seeking Help -->
-            <div class="post-card" data-category="help">
-                <div class="post-header">
-                    <div class="post-avatar">J</div>
-                    <div class="post-author-info">
-                        <div class="post-author">Jordan • UP Diliman</div>
-                        <div class="post-meta">
-                            <span>5 hours ago</span>
-                            <span>•</span>
-                            <span>😔 Seeking Help</span>
-                        </div>
-                    </div>
-                    <span class="post-badge badge-struggling">😔 STRUGGLING</span>
-                </div>
-                
-                <div class="post-content">
-                    My Social Anxiety Specter is at 92 HP today. Anyone want to squad battle? Need some support. 😔
-                </div>
-                
-                <div class="monster-preview">
-                    <div class="preview-monster" style="background: #10b981;"></div>
-                    <div class="preview-info">
-                        <h4>Social Anxiety Specter</h4>
-                        <p>92 HP • Critical • Needs help</p>
-                    </div>
-                </div>
-                
-                <div class="post-actions">
-                    <span class="post-action like-btn" onclick="toggleLike(this)">
-                        <span>❤️</span>
-                        <span class="like-count">8</span>
-                    </span>
-                    <span class="post-action comment-btn" onclick="toggleComment(this)">
-                        <span>💬</span>
-                        <span>7</span>
-                    </span>
-                    <span class="post-action battle-btn" onclick="joinBattle()">
-                        <span>⚔️</span>
-                        <span>Join Battle</span>
-                    </span>
-                </div>
-            </div>
-
-            <!-- Post 3 - Achievement -->
-            <div class="post-card" data-category="achievement">
-                <div class="post-header">
-                    <div class="post-avatar">T</div>
-                    <div class="post-author-info">
-                        <div class="post-author">Taylor • Perfectionist</div>
-                        <div class="post-meta">
-                            <span>1 day ago</span>
-                            <span>•</span>
-                            <span>🌟 Achievement</span>
-                        </div>
-                    </div>
-                    <span class="post-badge badge-achievement">🌟 ACHIEVEMENT</span>
-                </div>
-                
-                <div class="post-content">
-                    30-day streak! 🎉 My Perfectionism Golem is finally at 45 HP. Learning to be kinder to myself.
-                </div>
-                
-                <div class="post-actions">
-                    <span class="post-action like-btn" onclick="toggleLike(this)">
-                        <span>❤️</span>
-                        <span class="like-count">45</span>
-                    </span>
-                    <span class="post-action comment-btn" onclick="toggleComment(this)">
-                        <span>💬</span>
-                        <span>18</span>
-                    </span>
-                    <span class="post-action share-btn" onclick="sharePost(this)">
-                        <span>🔄</span>
-                        <span>12</span>
-                    </span>
-                </div>
-            </div>
+            <!-- Posts will be dynamically loaded here -->
         </div>
 
         <!-- Trending Topics -->
         <div class="trending-section">
-            <h3 style="margin-bottom: 15px; color: #082032;">🔥 Trending Topics</h3>
-            <div class="trending-tags">
-                <span class="trending-tag" onclick="searchTag('#ThesisPanic')">#ThesisPanic</span>
-                <span class="trending-tag" onclick="searchTag('#SquadBattles')">#SquadBattles</span>
-                <span class="trending-tag" onclick="searchTag('#ExamWeek')">#ExamWeek</span>
-                <span class="trending-tag" onclick="searchTag('#SelfCare')">#SelfCare</span>
-                <span class="trending-tag" onclick="searchTag('#CIIT')">#CIIT</span>
-                <span class="trending-tag" onclick="searchTag('#Victory')">#Victory</span>
+            <h3 style="margin-bottom: 15px; color: #082032;">🔥 Trending Battles</h3>
+            <div class="trending-tags" id="trendingTags">
+                <!-- Dynamic tags will be loaded here -->
             </div>
         </div>
 
         <!-- Similar Warriors -->
         <div class="section-header">
-            <h2><span>👥</span> Warriors Like You</h2>
+            <h2><span>👥</span> Warriors Battling Your Monsters</h2>
             <button class="view-all-link" onclick="viewAllWarriors()">View All →</button>
         </div>
 
-        <div class="warriors-scroll">
-            <div class="warrior-card">
-                <div class="warrior-avatar">S</div>
-                <div class="warrior-name">Sarah</div>
-                <div class="warrior-monster">Thesis Panic</div>
-                <button class="connect-btn" onclick="connectWarrior(this)">Connect</button>
-            </div>
-            
-            <div class="warrior-card">
-                <div class="warrior-avatar">M</div>
-                <div class="warrior-name">Mike</div>
-                <div class="warrior-monster">Social Anxiety</div>
-                <button class="connect-btn" onclick="connectWarrior(this)">Connect</button>
-            </div>
-            
-            <div class="warrior-card">
-                <div class="warrior-avatar">C</div>
-                <div class="warrior-name">Carla</div>
-                <div class="warrior-monster">Procrastination</div>
-                <button class="connect-btn" onclick="connectWarrior(this)">Connect</button>
-            </div>
-            
-            <div class="warrior-card">
-                <div class="warrior-avatar">D</div>
-                <div class="warrior-name">David</div>
-                <div class="warrior-monster">Imposter Syndrome</div>
-                <button class="connect-btn" onclick="connectWarrior(this)">Connect</button>
-            </div>
-            
-            <div class="warrior-card">
-                <div class="warrior-avatar">R</div>
-                <div class="warrior-name">Rachel</div>
-                <div class="warrior-monster">Perfectionism</div>
-                <button class="connect-btn" onclick="connectWarrior(this)">Connect</button>
-            </div>
+        <div class="warriors-scroll" id="warriorsScroll">
+            <!-- Warriors will be dynamically loaded here -->
         </div>
 
         <!-- Create Post Button -->
-        <button class="create-post-btn" onclick="createPost()">+</button>
+        <button class="create-post-btn" onclick="showCreatePostModal()">+</button>
+
+        <!-- Create Post Modal -->
+        <div class="modal" id="createPostModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Share Your Battle</h3>
+                    <span class="modal-close" onclick="hideCreatePostModal()">×</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Post Type</label>
+                    <select id="postType">
+                        <option value="victory">🏆 Victory</option>
+                        <option value="struggling">😔 Need Help</option>
+                        <option value="achievement">🌟 Achievement</option>
+                        <option value="urgent">⚠️ Urgent Help</option>
+                        <option value="squad">⚔️ Squad Battle</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Monster</label>
+                    <div class="monster-selector" id="monsterSelector">
+                        <!-- Monster options will be dynamically loaded -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current HP</label>
+                    <input type="range" id="monsterHP" min="0" max="100" value="75">
+                    <div style="text-align: center; margin-top: 5px;"><span id="hpValue">75</span>%</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Story</label>
+                    <textarea id="postContent" placeholder="Share your experience..."></textarea>
+                </div>
+
+                <button class="submit-post" onclick="createPost()">Share Battle</button>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast">Post shared successfully!</div>
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
@@ -1072,6 +1550,506 @@
     </div>
 
     <script>
+        // Sample data - In a real app, this would come from a backend
+        const monsters = [
+            { id: 1, name: 'Imposter Syndrome', icon: '😰', color: '#a855f7' },
+            { id: 2, name: 'Monday Dread', icon: '😫', color: '#f59e0b' },
+            { id: 3, name: 'Perfectionism', icon: '📝', color: '#0c4a6e' },
+            { id: 4, name: 'Thesis Panic Monster', icon: '🎓', color: '#ef4444' },
+            { id: 5, name: 'Social Anxiety Specter', icon: '👻', color: '#10b981' },
+            { id: 6, name: 'Procrastination', icon: '⏰', color: '#ec4899' },
+            { id: 7, name: 'Burnout Beast', icon: '🔥', color: '#b91c1c' },
+            { id: 8, name: 'Comparison Trap', icon: '📊', color: '#7e22ce' },
+            { id: 9, name: 'Family Social Anxiety Christmas Edition', icon: '🎄', color: '#b91c1c' }
+        ];
+
+        const warriors = [
+            { id: 1, name: 'Alex', monster: 'Imposter Syndrome', hp: 45, avatar: 'A' },
+            { id: 2, name: 'Jordan', monster: 'Monday Dread', hp: 28, avatar: 'J' },
+            { id: 3, name: 'Taylor', monster: 'Perfectionism', hp: 60, avatar: 'T' },
+            { id: 4, name: 'Morgan', monster: 'Thesis Panic Monster', hp: 78, avatar: 'M' },
+            { id: 5, name: 'Casey', monster: 'Social Anxiety Specter', hp: 92, avatar: 'C' },
+            { id: 6, name: 'Riley', monster: 'Burnout Beast', hp: 44, avatar: 'R' },
+            { id: 7, name: 'Quinn', monster: 'Comparison Trap', hp: 50, avatar: 'Q' },
+            { id: 8, name: 'Sam', monster: 'Procrastination', hp: 33, avatar: 'S' }
+        ];
+
+        let posts = [
+            {
+                id: 1,
+                author: 'Alex from CIIT',
+                avatar: 'A',
+                avatarColor: '#0c4a6e',
+                type: 'victory',
+                monster: 'Thesis Panic Monster',
+                monsterIcon: '🎓',
+                monsterColor: '#ef4444',
+                content: 'Just defeated my Thesis Panic Monster after 3 weeks of fighting! Squad support made all the difference. Anyone else struggling with thesis stress?',
+                hp: 0,
+                likes: 24,
+                comments: [
+                    { author: 'Jordan', text: 'Congrats! Any tips?', time: '1h' },
+                    { author: 'Taylor', text: 'So proud of you! 🎉', time: '45m' }
+                ],
+                shares: 5,
+                time: '2 hours ago',
+                urgent: false,
+                badges: ['🐉 Dragon Slayer', '🔥 3-Week War'],
+                achievements: ['First Victory', 'Squad Player']
+            },
+            {
+                id: 2,
+                author: 'Jordan • UP Diliman',
+                avatar: 'J',
+                avatarColor: '#7e22ce',
+                type: 'struggling',
+                monster: 'Social Anxiety Specter',
+                monsterIcon: '👻',
+                monsterColor: '#10b981',
+                content: 'My Social Anxiety Specter is at 92 HP today. Anyone want to squad battle? Need some support. 😔',
+                hp: 92,
+                likes: 8,
+                comments: [
+                    { author: 'Alex', text: 'I can join! Same monster here', time: '30m' },
+                    { author: 'Casey', text: 'Count me in!', time: '20m' }
+                ],
+                shares: 2,
+                time: '5 hours ago',
+                urgent: true,
+                badges: ['⚡ Critical', '🤝 Needs Backup'],
+                achievements: []
+            },
+            {
+                id: 3,
+                author: 'Taylor • Perfectionist',
+                avatar: 'T',
+                avatarColor: '#f59e0b',
+                type: 'achievement',
+                monster: 'Perfectionism',
+                monsterIcon: '📝',
+                monsterColor: '#0c4a6e',
+                content: '30-day streak! 🎉 My Perfectionism Golem is finally at 45 HP. Learning to be kinder to myself.',
+                hp: 45,
+                likes: 45,
+                comments: [
+                    { author: 'Morgan', text: 'Inspiring!', time: '2h' },
+                    { author: 'Riley', text: 'Keep going!', time: '1h' }
+                ],
+                shares: 12,
+                time: '1 day ago',
+                urgent: false,
+                badges: ['⭐ 30-Day Streak', '🌈 Self-Love Warrior'],
+                achievements: ['Consistency King', 'Growth Mindset']
+            },
+            {
+                id: 4,
+                author: 'Morgan • Grad Student',
+                avatar: 'M',
+                avatarColor: '#b91c1c',
+                type: 'urgent',
+                monster: 'Burnout Beast',
+                monsterIcon: '🔥',
+                monsterColor: '#b91c1c',
+                content: 'Burnout at critical level (96%). Haven\'t slept in 2 days. Anyone available for an emergency squad battle?',
+                hp: 96,
+                likes: 15,
+                comments: [
+                    { author: 'Alex', text: 'Sending support!', time: '10m' },
+                    { author: 'Jordan', text: 'Take a break first!', time: '5m' }
+                ],
+                shares: 8,
+                time: '30 minutes ago',
+                urgent: true,
+                badges: ['🚨 Emergency', '💤 Sleep Deprived'],
+                achievements: []
+            },
+            {
+                id: 5,
+                author: 'Riley • Creative',
+                avatar: 'R',
+                avatarColor: '#7e22ce',
+                type: 'victory',
+                monster: 'Comparison Trap',
+                monsterIcon: '📊',
+                monsterColor: '#7e22ce',
+                content: 'Finally defeated Comparison Trap! Deleted social media for a week and it worked wonders.',
+                hp: 23,
+                likes: 67,
+                comments: [
+                    { author: 'Quinn', text: 'Need to try this!', time: '3h' }
+                ],
+                shares: 23,
+                time: '8 hours ago',
+                urgent: false,
+                badges: ['📱 Digital Detox', '🏆 Major Victory'],
+                achievements: ['Social Media Free', 'Self-Discovery']
+            },
+            {
+                id: 6,
+                author: 'Casey • Warrior',
+                avatar: 'C',
+                avatarColor: '#10b981',
+                type: 'struggling',
+                monster: 'Family Social Anxiety Christmas Edition',
+                monsterIcon: '🎄',
+                monsterColor: '#b91c1c',
+                content: 'Family gatherings this weekend and my Social Anxiety is at 95%! Anyone else dealing with holiday family stress? Need squad support!',
+                hp: 95,
+                likes: 32,
+                comments: [
+                    { author: 'Morgan', text: 'Same here! The pressure is real', time: '15m' },
+                    { author: 'Taylor', text: 'We should form a support squad', time: '10m' }
+                ],
+                shares: 14,
+                time: '1 hour ago',
+                urgent: true,
+                badges: ['🎄 Holiday Mode', '👨‍👩‍👧 Family Stress'],
+                achievements: []
+            }
+        ];
+
+        // Initialize the page
+        window.onload = function() {
+            loadFeed();
+            loadTrendingTags();
+            loadWarriors();
+            loadMonsterSelector();
+            updateStressIndicator();
+            startLiveUpdates();
+        };
+
+        // Load feed posts
+        function loadFeed(filter = 'all') {
+            const feedContainer = document.getElementById('feedContainer');
+            
+            if (posts.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="empty-feed">
+                        <div class="empty-feed-icon">📭</div>
+                        <h3>No posts yet</h3>
+                        <p>Be the first to share your battle!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let filteredPosts = posts;
+            if (filter !== 'all') {
+                filteredPosts = posts.filter(post => post.type === filter);
+            }
+
+            feedContainer.innerHTML = filteredPosts.map(post => `
+                <div class="post-card ${post.urgent ? 'urgent' : ''} ${post.type}" data-id="${post.id}" data-type="${post.type}">
+                    <div class="post-header">
+                        <div class="post-avatar" onclick="viewProfile('${post.author}')" style="background: ${post.avatarColor};">
+                            ${post.avatar}
+                            ${post.urgent ? '<span class="avatar-badge" title="Urgent Help Needed">⚠️</span>' : ''}
+                        </div>
+                        <div class="post-author-info">
+                            <div class="author-row">
+                                <div class="post-author">${post.author}</div>
+                                <div class="author-badges">
+                                    ${post.achievements.map(achievement => `
+                                        <span class="author-badge" title="${achievement}">${getAchievementEmoji(achievement)}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="post-meta">
+                                <span>${post.time}</span>
+                                <span>•</span>
+                                <span class="monster-tag" title="Click to view monster details" onclick="viewMonsterDetails('${post.monster}')">
+                                    ${post.monsterIcon} ${post.monster}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="post-badge-container">
+                            <span class="post-badge ${getBadgeClass(post.type)}" title="${getBadgeTooltip(post.type)}">
+                                ${getBadgeIcon(post.type)} ${getBadgeText(post.type)}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    ${post.badges.length > 0 ? `
+                        <div class="post-badges">
+                            ${post.badges.map(badge => `
+                                <span class="post-badge-tag" title="Achievement Badge">${badge}</span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="post-content">
+                        ${post.content}
+                    </div>
+                    
+                    <div class="monster-preview" onclick="viewMonsterDetails('${post.monster}')">
+                        <div class="preview-monster" style="background: ${post.monsterColor};"></div>
+                        <div class="preview-info">
+                            <h4>${post.monsterIcon} ${post.monster}</h4>
+                            <p>Current HP: ${post.hp}%</p>
+                            ${post.hp > 0 ? `
+                                <div class="hp-progress">
+                                    <div class="hp-fill ${post.hp > 70 ? 'critical' : ''}" style="width: ${post.hp}%;"></div>
+                                </div>
+                            ` : '<p style="color: #10b981;">✓ Defeated! 🎉</p>'}
+                        </div>
+                        ${post.hp === 0 ? '<div class="victory-ribbon" title="Monster Defeated!">🏆 VICTORY</div>' : ''}
+                    </div>
+                    
+                    <div class="post-actions">
+                        <span class="post-action like-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(this, ${post.id})">
+                            <span>❤️</span>
+                            <span class="like-count">${post.likes}</span>
+                            ${post.likes > 50 ? '<span class="action-badge" title="Trending Post">🔥</span>' : ''}
+                        </span>
+                        <span class="post-action comment-btn" onclick="toggleComments(${post.id})">
+                            <span>💬</span>
+                            <span>${post.comments.length}</span>
+                            ${post.comments.length > 10 ? '<span class="action-badge" title="Active Discussion">💬</span>' : ''}
+                        </span>
+                        <span class="post-action share-btn" onclick="sharePost(${post.id})">
+                            <span>🔄</span>
+                            <span>${post.shares}</span>
+                            ${post.shares > 20 ? '<span class="action-badge" title="Viral Post">📢</span>' : ''}
+                        </span>
+                        ${post.type === 'struggling' || post.type === 'urgent' ? `
+                            <span class="post-action battle-btn pulse" onclick="joinBattle(${post.id})">
+                                <span>⚔️</span>
+                                <span>Join Battle</span>
+                                ${post.urgent ? '<span class="action-badge urgent" title="Emergency Battle">NOW</span>' : ''}
+                            </span>
+                        ` : post.type === 'victory' ? `
+                            <span class="post-action celebrate-btn" onclick="celebrate(${post.id})">
+                                <span>🎉</span>
+                                <span>Celebrate</span>
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    <div class="comment-section" id="comments-${post.id}">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <div class="comment-avatar" style="background: ${getRandomColor(comment.author)}">${comment.author[0]}</div>
+                                <div class="comment-content">
+                                    <div class="comment-author">${comment.author}</div>
+                                    <div class="comment-text">${comment.text}</div>
+                                    <div class="comment-time">${comment.time}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                        
+                        <div class="comment-input">
+                            <input type="text" id="comment-input-${post.id}" placeholder="Write a comment..." onkeypress="handleCommentKeyPress(event, ${post.id})">
+                            <button onclick="addComment(${post.id})" class="send-btn">Send</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter posts
+        function filterPosts(filter, element) {
+            // Update active chip
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            loadFeed(filter);
+        }
+
+        // Toggle like
+        function toggleLike(element, postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                if (element.classList.contains('liked')) {
+                    post.likes--;
+                } else {
+                    post.likes++;
+                }
+                element.classList.toggle('liked');
+                element.querySelector('.like-count').textContent = post.likes;
+            }
+        }
+
+        // Toggle comments
+        function toggleComments(postId) {
+            const commentSection = document.getElementById(`comments-${postId}`);
+            commentSection.classList.toggle('visible');
+        }
+
+        // Add comment
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const commentText = input.value.trim();
+            
+            if (commentText) {
+                const post = posts.find(p => p.id === postId);
+                post.comments.push({
+                    author: 'You',
+                    text: commentText,
+                    time: 'Just now'
+                });
+                
+                loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
+                input.value = '';
+                
+                showToast('Comment added!');
+            }
+        }
+
+        // Handle enter key in comment input
+        function handleCommentKeyPress(event, postId) {
+            if (event.key === 'Enter') {
+                addComment(postId);
+            }
+        }
+
+        // Share post
+        function sharePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            post.shares++;
+            showToast('Post shared to your squads!');
+            loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
+        }
+
+        // Join battle
+        function joinBattle(postId) {
+            showToast('Joining battle...');
+            setTimeout(() => {
+                window.location.href = 'coopbattle.html';
+            }, 1000);
+        }
+
+        // Celebrate
+        function celebrate(postId) {
+            showToast('🎉 Celebration sent!');
+            // You could add confetti effect here
+        }
+
+        // Load trending tags
+        function loadTrendingTags() {
+            const tags = [
+                { name: '#ThesisPanic', count: 156 },
+                { name: '#SquadBattles', count: 98 },
+                { name: '#ImposterSyndrome', count: 87 },
+                { name: '#MondayDread', count: 76 },
+                { name: '#Perfectionism', count: 65 },
+                { name: '#SocialAnxiety', count: 54 },
+                { name: '#FamilyStress', count: 48 },
+                { name: '#Burnout', count: 43 },
+                { name: '#Victory', count: 32 }
+            ];
+
+            const trendingContainer = document.getElementById('trendingTags');
+            trendingContainer.innerHTML = tags.map(tag => `
+                <span class="trending-tag" onclick="searchTag('${tag.name}')" title="${tag.count} posts today">
+                    ${tag.name} <span class="count">${tag.count}</span>
+                </span>
+            `).join('');
+        }
+
+        // Load warriors
+        function loadWarriors() {
+            const warriorsContainer = document.getElementById('warriorsScroll');
+            
+            warriorsContainer.innerHTML = warriors.map(warrior => `
+                <div class="warrior-card" onclick="viewWarrior('${warrior.name}')">
+                    <div class="warrior-avatar">${warrior.avatar}</div>
+                    <div class="warrior-name">${warrior.name}</div>
+                    <div class="warrior-monster">${warrior.monster}</div>
+                    <div class="warrior-hp">HP: ${warrior.hp}%</div>
+                    <button class="connect-btn" onclick="connectWarrior(this, event)">Connect</button>
+                </div>
+            `).join('');
+        }
+
+        // Load monster selector for create post
+        function loadMonsterSelector() {
+            const selector = document.getElementById('monsterSelector');
+            selector.innerHTML = monsters.map(monster => `
+                <div class="monster-option" onclick="selectMonster(this, ${monster.id})" data-id="${monster.id}">
+                    <div class="monster-option-icon">${monster.icon}</div>
+                    <div class="monster-option-name">${monster.name}</div>
+                </div>
+            `).join('');
+        }
+
+        let selectedMonster = null;
+
+        // Select monster
+        function selectMonster(element, monsterId) {
+            document.querySelectorAll('.monster-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedMonster = monsters.find(m => m.id === monsterId);
+        }
+
+        // Show create post modal
+        function showCreatePostModal() {
+            document.getElementById('createPostModal').classList.add('visible');
+        }
+
+        // Hide create post modal
+        function hideCreatePostModal() {
+            document.getElementById('createPostModal').classList.remove('visible');
+        }
+
+        // Create post
+        function createPost() {
+            const type = document.getElementById('postType').value;
+            const hp = document.getElementById('monsterHP').value;
+            const content = document.getElementById('postContent').value;
+
+            if (!selectedMonster) {
+                alert('Please select a monster');
+                return;
+            }
+
+            if (!content) {
+                alert('Please share your story');
+                return;
+            }
+
+            const newPost = {
+                id: posts.length + 1,
+                author: 'You',
+                avatar: 'Y',
+                avatarColor: '#0c4a6e',
+                type: type,
+                monster: selectedMonster.name,
+                monsterIcon: selectedMonster.icon,
+                monsterColor: selectedMonster.color,
+                content: content,
+                hp: parseInt(hp),
+                likes: 0,
+                comments: [],
+                shares: 0,
+                time: 'Just now',
+                urgent: type === 'urgent',
+                badges: type === 'urgent' ? ['🚨 New Battle'] : type === 'victory' ? ['🎯 New Victory'] : ['✨ New Post'],
+                achievements: []
+            };
+
+            posts.unshift(newPost);
+            loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
+            hideCreatePostModal();
+            showToast('Post shared successfully!');
+
+            // Reset form
+            document.getElementById('postType').value = 'victory';
+            document.getElementById('monsterHP').value = '75';
+            document.getElementById('hpValue').textContent = '75';
+            document.getElementById('postContent').value = '';
+            document.querySelectorAll('.monster-option').forEach(opt => opt.classList.remove('selected'));
+            selectedMonster = null;
+        }
+
+        // Update HP display
+        document.getElementById('monsterHP')?.addEventListener('input', function() {
+            document.getElementById('hpValue').textContent = this.value;
+        });
+
         // Search functionality
         const searchInput = document.getElementById('searchInput');
         const searchClear = document.getElementById('searchClear');
@@ -1079,111 +2057,98 @@
         searchInput.addEventListener('input', function() {
             if (this.value.length > 0) {
                 searchClear.classList.add('visible');
+                filterPostsBySearch(this.value);
             } else {
                 searchClear.classList.remove('visible');
+                loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
             }
         });
+
+        function filterPostsBySearch(query) {
+            const filtered = posts.filter(post => 
+                post.content.toLowerCase().includes(query.toLowerCase()) ||
+                post.monster.toLowerCase().includes(query.toLowerCase()) ||
+                post.author.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            const feedContainer = document.getElementById('feedContainer');
+            if (filtered.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="empty-feed">
+                        <div class="empty-feed-icon">🔍</div>
+                        <h3>No results found</h3>
+                        <p>Try different keywords</p>
+                    </div>
+                `;
+            } else {
+                // Simplified display for search results
+                feedContainer.innerHTML = filtered.map(post => `
+                    <div class="post-card ${post.urgent ? 'urgent' : ''}" data-id="${post.id}">
+                        <div class="post-header">
+                            <div class="post-avatar" style="background: ${post.avatarColor};">${post.avatar}</div>
+                            <div class="post-author-info">
+                                <div class="post-author">${post.author}</div>
+                                <div class="post-meta">
+                                    <span>${post.time}</span>
+                                    <span>•</span>
+                                    <span>${post.monsterIcon} ${post.monster}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content">${post.content}</div>
+                    </div>
+                `).join('');
+            }
+        }
 
         function clearSearch() {
             searchInput.value = '';
             searchClear.classList.remove('visible');
-        }
-
-        // Filter posts
-        function filterPosts(category) {
-            // Update active chip
-            document.querySelectorAll('.filter-chip').forEach(chip => {
-                chip.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Filter posts
-            const posts = document.querySelectorAll('.post-card');
-            posts.forEach(post => {
-                if (category === 'all') {
-                    post.style.display = 'block';
-                } else {
-                    const postCategory = post.dataset.category;
-                    if (postCategory === category || 
-                        (category === 'help' && postCategory === 'help') ||
-                        (category === 'victories' && postCategory === 'victory') ||
-                        (category === 'achievements' && postCategory === 'achievement')) {
-                        post.style.display = 'block';
-                    } else {
-                        post.style.display = 'none';
-                    }
-                }
-            });
-        }
-
-        // Like functionality
-        function toggleLike(element) {
-            const likeBtn = element.classList.contains('like-btn') ? element : element.closest('.like-btn');
-            likeBtn.classList.toggle('liked');
-            
-            const countSpan = likeBtn.querySelector('.like-count');
-            let count = parseInt(countSpan.textContent);
-            
-            if (likeBtn.classList.contains('liked')) {
-                count++;
-                likeBtn.style.color = '#ef4444';
-            } else {
-                count--;
-                likeBtn.style.color = '';
-            }
-            
-            countSpan.textContent = count;
-        }
-
-        // Comment toggle
-        function toggleComment(element) {
-            alert('Comments section coming soon!');
-        }
-
-        // Share post
-        function sharePost(element) {
-            alert('Share this post with your squad!');
-        }
-
-        // Join battle
-        function joinBattle() {
-            window.location.href = 'coopbattle.html';
+            loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
         }
 
         // Connect with warrior
-        function connectWarrior(btn) {
+        function connectWarrior(btn, event) {
+            event.stopPropagation();
             btn.classList.toggle('connected');
             if (btn.classList.contains('connected')) {
                 btn.textContent = '✓ Connected';
+                showToast('Connection request sent!');
             } else {
                 btn.textContent = 'Connect';
             }
         }
 
-        // Create post
-        function createPost() {
-            alert('Create post feature coming soon! You\'ll be able to share your victories and struggles.');
+        // View functions
+        function viewProfile(author) {
+            showToast(`Viewing ${author}'s profile`);
         }
 
-        // View all squads
+        function viewMonsterDetails(monster) {
+            showToast(`Loading ${monster} details...`);
+        }
+
+        function viewWarrior(name) {
+            showToast(`Viewing ${name}'s profile`);
+        }
+
         function viewAllSquads() {
-            alert('Loading all squads...');
+            showToast('Loading all squads...');
         }
 
-        // View all warriors
         function viewAllWarriors() {
-            alert('Loading all warriors...');
+            showToast('Loading all warriors...');
         }
 
-        // Refresh feed
         function refreshFeed() {
-            alert('Refreshing feed...');
+            loadFeed(document.querySelector('.filter-chip.active').textContent.toLowerCase());
+            showToast('Feed refreshed!');
         }
 
-        // Search by tag
         function searchTag(tag) {
             searchInput.value = tag;
             searchClear.classList.add('visible');
+            filterPostsBySearch(tag);
         }
 
         // Update stress indicator
@@ -1206,10 +2171,102 @@
             });
         }
 
-        // Initialize
-        window.onload = function() {
-            updateStressIndicator();
-        };
+        // Helper functions
+        function getBadgeClass(type) {
+            switch(type) {
+                case 'victory': return 'badge-victory';
+                case 'struggling': return 'badge-struggling';
+                case 'achievement': return 'badge-achievement';
+                case 'urgent': return 'badge-urgent';
+                case 'squad': return 'badge-squad';
+                default: return '';
+            }
+        }
+
+        function getBadgeIcon(type) {
+            const icons = {
+                'victory': '🏆',
+                'struggling': '😔',
+                'achievement': '🌟',
+                'urgent': '⚠️',
+                'squad': '⚔️'
+            };
+            return icons[type] || '📌';
+        }
+
+        function getBadgeText(type) {
+            switch(type) {
+                case 'victory': return 'VICTORY';
+                case 'struggling': return 'NEEDS HELP';
+                case 'achievement': return 'ACHIEVEMENT';
+                case 'urgent': return 'URGENT';
+                case 'squad': return 'SQUAD BATTLE';
+                default: return '';
+            }
+        }
+
+        function getBadgeTooltip(type) {
+            switch(type) {
+                case 'victory': return 'This warrior has defeated their monster!';
+                case 'struggling': return 'This warrior needs support';
+                case 'achievement': return 'Celebrating a milestone';
+                case 'urgent': return 'Emergency - Help needed now!';
+                case 'squad': return 'Organizing a squad battle';
+                default: return '';
+            }
+        }
+
+        function getAchievementEmoji(achievement) {
+            const emojis = {
+                'Dragon Slayer': '🐉',
+                'First Victory': '🏅',
+                'Squad Player': '👥',
+                'Consistency King': '👑',
+                'Growth Mindset': '🌱',
+                'Social Media Free': '📱❌',
+                'Self-Discovery': '🔍',
+                '30-Day Streak': '⭐',
+                'Self-Love Warrior': '💖'
+            };
+            return emojis[achievement] || '🏆';
+        }
+
+        // Get random color for comments
+        function getRandomColor(name) {
+            const colors = [
+                '#0c4a6e', '#7e22ce', '#b91c1c', '#10b981', 
+                '#f59e0b', '#ec4899', '#8b5cf6', '#14b8a6'
+            ];
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Simulate live updates
+        function startLiveUpdates() {
+            setInterval(() => {
+                // Update stats
+                document.getElementById('activeWarriors').textContent = 
+                    (Math.floor(Math.random() * 100) + 2800).toString();
+                document.getElementById('activeSquads').textContent = 
+                    (Math.floor(Math.random() * 50) + 1180).toString();
+                document.getElementById('monstersDefeated').textContent = 
+                    (Math.floor(Math.random() * 100) + 15300) / 1000 + 'K';
+            }, 30000); // Update every 30 seconds
+        }
     </script>
 </body>
 </html>
