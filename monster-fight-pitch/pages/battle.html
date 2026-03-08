@@ -112,14 +112,47 @@
             z-index: 2;
         }
 
+        /* Monster shape for battle - follows design system */
         .monster-shape-large {
             width: 180px;
             height: 180px;
             background-color: #7dd3fc;
-            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
-            box-shadow: 0 0 50px rgba(125, 211, 252, 0.5);
             position: relative;
             animation: monsterFloat 3s ease-in-out infinite;
+            box-shadow: 0 0 50px rgba(125, 211, 252, 0.5);
+        }
+
+        /* Shape variations - matching createmonster */
+        .monster-shape-large.default {
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+        }
+
+        .monster-shape-large.round {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 25%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 25%);
+        }
+
+        .monster-shape-large.spiky {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .monster-shape-large.horned {
+            clip-path: polygon(35% 0%, 65% 0%, 80% 20%, 95% 30%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 30%, 20% 20%);
+        }
+
+        .monster-shape-large.star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .monster-shape-large.blob {
+            clip-path: polygon(40% 0%, 60% 0%, 80% 10%, 95% 30%, 100% 50%, 95% 70%, 80% 90%, 60% 100%, 40% 100%, 20% 90%, 5% 70%, 0% 50%, 5% 30%, 20% 10%);
+        }
+
+        .monster-shape-large.diamond {
+            clip-path: polygon(50% 0%, 100% 30%, 80% 100%, 20% 100%, 0% 30%);
+        }
+
+        .monster-shape-large.wings {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 20%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 20%);
         }
 
         @keyframes monsterFloat {
@@ -127,6 +160,7 @@
             50% { transform: translateY(-10px) rotate(2deg); }
         }
 
+        /* Monster eyes */
         .monster-shape-large::before,
         .monster-shape-large::after {
             content: '';
@@ -136,6 +170,8 @@
             background: white;
             border-radius: 50%;
             top: 50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
         }
 
         .monster-shape-large::before {
@@ -146,6 +182,33 @@
             right: 40px;
         }
 
+        /* Eye variations */
+        .monster-shape-large.eyes-angry::before,
+        .monster-shape-large.eyes-angry::after {
+            transform: skewX(-10deg);
+            width: 35px;
+            border-radius: 40% 40% 40% 40%;
+        }
+
+        .monster-shape-large.eyes-sad::before,
+        .monster-shape-large.eyes-sad::after {
+            transform: rotate(180deg) scaleY(0.6);
+            border-radius: 50% 50% 30% 30%;
+        }
+
+        .monster-shape-large.eyes-wide::before,
+        .monster-shape-large.eyes-wide::after {
+            width: 48px;
+            height: 48px;
+        }
+
+        .monster-shape-large.eyes-slanted::before,
+        .monster-shape-large.eyes-slanted::after {
+            transform: rotate(15deg);
+            border-radius: 40%;
+        }
+
+        /* Pupils */
         .monster-pupil-left,
         .monster-pupil-right {
             position: absolute;
@@ -156,6 +219,7 @@
             top: 65px;
             z-index: 3;
             animation: pupilMove 5s ease-in-out infinite;
+            transition: all 0.3s ease;
         }
 
         @keyframes pupilMove {
@@ -170,6 +234,55 @@
 
         .monster-pupil-right {
             right: 57px;
+        }
+
+        /* Pupil variations */
+        .pupils-dilated .monster-pupil-left,
+        .pupils-dilated .monster-pupil-right {
+            width: 22px;
+            height: 22px;
+            background: #000;
+            top: 61px;
+        }
+
+        .pupils-dilated .monster-pupil-left {
+            left: 53px;
+        }
+
+        .pupils-dilated .monster-pupil-right {
+            right: 53px;
+        }
+
+        .pupils-pinpoint .monster-pupil-left,
+        .pupils-pinpoint .monster-pupil-right {
+            width: 6px;
+            height: 6px;
+            background: #000;
+            top: 69px;
+        }
+
+        .pupils-pinpoint .monster-pupil-left {
+            left: 61px;
+        }
+
+        .pupils-pinpoint .monster-pupil-right {
+            right: 61px;
+        }
+
+        .pupils-cat .monster-pupil-left,
+        .pupils-cat .monster-pupil-right {
+            width: 6px;
+            height: 22px;
+            border-radius: 3px;
+            top: 61px;
+        }
+
+        .pupils-cat .monster-pupil-left {
+            left: 61px;
+        }
+
+        .pupils-cat .monster-pupil-right {
+            right: 61px;
         }
 
         .hp-section {
@@ -568,6 +681,28 @@
                 width: 140px;
                 height: 140px;
             }
+            
+            .monster-shape-large::before,
+            .monster-shape-large::after {
+                width: 30px;
+                height: 30px;
+                top: 40px;
+            }
+            
+            .monster-pupil-left,
+            .monster-pupil-right {
+                width: 12px;
+                height: 12px;
+                top: 52px;
+            }
+            
+            .monster-pupil-left {
+                left: 45px;
+            }
+            
+            .monster-pupil-right {
+                right: 45px;
+            }
         }
     </style>
 </head>
@@ -597,7 +732,7 @@
             </div>
 
             <div class="monster-visual">
-                <div class="monster-shape-large" id="monsterColor" style="background: #7dd3fc;">
+                <div class="monster-shape-large" id="monsterShape" style="background-color: #7dd3fc;">
                     <div class="monster-pupil-left"></div>
                     <div class="monster-pupil-right"></div>
                 </div>
@@ -747,6 +882,10 @@
             <button class="nav-item active" onclick="window.location.href='home.html'">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
             </button>
             <button class="nav-item" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
@@ -913,16 +1052,32 @@
             
             // Determine monster type based on features
             let type = 'Anxiety';
-            if (currentMonster.features.includes('chains')) type = 'Depression';
-            if (currentMonster.features.includes('teeth')) type = 'Self-Criticism';
-            if (currentMonster.name.toLowerCase().includes('social')) type = 'Social Anxiety';
-            if (currentMonster.name.toLowerCase().includes('procrastination')) type = 'Motivation';
-            if (currentMonster.name.toLowerCase().includes('perfection')) type = 'Perfectionism';
+            if (currentMonster.features?.includes('chains')) type = 'Depression';
+            if (currentMonster.features?.includes('teeth')) type = 'Self-Criticism';
+            if (currentMonster.name?.toLowerCase().includes('social')) type = 'Social Anxiety';
+            if (currentMonster.name?.toLowerCase().includes('procrastination')) type = 'Motivation';
+            if (currentMonster.name?.toLowerCase().includes('perfection')) type = 'Perfectionism';
             
             document.getElementById('monsterType').textContent = type;
             
-            // Set monster color
-            document.getElementById('monsterColor').style.backgroundColor = currentMonster.color || '#7dd3fc';
+            // Set monster appearance based on design system
+            const monsterElement = document.getElementById('monsterShape');
+            
+            // Set shape class
+            monsterElement.className = 'monster-shape-large ' + (currentMonster.shape || 'default');
+            
+            // Add eye style class
+            if (currentMonster.eyeStyle && currentMonster.eyeStyle !== 'normal') {
+                monsterElement.classList.add('eyes-' + currentMonster.eyeStyle);
+            }
+            
+            // Add pupil size class
+            if (currentMonster.pupilSize && currentMonster.pupilSize !== 'normal') {
+                monsterElement.classList.add('pupils-' + currentMonster.pupilSize);
+            }
+            
+            // Set color
+            monsterElement.style.backgroundColor = currentMonster.color || '#7dd3fc';
             
             // Set HP
             document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
@@ -934,6 +1089,11 @@
             // Add to log
             addToLog('⚔️ Battle started with ' + currentMonster.name + '! HP: ' + monsterCurrentHp);
             addToLog('⚡ Your energy: ' + userCurrentEnergy + '/100');
+            
+            // Log monster features
+            if (currentMonster.features && currentMonster.features.length > 0) {
+                addToLog('👾 Monster has ' + currentMonster.features.length + ' special abilities');
+            }
         }
 
         function updateMonsterDialogue() {
@@ -944,13 +1104,13 @@
             
             // Choose dialogue set based on monster type
             if (currentMonster) {
-                if (currentMonster.name.toLowerCase().includes('thesis')) {
+                if (currentMonster.name?.toLowerCase().includes('thesis')) {
                     dialogueSet = monsterDialogues.thesis;
-                } else if (currentMonster.name.toLowerCase().includes('social')) {
+                } else if (currentMonster.name?.toLowerCase().includes('social')) {
                     dialogueSet = monsterDialogues.social;
-                } else if (currentMonster.name.toLowerCase().includes('procrastination')) {
+                } else if (currentMonster.name?.toLowerCase().includes('procrastination')) {
                     dialogueSet = monsterDialogues.procrastination;
-                } else if (currentMonster.name.toLowerCase().includes('perfection')) {
+                } else if (currentMonster.name?.toLowerCase().includes('perfection')) {
                     dialogueSet = monsterDialogues.perfectionism;
                 }
             }

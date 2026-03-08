@@ -6,7 +6,7 @@
     <title>Home - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        /* Global body style - THIS WAS MISSING */
+        /* Global body style */
         body {
             background: #7dd3fc;
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -111,27 +111,297 @@
             margin-right: 5px;
         }
         
-        /* Monster shape - THIS WAS MISSING */
+        /* Monster shape base - matching createmonster */
         .monster-shape {
-            width: 80px;
-            height: 80px;
-            background-color: #0c4a6e;
+            width: 100%;
+            height: 100%;
+            background-color: #7dd3fc;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Monster shape variations */
+        .monster-shape.default {
             clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
-            margin: 0 auto 10px;
+        }
+
+        .monster-shape.round {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 25%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 25%);
+        }
+
+        .monster-shape.spiky {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .monster-shape.horned {
+            clip-path: polygon(35% 0%, 65% 0%, 80% 20%, 95% 30%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 30%, 20% 20%);
+        }
+
+        .monster-shape.star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .monster-shape.blob {
+            clip-path: polygon(40% 0%, 60% 0%, 80% 10%, 95% 30%, 100% 50%, 95% 70%, 80% 90%, 60% 100%, 40% 100%, 20% 90%, 5% 70%, 0% 50%, 5% 30%, 20% 10%);
+        }
+
+        .monster-shape.diamond {
+            clip-path: polygon(50% 0%, 100% 30%, 80% 100%, 20% 100%, 0% 30%);
+        }
+
+        .monster-shape.wings {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 20%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 20%);
+        }
+
+        /* Monster eyes */
+        .monster-shape::before,
+        .monster-shape::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 35px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .monster-shape::before {
+            left: 25px;
+        }
+
+        .monster-shape::after {
+            right: 25px;
+        }
+
+        /* Eye variations */
+        .monster-shape.eyes-angry::before,
+        .monster-shape.eyes-angry::after {
+            transform: skewX(-10deg);
+            width: 18px;
+            border-radius: 40% 40% 40% 40%;
+        }
+
+        .monster-shape.eyes-sad::before,
+        .monster-shape.eyes-sad::after {
+            transform: rotate(180deg) scaleY(0.6);
+            border-radius: 50% 50% 30% 30%;
+        }
+
+        .monster-shape.eyes-wide::before,
+        .monster-shape.eyes-wide::after {
+            width: 24px;
+            height: 24px;
+        }
+
+        .monster-shape.eyes-slanted::before,
+        .monster-shape.eyes-slanted::after {
+            transform: rotate(15deg);
+            border-radius: 40%;
+        }
+
+        /* Pupils */
+        .monster-pupil-left,
+        .monster-pupil-right {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #082032;
+            border-radius: 50%;
+            top: 44px;
+            z-index: 2;
             transition: all 0.3s ease;
         }
-        
-        .monster-shape.small {
+
+        .monster-pupil-left {
+            left: 33px;
+        }
+
+        .monster-pupil-right {
+            right: 33px;
+        }
+
+        /* Pupil variations */
+        .pupils-dilated .monster-pupil-left,
+        .pupils-dilated .monster-pupil-right {
+            width: 12px;
+            height: 12px;
+            background: #000;
+        }
+
+        .pupils-pinpoint .monster-pupil-left,
+        .pupils-pinpoint .monster-pupil-right {
+            width: 3px;
+            height: 3px;
+            background: #000;
+        }
+
+        .pupils-cat .monster-pupil-left,
+        .pupils-cat .monster-pupil-right {
+            width: 3px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Size variations for avatar */
+        .monster-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .monster-avatar.small {
             width: 60px;
             height: 60px;
         }
-        
-        .monster-shape.medium {
-            width: 100px;
-            height: 100px;
+
+        .monster-avatar.small .monster-shape::before,
+        .monster-avatar.small .monster-shape::after {
+            width: 12px;
+            height: 12px;
+            top: 15px;
+        }
+
+        .monster-avatar.small .monster-shape::before {
+            left: 15px;
+        }
+
+        .monster-avatar.small .monster-shape::after {
+            right: 15px;
+        }
+
+        .monster-avatar.small .monster-pupil-left,
+        .monster-avatar.small .monster-pupil-right {
+            width: 4px;
+            height: 4px;
+            top: 19px;
+        }
+
+        .monster-avatar.small .monster-pupil-left {
+            left: 21px;
+        }
+
+        .monster-avatar.small .monster-pupil-right {
+            right: 21px;
+        }
+
+        /* Monster card */
+        .monster-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Monster grid improvements */
+        .monster-card:hover {
+            border-color: #0c4a6e;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .monster-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .monster-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #082032;
+            margin-bottom: 5px;
+        }
+        
+        .monster-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #334155;
+        }
+        
+        .hp-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        
+        .hp-fill {
+            height: 100%;
+            background: #ef4444;
+            transition: width 0.3s ease;
+        }
+        
+        .feature-tags {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            color: #0c4a6e;
+        }
+        
+        .delete-monster {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 10;
+            border: none;
+        }
+        
+        .delete-monster:hover {
+            background: #ef4444;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .empty-state {
+            grid-column: span 2;
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            color: #334155;
+        }
+        
+        .empty-state .plus-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #0c4a6e;
+        }
+        
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -153,8 +423,8 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 30px;
             background: rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
             cursor: pointer;
@@ -166,140 +436,42 @@
             color: white;
         }
         
-        /* Monster card improvements */
-        .monster-grid {
+        .quick-actions {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 25px 0;
         }
         
-        .monster-card {
+        .quick-action-btn {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 20px;
-            padding: 20px 15px;
-            text-align: center;
+            padding: 15px 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
         }
         
-        .monster-card:hover {
-            border-color: #0c4a6e;
+        .quick-action-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         
-        .monster-card.create-card {
-            border: 2px dashed #0c4a6e;
-            background: rgba(255, 255, 255, 0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 200px;
+        .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
         }
         
-        /* Simple blink animation */
-@keyframes simpleBlink {
-    0%, 95%, 100% {
-        transform: scaleY(1);
-    }
-    97% {
-        transform: scaleY(0.1);
-    }
-}
-
-.monster-card .monster-shape::before,
-.monster-card .monster-shape::after {
-    animation: simpleBlink 5s ease-in-out infinite;
-}
-        .monster-card.create-card:hover {
-            background: rgba(255, 255, 255, 0.8);
-        }
-        
-        .monster-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ef4444;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        
-        .monster-stats {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 13px;
-            color: #334155;
-        }
-        
-        .feature-tags {
-            display: flex;
-            gap: 5px;
-            justify-content: center;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .feature-tag {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 10px;
+        .quick-action-label {
+            font-size: 12px;
+            font-weight: 600;
             color: #0c4a6e;
         }
         
-        /* Delete button */
-        .delete-monster {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            z-index: 10;
-            border: none;
-        }
-        
-        .delete-monster:hover {
-            background: #ef4444;
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        /* Empty state */
-        .empty-state {
-            grid-column: span 2;
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 30px;
-            color: #334155;
-        }
-        
-        .empty-state .plus-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            color: #0c4a6e;
-        }
-        
-        /* Squad section improvements */
         .squad-preview {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
@@ -357,18 +529,6 @@
             border: 2px solid white;
         }
         
-        .squad-activity {
-            display: flex;
-            gap: 15px;
-            color: #334155;
-            font-size: 13px;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
-            flex-wrap: wrap;
-        }
-        
-        /* Insight cards */
         .insight-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -417,44 +577,6 @@
             color: #334155;
         }
         
-        /* Quick actions enhancement */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin: 25px 0;
-        }
-        
-        .quick-action-btn {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 15px 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .quick-action-btn:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .quick-action-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-        
-        .quick-action-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #0c4a6e;
-        }
-        
-        /* Motivational quote */
         .quote-card {
             background: linear-gradient(135deg, #0c4a6e, #082032);
             border-radius: 20px;
@@ -481,7 +603,6 @@
             z-index: 1;
         }
         
-        /* Bottom navigation enhancement */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
@@ -526,7 +647,40 @@
             font-size: 11px;
         }
         
-        /* Stress indicator enhancement */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #0c4a6e;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #082032;
+        }
+        
         .stress-indicator {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(10px);
@@ -562,62 +716,6 @@
             background: #0c4a6e;
         }
         
-        /* App header */
-        .app-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .menu-btn {
-            background: none;
-            border: none;
-            color: #0c4a6e;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px;
-        }
-        
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #082032;
-        }
-        
-        /* HP Bar */
-        .hp-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        
-        .hp-fill {
-            height: 100%;
-            background: #ef4444;
-            transition: width 0.3s ease;
-        }
-        
-        .hp-fill.green {
-            background: #10b981;
-        }
-        
-        /* ===== FLOATING EMERGENCY BUTTON ===== */
         .emergency-float-btn {
             position: fixed;
             bottom: 100px;
@@ -646,15 +744,9 @@
         }
 
         @keyframes emergencyPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         .emergency-tooltip {
@@ -682,14 +774,9 @@
             right: 95px;
         }
 
-        /* Responsive fixes */
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             .monster-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .empty-state {
-                grid-column: span 1;
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .quick-stats-row {
@@ -707,11 +794,27 @@
             .greeting {
                 font-size: 24px;
             }
+        }
+
+        @media (max-width: 480px) {
+            .monster-grid {
+                grid-template-columns: 1fr;
+            }
             
-            .squad-avatars {
+            .empty-state {
+                grid-column: span 1;
+            }
+            
+            .app-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stress-indicator {
+                width: 100%;
                 justify-content: center;
             }
-
+            
             .emergency-float-btn {
                 bottom: 90px;
                 right: 20px;
@@ -832,7 +935,6 @@
                 <span>🔥 5 streak</span>
             </div>
             
-            <!-- Recent activity preview -->
             <div style="background: rgba(255,255,255,0.3); border-radius: 12px; padding: 10px; margin-top: 10px;">
                 <div style="display: flex; gap: 10px; font-size: 12px; color: #334155; flex-wrap: wrap;">
                     <span>Alex defeated Thesis Panic</span>
@@ -897,6 +999,10 @@
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
             </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
+            </button>
             <button class="nav-item" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Progress</span>
@@ -940,30 +1046,50 @@
                 return;
             }
             
-            // Display monsters with corrected click handler
-            grid.innerHTML = monsters.map(monster => `
-                <div class="monster-card" data-id="${monster.id}">
-                    <button class="delete-monster" onclick="deleteMonster(${monster.id}, event)">✕</button>
-                    <div class="monster-shape small" style="background: ${monster.color}; margin: 0 auto 15px;"></div>
-                    <div class="monster-name">${monster.name}</div>
-                    <div class="monster-stats">
-                        <span>❤️ ${monster.hp} HP</span>
-                        <span>⚔️ Fight</span>
+            // Display monsters with new design system
+            grid.innerHTML = monsters.map(monster => {
+                // Build class string for monster shape
+                let shapeClasses = `monster-shape ${monster.shape || 'default'}`;
+                
+                // Add eye style class
+                if (monster.eyeStyle && monster.eyeStyle !== 'normal') {
+                    shapeClasses += ` eyes-${monster.eyeStyle}`;
+                }
+                
+                // Add pupil size class
+                if (monster.pupilSize && monster.pupilSize !== 'normal') {
+                    shapeClasses += ` pupils-${monster.pupilSize}`;
+                }
+                
+                return `
+                    <div class="monster-card" data-id="${monster.id}">
+                        <button class="delete-monster" onclick="deleteMonster(${monster.id}, event)">✕</button>
+                        <div class="monster-avatar small">
+                            <div class="${shapeClasses}" style="background-color: ${monster.color || '#7dd3fc'};">
+                                <div class="monster-pupil-left"></div>
+                                <div class="monster-pupil-right"></div>
+                            </div>
+                        </div>
+                        <div class="monster-name">${monster.name}</div>
+                        <div class="monster-stats">
+                            <span>❤️ ${monster.hp} HP</span>
+                            <span>⚔️ ${monster.features?.length || 0} abilities</span>
+                        </div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" style="width: ${monster.hp}%;"></div>
+                        </div>
+                        <div class="feature-tags">
+                            ${(monster.features || []).slice(0, 3).map(f => 
+                                `<span class="feature-tag">${getFeatureEmoji(f)}</span>`
+                            ).join('')}
+                            ${(monster.features || []).length > 3 ? '<span class="feature-tag">+</span>' : ''}
+                        </div>
+                        <div style="margin-top: 8px; font-size: 10px; color: #334155;">
+                            ${monster.triggers ? monster.triggers.length : 0} triggers
+                        </div>
                     </div>
-                    <div class="hp-bar" style="margin: 10px 0;">
-                        <div class="hp-fill" style="width: ${monster.hp}%;"></div>
-                    </div>
-                    <div class="feature-tags">
-                        ${monster.features.slice(0, 3).map(f => 
-                            `<span class="feature-tag">${getFeatureEmoji(f)}</span>`
-                        ).join('')}
-                        ${monster.features.length > 3 ? '<span class="feature-tag">+</span>' : ''}
-                    </div>
-                    <div style="margin-top: 10px; font-size: 11px; color: #334155;">
-                        ${monster.triggers ? monster.triggers.length : 0} triggers
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             
             // Add click handlers for battle
             document.querySelectorAll('.monster-card').forEach(card => {
@@ -989,6 +1115,21 @@
             return emojis[feature] || '✨';
         }
 
+        // Get shape name for display
+        function getShapeName(shape) {
+            const shapeNames = {
+                'default': 'Classic',
+                'round': 'Round',
+                'spiky': 'Spiky',
+                'horned': 'Horned',
+                'star': 'Star',
+                'blob': 'Blob',
+                'diamond': 'Diamond',
+                'wings': 'Winged'
+            };
+            return shapeNames[shape] || 'Classic';
+        }
+
         // Delete monster function
         function deleteMonster(id, event) {
             event.stopPropagation();
@@ -1001,7 +1142,7 @@
             }
         }
 
-        // Initialize with sample data if no monsters exist
+        // Initialize with sample data if no monsters exist (using new design system)
         function initializeSampleData() {
             const monsters = JSON.parse(localStorage.getItem('monsters'));
             if (!monsters || monsters.length === 0) {
@@ -1009,29 +1150,46 @@
                     {
                         id: 1,
                         name: 'Thesis Panic Monster',
-                        bodyType: 'imp',
+                        shape: 'horned',
+                        eyeStyle: 'wide',
+                        pupilSize: 'dilated',
                         features: ['teeth', 'eyes', 'fog'],
-                        color: '#7dd3fc',
+                        color: '#ef4444',
                         triggers: ['opening laptop', 'deadlines', 'sunday evenings'],
                         hp: 78
                     },
                     {
                         id: 2,
                         name: 'Social Anxiety Specter',
-                        bodyType: 'shadow',
+                        shape: 'blob',
+                        eyeStyle: 'sad',
+                        pupilSize: 'pinpoint',
                         features: ['eyes', 'shadowForm'],
-                        color: '#10b981',
+                        color: '#8b5cf6',
                         triggers: ['social media', 'crowds', 'phone calls'],
-                        hp: 45
+                        hp: 65
                     },
                     {
                         id: 3,
                         name: 'Procrastination Demon',
-                        bodyType: 'ogre',
+                        shape: 'spiky',
+                        eyeStyle: 'angry',
+                        pupilSize: 'cat',
                         features: ['chains', 'claws'],
                         color: '#f59e0b',
                         triggers: ['deadlines', 'monday mornings'],
                         hp: 92
+                    },
+                    {
+                        id: 4,
+                        name: 'Imposter Syndrome',
+                        shape: 'star',
+                        eyeStyle: 'slanted',
+                        pupilSize: 'dilated',
+                        features: ['eyes', 'fog'],
+                        color: '#10b981',
+                        triggers: ['work meetings', 'public speaking'],
+                        hp: 82
                     }
                 ];
                 localStorage.setItem('monsters', JSON.stringify(sampleMonsters));
@@ -1090,7 +1248,6 @@
 
         // Update battle stats (mock data)
         function updateBattleStats() {
-            // In a real app, this would come from localStorage
             document.getElementById('totalBattles').textContent = '67';
             document.getElementById('streakCount').textContent = '🔥5';
             document.getElementById('squadBattles').textContent = '12';

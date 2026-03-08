@@ -8,10 +8,11 @@
     <style>
         /* Global body style */
         body {
-            background: #7dd3fc;
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
         }
 
         .container {
@@ -28,10 +29,10 @@
             padding: 15px 20px;
             background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
+            border-radius: 30px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
         .header-left {
@@ -41,88 +42,110 @@
         }
 
         .menu-btn {
-            background: none;
+            background: rgba(255, 255, 255, 0.8);
             border: none;
-            color: #0c4a6e;
             font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
             cursor: pointer;
-            padding: 5px;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
 
         .logo {
-            font-size: 20px;
-            font-weight: bold;
-            color: #082032;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Stress indicator */
         .stress-indicator {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
             padding: 10px 18px;
-            border-radius: 30px;
+            border-radius: 40px;
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .stress-indicator:hover {
-            background: rgba(255, 255, 255, 0.8);
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .stress-label {
-            font-size: 13px;
+            font-weight: 600;
+            font-size: 0.9rem;
             color: #0c4a6e;
-            margin-right: 5px;
         }
 
         .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #94a3b8;
-            transition: background 0.3s ease;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
         }
 
         .dot.filled {
             background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
         }
 
         /* Back button */
         .back-btn {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             border: none;
-            padding: 10px 22px;
+            padding: 12px 24px;
             border-radius: 40px;
             font-weight: 600;
             color: #082032;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 1rem;
-            transition: 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .back-btn:hover {
             background: white;
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         /* Squad header */
         .squad-header {
             background: linear-gradient(135deg, #0c4a6e, #082032);
-            border-radius: 30px;
-            padding: 30px;
-            margin-bottom: 20px;
+            border-radius: 40px;
+            padding: 40px 30px;
+            margin-bottom: 25px;
             text-align: center;
-            border: 2px solid #7dd3fc;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
         .squad-header::before {
@@ -147,28 +170,49 @@
         }
 
         .squad-icon-large {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.5));
         }
 
         .squad-name {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 8px;
             color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .squad-meta {
             color: #7dd3fc;
+            font-size: 1rem;
             margin-bottom: 20px;
+        }
+
+        /* Online badge */
+        .online-badge {
+            display: inline-block;
+            background: #10b981;
+            padding: 10px 25px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         /* Squad members avatars */
         .squad-avatar-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
+            gap: 25px;
+            margin: 30px 0;
             flex-wrap: wrap;
             position: relative;
             z-index: 2;
@@ -177,48 +221,79 @@
         .squad-member-large {
             text-align: center;
             min-width: 100px;
+            animation: fadeInUp 0.5s ease;
+            animation-fill-mode: both;
+        }
+
+        .squad-member-large:nth-child(1) { animation-delay: 0.1s; }
+        .squad-member-large:nth-child(2) { animation-delay: 0.2s; }
+        .squad-member-large:nth-child(3) { animation-delay: 0.3s; }
+        .squad-member-large:nth-child(4) { animation-delay: 0.4s; }
+        .squad-member-large:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .squad-avatar-large {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background: linear-gradient(135deg, #7dd3fc, #0c4a6e);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
-            margin: 0 auto 10px;
-            border: 3px solid white;
+            margin: 0 auto 12px;
+            border: 4px solid white;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         .squad-avatar-large:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px #7dd3fc;
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
         }
 
         .online-indicator {
             position: absolute;
             bottom: 5px;
             right: 5px;
-            width: 15px;
-            height: 15px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: #10b981;
-            border: 2px solid white;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .offline-indicator {
             background: #6b7280;
         }
 
+        .member-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #082032;
+            margin-bottom: 4px;
+        }
+
         .member-role {
             font-size: 12px;
-            color: #9ca3af;
-            margin-top: 4px;
+            color: #334155;
+            background: rgba(255,255,255,0.5);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
         }
 
         /* Squad stats */
@@ -232,134 +307,162 @@
         .stat-badge {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 15px 10px;
+            border-radius: 24px;
+            padding: 20px 15px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .stat-badge:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 30px rgba(12, 74, 110, 0.2);
         }
 
         .stat-number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #0c4a6e;
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
         }
 
         .stat-label {
             font-size: 12px;
             color: #334155;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Next battle card */
         .next-battle-card {
             background: linear-gradient(135deg, #1e3a5f, #0c4a6e);
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px solid #7dd3fc;
+            border-radius: 30px;
+            padding: 25px;
+            margin: 30px 0;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            border: 2px solid rgba(125, 211, 252, 0.3);
         }
 
         .next-battle-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(125, 211, 252, 0.3);
+            transform: translateY(-5px) scale(1.02);
+            border-color: #7dd3fc;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .next-battle-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(125,211,252,0.2) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
         }
 
         .live-badge {
             background: #ef4444;
             color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 15px;
+            border-radius: 30px;
             font-size: 12px;
             font-weight: bold;
             display: inline-block;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+            position: relative;
+            z-index: 2;
         }
 
         .boss-name {
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 700;
             margin: 10px 0 5px;
             color: white;
+            position: relative;
+            z-index: 2;
         }
 
         .battle-meta {
-            color: #9ca3af;
+            color: #7dd3fc;
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .battle-participants {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .participant-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #0c4a6e;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
         }
 
         /* HP Bar */
         .hp-bar {
             width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .hp-fill {
             height: 100%;
-            background: #ef4444;
+            background: linear-gradient(90deg, #ef4444, #dc2626);
             transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Primary button */
-        .primary-btn {
-            background: #0c4a6e;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+        .hp-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        .primary-btn:hover {
-            background: #082032;
-            transform: translateY(-2px);
-        }
-
-        .primary-btn.small {
-            padding: 8px 16px;
-            font-size: 14px;
-        }
-
-        /* Secondary button */
-        .secondary-btn {
-            background: transparent;
-            color: #0c4a6e;
-            border: 2px solid #0c4a6e;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .secondary-btn:hover {
-            background: #0c4a6e;
-            color: white;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Tabs */
         .tabs-container {
             display: flex;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 2px solid rgba(255,255,255,0.3);
             margin: 30px 0 20px;
-            gap: 10px;
+            gap: 5px;
             overflow-x: auto;
+            padding-bottom: 2px;
         }
 
         .tab-btn {
@@ -377,11 +480,14 @@
 
         .tab-btn:hover {
             color: #0c4a6e;
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px 20px 0 0;
         }
 
         .tab-btn.active {
             color: #0c4a6e;
             border-bottom-color: #0c4a6e;
+            font-weight: 700;
         }
 
         /* Activity items */
@@ -389,30 +495,70 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 15px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin-bottom: 10px;
+            border-radius: 20px;
+            margin-bottom: 12px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .activity-item:hover {
             transform: translateX(5px);
             background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .activity-icon {
-            width: 40px;
-            height: 40px;
-            background: #0c4a6e;
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 24px;
+            box-shadow: 0 5px 15px rgba(12,74,110,0.3);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            color: #082032;
+            margin-bottom: 4px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #334155;
+        }
+
+        .activity-badge {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-info {
+            background: #7dd3fc;
+            color: #082032;
+        }
+
+        .badge-warning {
+            background: #f59e0b;
+            color: white;
         }
 
         /* Member progress */
@@ -421,35 +567,42 @@
             height: 6px;
             background: rgba(0,0,0,0.1);
             border-radius: 3px;
-            margin-top: 5px;
+            margin: 8px 0;
         }
 
         .member-progress-fill {
             height: 100%;
-            background: #0c4a6e;
+            background: linear-gradient(90deg, #0c4a6e, #7dd3fc);
             border-radius: 3px;
             transition: width 0.3s ease;
         }
 
         /* Chat */
         .chat-container {
-            height: 300px;
+            height: 350px;
             overflow-y: auto;
             padding: 20px;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
+            border-radius: 30px;
             margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .message-bubble {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 20px;
             padding: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             max-width: 80%;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message-bubble.own {
@@ -460,6 +613,10 @@
 
         .message-bubble.own .message-sender {
             color: #7dd3fc;
+        }
+
+        .message-bubble.own .message-time {
+            color: rgba(255,255,255,0.7);
         }
 
         .message-sender {
@@ -475,85 +632,190 @@
             text-align: right;
         }
 
-        .message-bubble.own .message-time {
-            color: rgba(255,255,255,0.7);
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 40px;
+            background: rgba(255,255,255,0.9);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #0c4a6e;
+            box-shadow: 0 0 0 3px rgba(12,74,110,0.2);
+        }
+
+        .send-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(12,74,110,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            background: #082032;
+            transform: scale(1.1) rotate(15deg);
         }
 
         /* Card */
         .card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #082032;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Stat row */
         .stat-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #082032;
+        }
+
+        /* Achievement tags */
+        .achievement-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .achievement-tag {
+            background: rgba(255,255,255,0.8);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #082032;
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .achievement-tag:hover {
+            transform: translateY(-2px);
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .achievement-tag.locked {
+            opacity: 0.5;
+            filter: grayscale(0.5);
         }
 
         /* Action buttons */
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin: 30px 0;
         }
 
         .action-btn-primary {
-            background: #0c4a6e;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
             color: white;
             border: none;
-            padding: 16px 32px;
+            padding: 18px 32px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            box-shadow: 0 10px 20px rgba(12,74,110,0.3);
+        }
+
+        .action-btn-primary:hover {
+            background: #082032;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(12,74,110,0.4);
+        }
+
+        .action-btn-secondary {
+            background: rgba(255,255,255,0.9);
+            color: #0c4a6e;
+            border: 2px solid #0c4a6e;
+            padding: 18px 32px;
             border-radius: 50px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
-        }
-
-        .action-btn-primary:hover {
-            background: #082032;
-            transform: scale(1.02);
-        }
-
-        .action-btn-secondary {
-            background: rgba(255,255,255,0.7);
-            color: #0c4a6e;
-            border: 2px solid #0c4a6e;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .action-btn-secondary:hover {
             background: #0c4a6e;
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(12,74,110,0.3);
         }
 
         .action-btn-danger {
             background: transparent;
             color: #ef4444;
             border: 2px solid #ef4444;
-            padding: 12px 24px;
+            padding: 15px 30px;
             border-radius: 50px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin: 20px auto;
+            display: inline-block;
         }
 
         .action-btn-danger:hover {
             background: #ef4444;
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239,68,68,0.3);
         }
 
         /* Bottom navigation */
@@ -567,6 +829,7 @@
             backdrop-filter: blur(10px);
             border-radius: 30px;
             margin-bottom: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .nav-item {
@@ -586,6 +849,7 @@
         .nav-item:hover {
             color: #0c4a6e;
             background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
         .nav-item.active {
@@ -612,17 +876,29 @@
             }
 
             .squad-avatar-group {
-                gap: 10px;
+                gap: 15px;
             }
 
             .squad-member-large {
-                min-width: 70px;
+                min-width: 80px;
             }
 
             .squad-avatar-large {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+
+            .squad-name {
+                font-size: 28px;
+            }
+
+            .boss-name {
+                font-size: 20px;
+            }
+
+            .message-bubble {
+                max-width: 90%;
             }
         }
     </style>
@@ -659,7 +935,7 @@
                 <div class="squad-meta">Founded January 2025 • 69 squad battles</div>
                 
                 <!-- Online Count Badge -->
-                <div style="display: inline-block; background: #10b981; padding: 8px 20px; border-radius: 40px; color: white; font-weight: bold; margin-top: 10px;">
+                <div class="online-badge">
                     ● 3 members online
                 </div>
             </div>
@@ -672,7 +948,7 @@
                     A
                     <span class="online-indicator"></span>
                 </div>
-                <div style="font-weight: bold;">Alex</div>
+                <div class="member-name">Alex</div>
                 <div class="member-role">Squad Lead</div>
             </div>
             
@@ -681,7 +957,7 @@
                     J
                     <span class="online-indicator"></span>
                 </div>
-                <div style="font-weight: bold;">Jordan</div>
+                <div class="member-name">Jordan</div>
                 <div class="member-role">Strategist</div>
             </div>
             
@@ -690,7 +966,7 @@
                     T
                     <span class="online-indicator"></span>
                 </div>
-                <div style="font-weight: bold;">Taylor</div>
+                <div class="member-name">Taylor</div>
                 <div class="member-role">Healer</div>
             </div>
             
@@ -699,16 +975,16 @@
                     M
                     <span class="online-indicator"></span>
                 </div>
-                <div style="font-weight: bold;">Marco</div>
+                <div class="member-name">Marco</div>
                 <div class="member-role">You</div>
             </div>
             
             <div class="squad-member-large">
-                <div class="squad-avatar-large" style="opacity: 0.7; background: #4b5563;">
+                <div class="squad-avatar-large" style="background: #4b5563;">
                     +2
                     <span class="online-indicator offline-indicator"></span>
                 </div>
-                <div style="font-weight: bold;">2 offline</div>
+                <div class="member-name">2 offline</div>
                 <div class="member-role"></div>
             </div>
         </div>
@@ -720,11 +996,11 @@
                 <div class="stat-label">Total Battles</div>
             </div>
             <div class="stat-badge">
-                <div class="stat-number" style="color: #10b981;">38</div>
+                <div class="stat-number" style="-webkit-text-fill-color: #10b981;">38</div>
                 <div class="stat-label">Wins</div>
             </div>
             <div class="stat-badge">
-                <div class="stat-number" style="color: #7dd3fc;">81%</div>
+                <div class="stat-number" style="-webkit-text-fill-color: #7dd3fc;">81%</div>
                 <div class="stat-label">Win Rate</div>
             </div>
             <div class="stat-badge">
@@ -739,9 +1015,16 @@
             <h3 class="boss-name">Group Project Stress Beast</h3>
             <div class="battle-meta">Boss battle in progress • 3 members fighting</div>
             
+            <div class="battle-participants">
+                <div class="participant-avatar">A</div>
+                <div class="participant-avatar">J</div>
+                <div class="participant-avatar">T</div>
+                <div style="color: #7dd3fc; margin-left: 10px;">+2 watching</div>
+            </div>
+            
             <div style="margin: 15px 0;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span style="color: white;">Boss HP</span>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px; color: white;">
+                    <span>Boss HP</span>
                     <span style="color: #ef4444; font-weight: bold;">247/500</span>
                 </div>
                 <div class="hp-bar">
@@ -749,34 +1032,34 @@
                 </div>
             </div>
             
-            <button class="primary-btn small" style="margin-top: 10px;" onclick="event.stopPropagation(); window.location.href='coopbattle.html'">⚔️ Join Battle Now</button>
+            <button class="action-btn-primary small" style="width: auto; padding: 12px 25px; font-size: 16px;" onclick="event.stopPropagation(); window.location.href='coopbattle.html'">⚔️ Join Battle Now</button>
         </div>
 
         <!-- Tabs -->
         <div class="tabs-container">
-            <button class="tab-btn active" onclick="showSquadTab('members')">Members</button>
-            <button class="tab-btn" onclick="showSquadTab('activity')">Activity</button>
-            <button class="tab-btn" onclick="showSquadTab('chat')">Chat</button>
-            <button class="tab-btn" onclick="showSquadTab('stats')">Stats</button>
+            <button class="tab-btn active" onclick="showSquadTab('members', this)">Members</button>
+            <button class="tab-btn" onclick="showSquadTab('activity', this)">Activity</button>
+            <button class="tab-btn" onclick="showSquadTab('chat', this)">Chat</button>
+            <button class="tab-btn" onclick="showSquadTab('stats', this)">Stats</button>
         </div>
 
         <!-- Members Tab -->
-        <div id="members-tab">
+        <div id="members-tab" class="tab-content">
             <!-- Alex -->
             <div class="activity-item">
                 <div class="activity-icon">A</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Alex</span>
-                        <span style="color: #7dd3fc;">Squad Lead</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Alex</span>
+                        <span style="color: #7dd3fc; font-weight: 600;">Squad Lead</span>
                     </div>
-                    <div style="color: #334155; font-size: 14px;">Thesis Panic • 78 HP</div>
+                    <div style="color: #334155; font-size: 14px; margin: 5px 0;">Thesis Panic • 78 HP</div>
                     <div class="member-progress">
                         <div class="member-progress-fill" style="width: 78%;"></div>
                     </div>
-                    <div style="display: flex; gap: 10px; margin-top: 8px;">
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🏆 67 wins</span>
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">⚡ Grounding</span>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <span class="achievement-tag">🏆 67 wins</span>
+                        <span class="achievement-tag">⚡ Grounding</span>
                     </div>
                 </div>
             </div>
@@ -784,18 +1067,18 @@
             <!-- Jordan -->
             <div class="activity-item">
                 <div class="activity-icon">J</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Jordan</span>
-                        <span style="color: #10b981;">Online</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Jordan</span>
+                        <span style="color: #10b981; font-weight: 600;">Online</span>
                     </div>
-                    <div style="color: #334155; font-size: 14px;">Social Anxiety • 45 HP</div>
+                    <div style="color: #334155; font-size: 14px; margin: 5px 0;">Social Anxiety • 45 HP</div>
                     <div class="member-progress">
                         <div class="member-progress-fill" style="width: 45%; background: #10b981;"></div>
                     </div>
-                    <div style="display: flex; gap: 10px; margin-top: 8px;">
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🏆 32 wins</span>
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🛡️ Shield</span>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <span class="achievement-tag">🏆 32 wins</span>
+                        <span class="achievement-tag">🛡️ Shield</span>
                     </div>
                 </div>
             </div>
@@ -803,37 +1086,37 @@
             <!-- Taylor -->
             <div class="activity-item">
                 <div class="activity-icon">T</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Taylor</span>
-                        <span style="color: #10b981;">Online</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Taylor</span>
+                        <span style="color: #10b981; font-weight: 600;">Online</span>
                     </div>
-                    <div style="color: #334155; font-size: 14px;">Perfectionism • 92 HP</div>
+                    <div style="color: #334155; font-size: 14px; margin: 5px 0;">Perfectionism • 92 HP</div>
                     <div class="member-progress">
                         <div class="member-progress-fill" style="width: 92%;"></div>
                     </div>
-                    <div style="display: flex; gap: 10px; margin-top: 8px;">
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🏆 51 wins</span>
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">💚 Healer</span>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <span class="achievement-tag">🏆 51 wins</span>
+                        <span class="achievement-tag">💚 Healer</span>
                     </div>
                 </div>
             </div>
 
             <!-- Marco (You) -->
-            <div class="activity-item" style="background: rgba(125, 211, 252, 0.2);">
+            <div class="activity-item" style="background: rgba(125, 211, 252, 0.2); border: 2px solid #7dd3fc;">
                 <div class="activity-icon" style="background: #7dd3fc; color: #082032;">M</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Marco (You)</span>
-                        <span style="color: #10b981;">Online</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Marco (You)</span>
+                        <span style="color: #10b981; font-weight: 600;">Online</span>
                     </div>
-                    <div style="color: #334155; font-size: 14px;">Procrastination • 65 HP</div>
+                    <div style="color: #334155; font-size: 14px; margin: 5px 0;">Procrastination • 65 HP</div>
                     <div class="member-progress">
                         <div class="member-progress-fill" style="width: 65%;"></div>
                     </div>
-                    <div style="display: flex; gap: 10px; margin-top: 8px;">
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🏆 67 wins</span>
-                        <span style="background: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 12px; font-size: 11px;">🌬️ Breath</span>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <span class="achievement-tag">🏆 67 wins</span>
+                        <span class="achievement-tag">🌬️ Breath</span>
                     </div>
                 </div>
             </div>
@@ -841,10 +1124,10 @@
             <!-- Offline Members -->
             <div class="activity-item" style="opacity: 0.7;">
                 <div class="activity-icon" style="background: #4b5563;">R</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Riley</span>
-                        <span style="color: #6b7280;">Offline</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Riley</span>
+                        <span style="color: #6b7280; font-weight: 600;">Offline</span>
                     </div>
                     <div style="color: #334155; font-size: 14px;">Last active 2h ago</div>
                 </div>
@@ -852,10 +1135,10 @@
 
             <div class="activity-item" style="opacity: 0.7;">
                 <div class="activity-icon" style="background: #4b5563;">C</div>
-                <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="font-weight: bold;">Casey</span>
-                        <span style="color: #6b7280;">Offline</span>
+                <div class="activity-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="activity-title">Casey</span>
+                        <span style="color: #6b7280; font-weight: 600;">Offline</span>
                     </div>
                     <div style="color: #334155; font-size: 14px;">Last active 1d ago</div>
                 </div>
@@ -863,53 +1146,53 @@
         </div>
 
         <!-- Activity Tab (Hidden by default) -->
-        <div id="activity-tab" style="display: none;">
+        <div id="activity-tab" class="tab-content" style="display: none;">
             <div class="activity-item">
                 <div class="activity-icon">⚔️</div>
-                <div style="flex: 1;">
-                    <div style="font-weight: bold;">Squad defeated Group Project Boss</div>
-                    <div style="color: #334155; font-size: 14px;">10 minutes ago • Alex, Jordan, Taylor</div>
+                <div class="activity-content">
+                    <div class="activity-title">Squad defeated Group Project Boss</div>
+                    <div class="activity-time">10 minutes ago • Alex, Jordan, Taylor</div>
                 </div>
-                <span style="color: #10b981;">+150 XP</span>
+                <span class="activity-badge badge-success">+150 XP</span>
             </div>
 
             <div class="activity-item">
                 <div class="activity-icon">🏆</div>
-                <div style="flex: 1;">
-                    <div style="font-weight: bold;">Alex defeated Thesis Panic Monster</div>
-                    <div style="color: #334155; font-size: 14px;">1 hour ago • Solo battle</div>
+                <div class="activity-content">
+                    <div class="activity-title">Alex defeated Thesis Panic Monster</div>
+                    <div class="activity-time">1 hour ago • Solo battle</div>
                 </div>
-                <span style="color: #7dd3fc;">Victory</span>
+                <span class="activity-badge badge-info">Victory</span>
             </div>
 
             <div class="activity-item">
                 <div class="activity-icon">💚</div>
-                <div style="flex: 1;">
-                    <div style="font-weight: bold;">Jordan sent encouragement to everyone</div>
-                    <div style="color: #334155; font-size: 14px;">2 hours ago</div>
+                <div class="activity-content">
+                    <div class="activity-title">Jordan sent encouragement to everyone</div>
+                    <div class="activity-time">2 hours ago</div>
                 </div>
             </div>
 
             <div class="activity-item">
                 <div class="activity-icon">👥</div>
-                <div style="flex: 1;">
-                    <div style="font-weight: bold;">Taylor joined the squad</div>
-                    <div style="color: #334155; font-size: 14px;">3 days ago</div>
+                <div class="activity-content">
+                    <div class="activity-title">Taylor joined the squad</div>
+                    <div class="activity-time">3 days ago</div>
                 </div>
             </div>
 
             <div class="activity-item">
                 <div class="activity-icon">📊</div>
-                <div style="flex: 1;">
-                    <div style="font-weight: bold;">Squad reached 50 total victories</div>
-                    <div style="color: #334155; font-size: 14px;">5 days ago</div>
+                <div class="activity-content">
+                    <div class="activity-title">Squad reached 50 total victories</div>
+                    <div class="activity-time">5 days ago</div>
                 </div>
-                <span style="color: #f59e0b;">Achievement</span>
+                <span class="activity-badge badge-warning">Achievement</span>
             </div>
         </div>
 
         <!-- Chat Tab (Hidden by default) -->
-        <div id="chat-tab" style="display: none;">
+        <div id="chat-tab" class="tab-content" style="display: none;">
             <div class="chat-container" id="chatContainer">
                 <div class="message-bubble">
                     <div class="message-sender">Alex</div>
@@ -949,57 +1232,64 @@
             </div>
 
             <!-- Chat Input -->
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 15px; border: 2px solid rgba(255,255,255,0.5); border-radius: 30px; background: rgba(255,255,255,0.8);">
-                <button class="primary-btn small" style="width: auto; margin: 0;" onclick="sendSquadChat()">Send</button>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Type a message..." maxlength="200">
+                <button class="send-btn" onclick="sendSquadChat()">➤</button>
+            </div>
+            <div style="text-align: right; font-size: 11px; color: #334155; margin-top: 5px;">
+                <span id="charCount">0/200</span>
             </div>
         </div>
 
         <!-- Stats Tab (Hidden by default) -->
-        <div id="stats-tab" style="display: none;">
+        <div id="stats-tab" class="tab-content" style="display: none;">
             <div class="card">
-                <h3 style="margin-bottom: 20px; color: #082032;">📊 Squad Statistics</h3>
-                
-                <div class="stat-row">
-                    <span>Total Battles</span>
-                    <span style="font-weight: bold;">67</span>
+                <div class="card-title">
+                    <span>📊</span> Squad Statistics
                 </div>
                 
                 <div class="stat-row">
-                    <span>Victories</span>
-                    <span style="font-weight: bold; color: #10b981;">38</span>
+                    <span class="stat-label">Total Battles</span>
+                    <span class="stat-value">67</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span>Win Rate</span>
-                    <span style="font-weight: bold; color: #7dd3fc;">81%</span>
+                    <span class="stat-label">Victories</span>
+                    <span class="stat-value" style="color: #10b981;">38</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span>Boss Battles Won</span>
-                    <span style="font-weight: bold;">12/15</span>
+                    <span class="stat-label">Win Rate</span>
+                    <span class="stat-value" style="color: #7dd3fc;">81%</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span>Total Damage Dealt</span>
-                    <span style="font-weight: bold;">4,257</span>
+                    <span class="stat-label">Boss Battles Won</span>
+                    <span class="stat-value">12/15</span>
                 </div>
                 
                 <div class="stat-row">
-                    <span>Squad Streak</span>
-                    <span style="font-weight: bold; color: #f59e0b;">🔥 5 battles</span>
+                    <span class="stat-label">Total Damage Dealt</span>
+                    <span class="stat-value">4,257</span>
+                </div>
+                
+                <div class="stat-row">
+                    <span class="stat-label">Squad Streak</span>
+                    <span class="stat-value" style="color: #f59e0b;">🔥 5 battles</span>
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
-                <h3 style="margin-bottom: 15px; color: #082032;">🏆 Squad Achievements</h3>
+            <div class="card">
+                <div class="card-title">
+                    <span>🏆</span> Squad Achievements
+                </div>
                 
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <span style="background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 30px;">⚔️ First Victory</span>
-                    <span style="background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 30px;">👥 5 Squad Battles</span>
-                    <span style="background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 30px;">🐉 Boss Slayer</span>
-                    <span style="background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 30px;">💪 80% Win Rate</span>
-                    <span style="background: rgba(255,255,255,0.5); padding: 8px 15px; border-radius: 30px; opacity: 0.5;">🔥 10 Win Streak</span>
+                <div class="achievement-tags">
+                    <span class="achievement-tag">⚔️ First Victory</span>
+                    <span class="achievement-tag">👥 5 Squad Battles</span>
+                    <span class="achievement-tag">🐉 Boss Slayer</span>
+                    <span class="achievement-tag">💪 80% Win Rate</span>
+                    <span class="achievement-tag locked">🔥 10 Win Streak</span>
                 </div>
             </div>
         </div>
@@ -1011,7 +1301,7 @@
         </div>
 
         <!-- Leave Squad Option -->
-        <div style="text-align: center; margin: 20px 0 40px;">
+        <div style="text-align: center; margin: 30px 0 20px;">
             <button class="action-btn-danger" onclick="leaveSquad()">🚪 Leave Squad</button>
         </div>
 
@@ -1021,15 +1311,19 @@
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
             </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
+            </button>
             <button class="nav-item" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Progress</span>
             </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
+            <button class="nav-item active" onclick="window.location.href='community.html'">
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Community</span>
             </button>
-            <button class="nav-item active" onclick="window.location.href='learn.html'">
+            <button class="nav-item" onclick="window.location.href='learn.html'">
                 <span class="nav-icon">📚</span>
                 <span class="nav-label">Learn</span>
             </button>
@@ -1037,59 +1331,92 @@
     </div>
 
     <script>
-        function showSquadTab(tabName) {
+        // Show selected tab
+        function showSquadTab(tabName, element) {
             // Hide all tabs
-            document.getElementById('members-tab').style.display = 'none';
-            document.getElementById('activity-tab').style.display = 'none';
-            document.getElementById('chat-tab').style.display = 'none';
-            document.getElementById('stats-tab').style.display = 'none';
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
             
             // Show selected tab
             document.getElementById(tabName + '-tab').style.display = 'block';
             
             // Update active tab button
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            element.classList.add('active');
         }
 
+        // Send chat message
         function sendSquadChat() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
             
             if (message) {
                 const chatContainer = document.getElementById('chatContainer');
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
                 const newMessage = document.createElement('div');
                 newMessage.className = 'message-bubble own';
                 newMessage.innerHTML = `
                     <div class="message-sender">You</div>
-                    <div>${message}</div>
-                    <div class="message-time">Just now</div>
+                    <div>${escapeHtml(message)}</div>
+                    <div class="message-time">${timeString}</div>
                 `;
                 chatContainer.appendChild(newMessage);
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 input.value = '';
+                updateCharCount();
             }
         }
 
-        function inviteMember() {
-            alert('📋 Invite link copied to clipboard! Share with your friends.');
+        // Escape HTML to prevent XSS
+        function escapeHtml(unsafe) {
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
 
+        // Update character count
+        function updateCharCount() {
+            const input = document.getElementById('chatInput');
+            const count = input.value.length;
+            document.getElementById('charCount').textContent = count + '/200';
+            
+            if (count >= 200) {
+                input.style.borderColor = '#ef4444';
+            } else {
+                input.style.borderColor = 'rgba(255,255,255,0.5)';
+            }
+        }
+
+        // Invite member
+        function inviteMember() {
+            // Create temporary input to copy
+            const dummy = document.createElement('input');
+            dummy.value = 'https://stride.app/join/CIITBATTLE2025';
+            document.body.appendChild(dummy);
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            
+            alert('📋 Invite link copied to clipboard! Share with your friends.\n\nJoin code: CIITBATTLE2025');
+        }
+
+        // Leave squad with confirmation
         function leaveSquad() {
-            if (confirm('Are you sure you want to leave this squad?')) {
-                alert('You have left the squad.');
+            if (confirm('Are you sure you want to leave this squad? You will lose access to squad battles and chat.')) {
+                alert('You have left the squad. Feel free to join or create another one!');
                 window.location.href = 'community.html';
             }
         }
 
-        // Enter key sends chat
-        document.getElementById('chatInput')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendSquadChat();
-            }
-        });
-
-        // Update stress indicator
+        // Update stress indicator based on time
         function updateStressIndicator() {
             const hours = new Date().getHours();
             const dots = document.querySelectorAll('.dot');
@@ -1109,9 +1436,30 @@
             });
         }
 
+        // Auto-resize chat container to show latest messages
+        function scrollToBottom() {
+            const chatContainer = document.getElementById('chatContainer');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
         // Initialize
         window.onload = function() {
             updateStressIndicator();
+            scrollToBottom();
+            
+            // Set up character counter
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('input', updateCharCount);
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendSquadChat();
+                    }
+                });
+            }
         };
     </script>
 </body>
