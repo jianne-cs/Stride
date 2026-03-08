@@ -51,6 +51,111 @@
             font-size: 11px;
         }
 
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
         /* Learn specific styles */
         .search-box {
             position: relative;
@@ -121,6 +226,97 @@
         .category-chip.active {
             background: #0c4a6e;
             color: white;
+        }
+
+        /* How to Play Section */
+        .how-to-play-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .section-icon-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .section-icon-title span {
+            font-size: 40px;
+        }
+
+        .section-icon-title h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+            margin: 0;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .guide-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .guide-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .guide-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+            margin-bottom: 10px;
+        }
+
+        .guide-text {
+            color: var(--text-secondary, #334155);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .guide-tip {
+            background: rgba(16, 185, 129, 0.2);
+            border-left: 4px solid #10b981;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-primary, #0c4a6e);
         }
 
         /* Skill Cards Grid */
@@ -579,30 +775,27 @@
             .skills-grid-enhanced {
                 grid-template-columns: 1fr;
             }
-            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
             .principle-grid {
                 grid-template-columns: 1fr;
             }
-            
             .technique-item {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
-            
             .video-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
             .mindfulness-exercise {
                 flex-direction: column;
                 text-align: center;
             }
-            
             .resource-grid {
                 grid-template-columns: 1fr;
             }
-            
             .info-header {
                 flex-direction: column;
                 text-align: center;
@@ -618,11 +811,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header (same as home) -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">STRIDE</span>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -635,7 +831,7 @@
         </div>
 
         <!-- Page Title -->
-        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">📚 Learn & Grow</h1>
+        <h1 style="font-size: 32px; margin: 20px 0; color: var(--text-primary, #082032);">📚 Learn & Grow</h1>
 
         <!-- Search -->
         <div class="search-box">
@@ -654,18 +850,136 @@
             <span class="category-chip">Resources</span>
         </div>
 
-        <!-- Skill of the Day -->
-        <div class="skill-card-enhanced" onclick="window.location.href='quickbreathing.html'" style="background: linear-gradient(135deg, #0c4a6e, #082032); color: white; margin-bottom: 30px;">
-            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 30px; margin-bottom: 15px; font-size: 13px; font-weight: 600;">
-                🔥 SKILL OF THE DAY
+        <!-- HOW TO PLAY SECTION - NEW -->
+        <div class="how-to-play-section">
+            <div class="section-icon-title">
+                <span>🎮</span>
+                <h2>How to Play STRIDE</h2>
             </div>
+            
+            <div class="guide-grid">
+                <!-- Solo Battle Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">⚔️</div>
+                    <div class="guide-title">Solo Battles</div>
+                    <div class="guide-text">
+                        <strong>1.</strong> Click any monster card from your collection<br>
+                        <strong>2.</strong> Use skills by completing mini-exercises (breathing, CBT, affirmations)<br>
+                        <strong>3.</strong> Each skill costs energy (EN) and deals damage (DMG)<br>
+                        <strong>4.</strong> Monster counter-attacks deal 1-5 damage<br>
+                        <strong>5.</strong> Defeat the monster before running out of energy!
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge">⚡ Skills: 8-30 DMG</span>
+                        <span class="badge">👾 Monster: 1-5 DMG</span>
+                        <span class="badge">🔋 Start: 82 EN</span>
+                    </div>
+                    <div class="guide-tip">
+                        💡 <strong>Pro Tip:</strong> Self-Compassion (💚) deals 8-14 DMG for only 2 EN – best value!
+                    </div>
+                </div>
+
+                <!-- Squad Battle Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">👥</div>
+                    <div class="guide-title">Squad Battles (Co-op)</div>
+                    <div class="guide-text">
+                        <strong>1.</strong> Join or create a squad in the Community tab<br>
+                        <strong>2.</strong> Battle bosses together with 3 other squad members<br>
+                        <strong>3.</strong> Squad skills boost everyone's power<br>
+                        <strong>4.</strong> Boss attacks deal 3-7 damage to all members<br>
+                        <strong>5.</strong> Combos increase damage by 50%!
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge">⚡ Skills: 43-78 DMG</span>
+                        <span class="badge">👾 Boss: 3-7 DMG</span>
+                        <span class="badge">🔥 Combo: +50% DMG</span>
+                    </div>
+                    <div class="guide-tip">
+                        💡 <strong>Pro Tip:</strong> Use Squad Boost before powerful skills for massive damage!
+                    </div>
+                </div>
+
+                <!-- Monster Diary Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">📖</div>
+                    <div class="guide-title">Monster Diary</div>
+                    <div class="guide-text">
+                        <strong>•</strong> Track all your battle history<br>
+                        <strong>•</strong> See which skills work best against each monster<br>
+                        <strong>•</strong> Monitor your progress over time<br>
+                        <strong>•</strong> Learn from victories and defeats
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge">📊 Battle stats</span>
+                        <span class="badge">📈 Progress tracking</span>
+                        <span class="badge">🏆 Victory history</span>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Guide -->
+                <div class="guide-card">
+                    <div class="guide-icon">🎯</div>
+                    <div class="guide-title">Quick Actions</div>
+                    <div class="guide-text">
+                        <strong>🎮 Distract:</strong> Take a mental break with jokes, facts, and games<br>
+                        <strong>🌬️ Breathe:</strong> Box breathing exercise for immediate calm<br>
+                        <strong>🌍 Ground:</strong> 5-4-3-2-1 grounding technique<br>
+                        <strong>📝 Journal:</strong> Write about your feelings and track mood
+                    </div>
+                    <div class="badge-container">
+                        <span class="badge">🎮 Mental breaks</span>
+                        <span class="badge">🌬️ 4-4-4-4 breathing</span>
+                        <span class="badge">🌍 5 senses</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy & Damage Guide -->
+            <div style="background: rgba(255,255,255,0.3); border-radius: 20px; padding: 20px; margin-top: 20px;">
+                <h3 style="color: var(--text-primary, #082032); margin-bottom: 15px;">⚡ Energy & Damage System</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div>
+                        <span style="font-weight: bold; color: #10b981;">Energy (EN)</span>
+                        <ul style="color: var(--text-secondary, #334155); margin-top: 8px; padding-left: 20px;">
+                            <li>Start with 82 EN</li>
+                            <li>Skills cost 2-7 EN</li>
+                            <li>Recharge by using Mass Heal in squad</li>
+                            <li>Reset battle to restore EN</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; color: #ef4444;">Damage (DMG)</span>
+                        <ul style="color: var(--text-secondary, #334155); margin-top: 8px; padding-left: 20px;">
+                            <li>Solo: 8-30 DMG per skill</li>
+                            <li>Squad: 43-78 DMG per skill</li>
+                            <li>Monster attacks: 1-5 DMG</li>
+                            <li>Boss attacks: 3-7 DMG (all members)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span style="font-weight: bold; color: #f59e0b;">Combo System</span>
+                        <ul style="color: var(--text-secondary, #334155); margin-top: 8px; padding-left: 20px;">
+                            <li>Squad Boost = +50% damage</li>
+                            <li>Team Shield blocks next attack</li>
+                            <li>Mass Heal restores +20 EN</li>
+                            <li>Coordinate with squad for max damage</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skill of the Day - UPDATED with new damage values -->
+        <div class="skill-card-enhanced" onclick="window.location.href='quickbreathing.html'" style="background: linear-gradient(135deg, #0c4a6e, #082032); color: white; margin-bottom: 30px;">
+            <div style="display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 30px; margin-bottom: 15px; font-size: 13px; font-weight: 600;">🔥 SKILL OF THE DAY</div>
             <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
                 <div style="font-size: 60px;">🌬️</div>
                 <div style="flex: 1;">
                     <h2 style="font-size: 28px; margin-bottom: 5px; color: white;">Grounding Breath</h2>
-                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">5-4-3-2-1 technique to stop panic attacks and anchor yourself in the present moment</p>
+                    <p style="color: rgba(255,255,255,0.8); margin-bottom: 10px;">Box breathing technique (4-4-4-4) to calm your nervous system</p>
                     <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">⚡ 8 DMG</span>
+                        <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">⚡ 12-18 DMG</span>
                         <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">🔋 3 EN</span>
                         <span style="background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 30px;">⏱️ 5 min</span>
                     </div>
@@ -673,8 +987,8 @@
             </div>
         </div>
 
-        <!-- Battle Skills Section -->
-        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">⚔️ All Battle Skills</h2>
+        <!-- Battle Skills Section - UPDATED with new damage values -->
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: var(--text-primary, #082032);">⚔️ All Battle Skills</h2>
         <p style="color: #334155; margin-bottom: 20px;">Each skill has a unique mini-intervention to help you fight your monsters</p>
 
         <div class="skills-grid-enhanced">
@@ -683,15 +997,8 @@
                 <div class="skill-icon-large">🌬️</div>
                 <div class="skill-title-large">Grounding Breath</div>
                 <div class="skill-desc">Box breathing technique (4-4-4-4) to calm your nervous system</div>
-                <div class="skill-stats">
-                    <span>⚡ 8 DMG</span>
-                    <span>🔋 3 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Anxiety</span>
-                    <span class="skill-tag">Panic</span>
-                    <span class="skill-tag">Beginner</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 12-18 DMG</span><span>🔋 3 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Anxiety</span><span class="skill-tag">Panic</span><span class="skill-tag">Beginner</span></div>
             </div>
 
             <!-- Skill 2: Cognitive Shield -->
@@ -699,15 +1006,8 @@
                 <div class="skill-icon-large">🛡️</div>
                 <div class="skill-title-large">Cognitive Shield</div>
                 <div class="skill-desc">Challenge negative thoughts with CBT techniques and evidence testing</div>
-                <div class="skill-stats">
-                    <span>⚡ 12 DMG</span>
-                    <span>🔋 5 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">CBT</span>
-                    <span class="skill-tag">Intermediate</span>
-                    <span class="skill-tag">Thoughts</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 18-25 DMG</span><span>🔋 5 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">CBT</span><span class="skill-tag">Intermediate</span><span class="skill-tag">Thoughts</span></div>
             </div>
 
             <!-- Skill 3: Self-Compassion -->
@@ -715,15 +1015,8 @@
                 <div class="skill-icon-large">💚</div>
                 <div class="skill-title-large">Self-Compassion</div>
                 <div class="skill-desc">Read loving affirmations to counter self-criticism</div>
-                <div class="skill-stats">
-                    <span>⚡ 6 DMG</span>
-                    <span>🔋 2 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Self-esteem</span>
-                    <span class="skill-tag">Beginner</span>
-                    <span class="skill-tag">Affirmations</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 8-14 DMG</span><span>🔋 2 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Self-esteem</span><span class="skill-tag">Beginner</span><span class="skill-tag">Affirmations</span></div>
             </div>
 
             <!-- Skill 4: Mindful Microbreak -->
@@ -731,15 +1024,8 @@
                 <div class="skill-icon-large">🚶</div>
                 <div class="skill-title-large">Mindful Microbreak</div>
                 <div class="skill-desc">Step away mindfully for 2-3 minutes to reset your focus</div>
-                <div class="skill-stats">
-                    <span>⚡ 10 DMG</span>
-                    <span>🔋 4 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Break</span>
-                    <span class="skill-tag">Focus</span>
-                    <span class="skill-tag">Beginner</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 15-22 DMG</span><span>🔋 4 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Break</span><span class="skill-tag">Focus</span><span class="skill-tag">Beginner</span></div>
             </div>
 
             <!-- Skill 5: Progressive Muscle Relaxation -->
@@ -747,15 +1033,8 @@
                 <div class="skill-icon-large">💪</div>
                 <div class="skill-title-large">Progressive Muscle Relaxation</div>
                 <div class="skill-desc">Tense and release muscle groups to release physical tension</div>
-                <div class="skill-stats">
-                    <span>⚡ 14 DMG</span>
-                    <span>🔋 6 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Body</span>
-                    <span class="skill-tag">Intermediate</span>
-                    <span class="skill-tag">Tension</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 20-28 DMG</span><span>🔋 6 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Body</span><span class="skill-tag">Intermediate</span><span class="skill-tag">Tension</span></div>
             </div>
 
             <!-- Skill 6: Sensory Anchor -->
@@ -763,15 +1042,8 @@
                 <div class="skill-icon-large">🪨</div>
                 <div class="skill-title-large">Sensory Anchor</div>
                 <div class="skill-desc">Use physical touch to ground yourself during anxiety</div>
-                <div class="skill-stats">
-                    <span>⚡ 7 DMG</span>
-                    <span>🔋 3 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Grounding</span>
-                    <span class="skill-tag">Sensory</span>
-                    <span class="skill-tag">Beginner</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 10-16 DMG</span><span>🔋 3 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Grounding</span><span class="skill-tag">Sensory</span><span class="skill-tag">Beginner</span></div>
             </div>
 
             <!-- Skill 7: Calming Sounds -->
@@ -779,15 +1051,8 @@
                 <div class="skill-icon-large">🎵</div>
                 <div class="skill-title-large">Calming Sounds</div>
                 <div class="skill-desc">Imagine soothing nature sounds for mental reset</div>
-                <div class="skill-stats">
-                    <span>⚡ 9 DMG</span>
-                    <span>🔋 4 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Music</span>
-                    <span class="skill-tag">Relaxation</span>
-                    <span class="skill-tag">Beginner</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 13-20 DMG</span><span>🔋 4 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Music</span><span class="skill-tag">Relaxation</span><span class="skill-tag">Beginner</span></div>
             </div>
 
             <!-- Skill 8: Thought Labeling -->
@@ -795,15 +1060,8 @@
                 <div class="skill-icon-large">🏷️</div>
                 <div class="skill-title-large">Thought Labeling</div>
                 <div class="skill-desc">Label thoughts as "worry," "planning," etc. to create distance</div>
-                <div class="skill-stats">
-                    <span>⚡ 11 DMG</span>
-                    <span>🔋 5 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">CBT</span>
-                    <span class="skill-tag">Intermediate</span>
-                    <span class="skill-tag">Awareness</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 16-24 DMG</span><span>🔋 5 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">CBT</span><span class="skill-tag">Intermediate</span><span class="skill-tag">Awareness</span></div>
             </div>
 
             <!-- Skill 9: WAIT Rule -->
@@ -811,15 +1069,8 @@
                 <div class="skill-icon-large">⏳</div>
                 <div class="skill-title-large">WAIT Rule</div>
                 <div class="skill-desc">Watch, Acknowledge, Invoke calm, Talk with compassion</div>
-                <div class="skill-stats">
-                    <span>⚡ 13 DMG</span>
-                    <span>🔋 6 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Advanced</span>
-                    <span class="skill-tag">Emotions</span>
-                    <span class="skill-tag">Response</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 19-26 DMG</span><span>🔋 6 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Advanced</span><span class="skill-tag">Emotions</span><span class="skill-tag">Response</span></div>
             </div>
 
             <!-- Skill 10: Calm Place Visualization -->
@@ -827,15 +1078,8 @@
                 <div class="skill-icon-large">🏝️</div>
                 <div class="skill-title-large">Calm Place Visualization</div>
                 <div class="skill-desc">Imagine a peaceful scene using all five senses</div>
-                <div class="skill-stats">
-                    <span>⚡ 15 DMG</span>
-                    <span>🔋 7 EN</span>
-                </div>
-                <div class="skill-tags">
-                    <span class="skill-tag">Visualization</span>
-                    <span class="skill-tag">Advanced</span>
-                    <span class="skill-tag">Imagination</span>
-                </div>
+                <div class="skill-stats"><span>⚡ 22-30 DMG</span><span>🔋 7 EN</span></div>
+                <div class="skill-tags"><span class="skill-tag">Visualization</span><span class="skill-tag">Advanced</span><span class="skill-tag">Imagination</span></div>
             </div>
         </div>
 
@@ -848,11 +1092,7 @@
                     <div class="info-subtitle">Change your thoughts, change your battles</div>
                 </div>
             </div>
-
-            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">
-                CBT helps you identify and change negative thought patterns that feed your monsters. 
-                The core idea: your thoughts, feelings, and behaviors are all connected. By changing one, you change all.
-            </p>
+            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">CBT helps you identify and change negative thought patterns that feed your monsters. The core idea: your thoughts, feelings, and behaviors are all connected. By changing one, you change all.</p>
 
             <!-- Core Principles -->
             <h3 style="margin: 30px 0 20px; color: #082032;">Core Principles</h3>
@@ -876,7 +1116,6 @@
 
             <!-- CBT Techniques -->
             <h3 style="margin: 30px 0 20px; color: #082032;">CBT Techniques</h3>
-            
             <div class="technique-list">
                 <div class="technique-item">
                     <div class="technique-icon">📝</div>
@@ -885,7 +1124,6 @@
                         <div class="technique-desc">Write down automatic negative thoughts and challenge them with evidence. Ask: "What's the proof? What's a balanced perspective?"</div>
                     </div>
                 </div>
-                
                 <div class="technique-item">
                     <div class="technique-icon">🔍</div>
                     <div class="technique-content">
@@ -893,7 +1131,6 @@
                         <div class="technique-desc">Identify thinking traps: all-or-nothing, overgeneralization, catastrophizing, mind reading, emotional reasoning</div>
                     </div>
                 </div>
-                
                 <div class="technique-item">
                     <div class="technique-icon">⚖️</div>
                     <div class="technique-content">
@@ -901,7 +1138,6 @@
                         <div class="technique-desc">Treat thoughts as hypotheses, not facts. Look for evidence that supports AND contradicts the thought.</div>
                     </div>
                 </div>
-                
                 <div class="technique-item">
                     <div class="technique-icon">🔄</div>
                     <div class="technique-content">
@@ -936,11 +1172,7 @@
                     <div class="info-subtitle">Be present with your monsters, don't become them</div>
                 </div>
             </div>
-
-            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">
-                Mindfulness is the practice of paying attention to the present moment without judgment. 
-                It helps you observe your thoughts and feelings without getting caught up in them.
-            </p>
+            <p style="margin-bottom: 25px; line-height: 1.6; color: #082032;">Mindfulness is the practice of paying attention to the present moment without judgment. It helps you observe your thoughts and feelings without getting caught up in them.</p>
 
             <!-- Core Mindfulness Principles -->
             <h3 style="margin: 30px 0 20px; color: #082032;">Core Principles</h3>
@@ -964,7 +1196,6 @@
 
             <!-- Mindfulness Exercises -->
             <h3 style="margin: 30px 0 20px; color: #082032;">Mindfulness Exercises</h3>
-
             <div class="mindfulness-exercise" onclick="window.location.href='quickbreathing.html'">
                 <div class="exercise-icon-large">🌬️</div>
                 <div class="exercise-info">
@@ -1015,15 +1246,13 @@
 
             <!-- Mindfulness Quote -->
             <div class="quote-box">
-                <div class="quote-text">
-                    "You can't stop the waves, but you can learn to surf."
-                </div>
+                <div class="quote-text">"You can't stop the waves, but you can learn to surf."</div>
                 <div class="quote-author">— Jon Kabat-Zinn</div>
             </div>
         </div>
 
         <!-- Articles Section -->
-        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">📖 Featured Articles</h2>
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: var(--text-primary, #082032);">📖 Featured Articles</h2>
 
         <div class="article-card">
             <div class="article-icon">🧠</div>
@@ -1062,43 +1291,34 @@
         </div>
 
         <!-- Video Tutorials -->
-        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">🎥 Video Tutorials</h2>
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: var(--text-primary, #082032);">🎥 Video Tutorials</h2>
 
         <div class="video-grid">
             <div class="video-card">
                 <div class="video-thumb"></div>
                 <div class="video-info">
                     <div class="video-title">CBT Basics for Beginners</div>
-                    <div class="video-meta">
-                        <span>4:30</span>
-                        <span>Beginner</span>
-                    </div>
+                    <div class="video-meta"><span>4:30</span><span>Beginner</span></div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumb"></div>
                 <div class="video-info">
                     <div class="video-title">10-Minute Mindfulness Meditation</div>
-                    <div class="video-meta">
-                        <span>10:15</span>
-                        <span>All levels</span>
-                    </div>
+                    <div class="video-meta"><span>10:15</span><span>All levels</span></div>
                 </div>
             </div>
             <div class="video-card">
                 <div class="video-thumb"></div>
                 <div class="video-info">
                     <div class="video-title">Challenge Cognitive Distortions</div>
-                    <div class="video-meta">
-                        <span>6:45</span>
-                        <span>Intermediate</span>
-                    </div>
+                    <div class="video-meta"><span>6:45</span><span>Intermediate</span></div>
                 </div>
             </div>
         </div>
 
         <!-- Resources Section -->
-        <h2 style="font-size: 24px; margin: 40px 0 20px; color: #082032;">📚 Helpful Resources</h2>
+        <h2 style="font-size: 24px; margin: 40px 0 20px; color: var(--text-primary, #082032);">📚 Helpful Resources</h2>
 
         <div class="resource-grid">
             <div class="resource-card">
@@ -1142,25 +1362,15 @@
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <button class="nav-item" onclick="window.location.href='home.html'">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='progress.html'">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Progress</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
-                <span class="nav-icon">👥</span>
-                <span class="nav-label">Community</span>
-            </button>
-            <button class="nav-item active" onclick="window.location.href='learn.html'">
-                <span class="nav-icon">📚</span>
-                <span class="nav-label">Learn</span>
-            </button>
+            <button class="nav-item" onclick="window.location.href='home.html'"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'"><span class="nav-icon">👾</span><span class="nav-label">Monsters</span></button>
+            <button class="nav-item" onclick="window.location.href='progress.html'"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></button>
+            <button class="nav-item" onclick="window.location.href='community.html'"><span class="nav-icon">👥</span><span class="nav-label">Community</span></button>
+            <button class="nav-item active" onclick="window.location.href='learn.html'"><span class="nav-icon">📚</span><span class="nav-label">Learn</span></button>
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
         // Category chips
         document.querySelectorAll('.category-chip').forEach(chip => {
@@ -1182,20 +1392,17 @@
                     document.querySelector('.video-grid').scrollIntoView({ behavior: 'smooth' });
                 } else if (category === 'resources') {
                     document.querySelector('.resource-grid').scrollIntoView({ behavior: 'smooth' });
+                } else if (category === 'all') {
+                    document.querySelector('.how-to-play-section').scrollIntoView({ behavior: 'smooth' });
                 }
             });
         });
 
         // Update stress indicator
         function updateStressIndicator() {
-            const hours = new Date().getHours();
+            const savedStress = localStorage.getItem('stressLevel');
             const dots = document.querySelectorAll('.dot');
-            
-            let stressLevel = 3;
-            if (hours < 10) stressLevel = 4;
-            else if (hours < 15) stressLevel = 3;
-            else if (hours < 19) stressLevel = 4;
-            else stressLevel = 2;
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
             
             dots.forEach((dot, index) => {
                 if (index < stressLevel) {
@@ -1212,4 +1419,9 @@
         };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

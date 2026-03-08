@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Monsters - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Global body style with dark mode variables */
+        :root {
+            --bg-gradient-start: #7dd3fc;
+            --bg-gradient-end: #38bdf8;
+            --card-bg: rgba(255, 255, 255, 0.2);
+            --card-bg-solid: rgba(255, 255, 255, 0.7);
+            --card-bg-darker: rgba(255, 255, 255, 0.5);
+            --text-primary: #082032;
+            --text-secondary: #334155;
+            --accent-primary: #0c4a6e;
+            --accent-secondary: #082032;
+            --border-light: rgba(255, 255, 255, 0.6);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --monster-default: #7dd3fc;
+        }
+
+        body.dark-mode {
+            --bg-gradient-start: #1a1e2b;
+            --bg-gradient-end: #2d3748;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --card-bg-solid: rgba(30, 41, 59, 0.9);
+            --card-bg-darker: rgba(30, 41, 59, 0.7);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-primary: #60a5fa;
+            --accent-secondary: #3b82f6;
+            --border-light: rgba(255, 255, 255, 0.15);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --monster-default: #4a5568;
+        }
+
+        body {
+            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            border: 1px solid var(--border-light);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: var(--card-bg-solid);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Stress Indicator */
+        .stress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg-solid);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: var(--card-bg-solid);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .create-btn {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .create-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+
+        /* Stats Summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 25px 15px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 25px var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-bg-solid);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: var(--card-bg-darker);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .filter-tab:hover {
+            background: var(--card-bg-solid);
+            transform: translateY(-2px);
+        }
+
+        .filter-tab.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 2px solid var(--border-light);
+            border-radius: 40px;
+            background: var(--card-bg-solid);
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* ===== FLOATING ANIMATION ===== */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* ===== BLINKING ANIMATIONS ===== */
+        @keyframes blink {
+            0%, 90%, 100% {
+                transform: scaleY(1);
+            }
+            92%, 98% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes hidePupils {
+            0%, 90%, 100% {
+                opacity: 1;
+            }
+            92%, 98% {
+                opacity: 0;
+            }
+        }
+
+        /* Monster Grid */
+        .monsters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .monster-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border-light);
+            box-shadow: 0 15px 30px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .monster-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: var(--card-bg-solid);
+            border-color: var(--accent-primary);
+            box-shadow: 0 25px 40px var(--shadow-color);
+        }
+
+        /* Different floating speeds for each monster */
+        .monster-card:nth-child(1) { animation: float 4.2s ease-in-out infinite; }
+        .monster-card:nth-child(2) { animation: float 3.8s ease-in-out infinite; }
+        .monster-card:nth-child(3) { animation: float 5.5s ease-in-out infinite; }
+        .monster-card:nth-child(4) { animation: float 3.2s ease-in-out infinite; }
+        .monster-card:nth-child(5) { animation: float 4.7s ease-in-out infinite; }
+        .monster-card:nth-child(6) { animation: float 5.2s ease-in-out infinite; }
+        .monster-card:nth-child(7) { animation: float 3.5s ease-in-out infinite; }
+        .monster-card:nth-child(8) { animation: float 4.9s ease-in-out infinite; }
+        .monster-card:nth-child(9) { animation: float 4.4s ease-in-out infinite; }
+        .monster-card:nth-child(10) { animation: float 5.8s ease-in-out infinite; }
+
+        /* Blinking animations for each monster */
+        .monster-card:nth-child(1) .monster-shape::before,
+        .monster-card:nth-child(1) .monster-shape::after {
+            animation: blink 4.2s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(1) .monster-pupil-left,
+        .monster-card:nth-child(1) .monster-pupil-right {
+            animation: hidePupils 4.2s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(2) .monster-shape::before,
+        .monster-card:nth-child(2) .monster-shape::after {
+            animation: blink 3.8s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(2) .monster-pupil-left,
+        .monster-card:nth-child(2) .monster-pupil-right {
+            animation: hidePupils 3.8s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(3) .monster-shape::before,
+        .monster-card:nth-child(3) .monster-shape::after {
+            animation: blink 5.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(3) .monster-pupil-left,
+        .monster-card:nth-child(3) .monster-pupil-right {
+            animation: hidePupils 5.5s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(4) .monster-shape::before,
+        .monster-card:nth-child(4) .monster-shape::after {
+            animation: blink 3.2s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(4) .monster-pupil-left,
+        .monster-card:nth-child(4) .monster-pupil-right {
+            animation: hidePupils 3.2s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(5) .monster-shape::before,
+        .monster-card:nth-child(5) .monster-shape::after {
+            animation: blink 4.7s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(5) .monster-pupil-left,
+        .monster-card:nth-child(5) .monster-pupil-right {
+            animation: hidePupils 4.7s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(6) .monster-shape::before,
+        .monster-card:nth-child(6) .monster-shape::after {
+            animation: blink 5.2s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(6) .monster-pupil-left,
+        .monster-card:nth-child(6) .monster-pupil-right {
+            animation: hidePupils 5.2s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(7) .monster-shape::before,
+        .monster-card:nth-child(7) .monster-shape::after {
+            animation: blink 3.5s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(7) .monster-pupil-left,
+        .monster-card:nth-child(7) .monster-pupil-right {
+            animation: hidePupils 3.5s ease-in-out infinite;
+        }
+
+        .monster-card:nth-child(8) .monster-shape::before,
+        .monster-card:nth-child(8) .monster-shape::after {
+            animation: blink 4.9s ease-in-out infinite;
+            transform-origin: center;
+        }
+        .monster-card:nth-child(8) .monster-pupil-left,
+        .monster-card:nth-child(8) .monster-pupil-right {
+            animation: hidePupils 4.9s ease-in-out infinite;
+        }
+
+        .monster-avatar {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        /* Monster shape variations */
+        .monster-shape {
+            width: 100%;
+            height: 100%;
+            background-color: var(--monster-default);
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+
+        .monster-shape.default {
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+        }
+
+        .monster-shape.round {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 25%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 25%);
+        }
+
+        .monster-shape.spiky {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .monster-shape.horned {
+            clip-path: polygon(35% 0%, 65% 0%, 80% 20%, 95% 30%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 30%, 20% 20%);
+        }
+
+        .monster-shape.star {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .monster-shape.blob {
+            clip-path: polygon(40% 0%, 60% 0%, 80% 10%, 95% 30%, 100% 50%, 95% 70%, 80% 90%, 60% 100%, 40% 100%, 20% 90%, 5% 70%, 0% 50%, 5% 30%, 20% 10%);
+        }
+
+        .monster-shape.diamond {
+            clip-path: polygon(50% 0%, 100% 30%, 80% 100%, 20% 100%, 0% 30%);
+        }
+
+        .monster-shape.wings {
+            clip-path: polygon(30% 0%, 70% 0%, 95% 20%, 100% 60%, 85% 90%, 50% 100%, 15% 90%, 0% 60%, 5% 20%);
+        }
+
+        .monster-shape::before,
+        .monster-shape::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: white;
+            border-radius: 50%;
+            top: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            z-index: 2;
+        }
+
+        .monster-shape::before {
+            left: 35px;
+        }
+
+        .monster-shape::after {
+            right: 35px;
+        }
+
+        .monster-pupil-left,
+        .monster-pupil-right {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #082032;
+            border-radius: 50%;
+            top: 52px;
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+
+        .monster-pupil-left {
+            left: 47px;
+        }
+
+        .monster-pupil-right {
+            right: 47px;
+        }
+
+        .monster-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .monster-type {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: var(--card-bg-darker);
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin: 8px 0;
+            font-weight: 600;
+        }
+
+        .monster-hp {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin: 10px 0;
+        }
+
+        .hp-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--card-bg-darker);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .hp-fill {
+            height: 100%;
+            background: #ef4444;
+            transition: width 0.3s ease;
+        }
+
+        .monster-features {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .feature-badge {
+            background: var(--card-bg-darker);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .battle-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .battle-btn:hover {
+            background: var(--accent-secondary);
+            transform: scale(1.05);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+            background: rgba(239,68,68,0.1);
+            transform: scale(1.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            margin: 40px 0;
+            border: 1px solid var(--border-light);
+        }
+
+        .empty-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 10px 20px var(--shadow-color));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .empty-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .empty-text {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid var(--border-light);
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-primary);
+            background: var(--card-bg-solid);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .create-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .monsters-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .monster-avatar {
+                width: 100px;
+                height: 100px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .header-logo {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .monsters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stress-indicator {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with clickable logo -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div>
+            <button class="back-btn" onclick="window.location.href='home.html'">
+                <span>←</span> Back to Home
+            </button>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <span>👾</span> My Monsters
+            </div>
+            <button class="create-btn" onclick="window.location.href='createmonster.html'">
+                <span>+</span> Create New Monster
+            </button>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-summary" id="statsSummary">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Monsters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgHp">0</div>
+                <div class="stat-label">Avg HP</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalFeatures">0</div>
+                <div class="stat-label">Abilities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="strongestMonster">-</div>
+                <div class="stat-label">Strongest</div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterMonsters('all', this)">All</button>
+                <button class="filter-tab" onclick="filterMonsters('anxiety', this)">Anxiety</button>
+                <button class="filter-tab" onclick="filterMonsters('depression', this)">Depression</button>
+                <button class="filter-tab" onclick="filterMonsters('self-criticism', this)">Self-Criticism</button>
+            </div>
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search monsters by name..." id="searchInput" onkeyup="searchMonsters()">
+            </div>
+        </div>
+
+        <!-- Monsters Grid -->
+        <div class="monsters-grid" id="monstersGrid">
+            <!-- Monsters will be loaded here -->
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item active" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="darkmode.js"></script>
+    <script>
+        // ===== MONSTER MANAGEMENT =====
+        console.log("🔴 Monsters page loaded");
+
+        let allMonsters = [];
+
+        // Helper function for feature emojis
+        function getFeatureEmoji(feature) {
+            const emojis = {
+                'teeth': '🦷',
+                'eyes': '👁️',
+                'chains': '⛓️',
+                'fog': '🌫️',
+                'claws': '👊',
+                'shadowForm': '🌑'
+            };
+            return emojis[feature] || '✨';
+        }
+
+        // Load monsters from localStorage
+        function loadMonsters() {
+            console.log("Loading monsters...");
+            const saved = localStorage.getItem('monsters');
+            
+            if (saved) {
+                try {
+                    allMonsters = JSON.parse(saved);
+                    console.log("Loaded", allMonsters.length, "monsters");
+                } catch (e) {
+                    console.error("Error parsing monsters:", e);
+                    allMonsters = [];
+                }
+            } else {
+                console.log("No monsters found, creating samples");
+                createSampleMonsters();
+            }
+
+            displayMonsters(allMonsters);
+            updateStats(allMonsters);
+        }
+
+        // Create sample monsters if none exist
+        function createSampleMonsters() {
+            const sampleMonsters = [
+                {
+                    id: 1,
+                    name: 'Thesis Panic Monster',
+                    shape: 'horned',
+                    eyeStyle: 'wide',
+                    pupilSize: 'dilated',
+                    features: ['teeth', 'eyes', 'fog'],
+                    color: '#ef4444',
+                    hp: 78
+                },
+                {
+                    id: 2,
+                    name: 'Social Anxiety Specter',
+                    shape: 'blob',
+                    eyeStyle: 'sad',
+                    pupilSize: 'pinpoint',
+                    features: ['eyes', 'shadowForm'],
+                    color: '#8b5cf6',
+                    hp: 65
+                },
+                {
+                    id: 3,
+                    name: 'Procrastination Demon',
+                    shape: 'spiky',
+                    eyeStyle: 'angry',
+                    pupilSize: 'cat',
+                    features: ['chains', 'claws'],
+                    color: '#f59e0b',
+                    hp: 92
+                },
+                {
+                    id: 4,
+                    name: 'Imposter Syndrome',
+                    shape: 'star',
+                    eyeStyle: 'slanted',
+                    pupilSize: 'dilated',
+                    features: ['eyes', 'fog'],
+                    color: '#10b981',
+                    hp: 82
+                },
+                {
+                    id: 5,
+                    name: 'Burnout Beast',
+                    shape: 'wings',
+                    eyeStyle: 'wide',
+                    pupilSize: 'dilated',
+                    features: ['chains', 'fog'],
+                    color: '#f97316',
+                    hp: 95
+                }
+            ];
+            
+            localStorage.setItem('monsters', JSON.stringify(sampleMonsters));
+            allMonsters = sampleMonsters;
+            console.log("Sample monsters created");
+        }
+
+        // Display monsters in grid
+        function displayMonsters(monsters) {
+            const grid = document.getElementById('monstersGrid');
+            
+            if (!grid) {
+                console.error("Grid element not found!");
+                return;
+            }
+
+            if (monsters.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-emoji">👾</div>
+                        <div class="empty-title">No monsters yet</div>
+                        <div class="empty-text">Create your first monster to start your journey</div>
+                        <button class="create-btn" onclick="window.location.href='createmonster.html'">
+                            Create Your First Monster
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            
+            monsters.forEach((monster, index) => {
+                // Build shape classes
+                let shapeClasses = `monster-shape ${monster.shape || 'default'}`;
+                
+                if (monster.eyeStyle && monster.eyeStyle !== 'normal') {
+                    shapeClasses += ` eyes-${monster.eyeStyle}`;
+                }
+                
+                if (monster.pupilSize && monster.pupilSize !== 'normal') {
+                    shapeClasses += ` pupils-${monster.pupilSize}`;
+                }
+
+                // Determine monster type
+                let type = 'Anxiety';
+                if (monster.features?.includes('chains')) type = 'Depression';
+                if (monster.features?.includes('teeth')) type = 'Self-Criticism';
+
+                html += `
+                    <div class="monster-card" data-id="${monster.id}" data-index="${index}">
+                        <div class="monster-avatar">
+                            <div class="${shapeClasses}" style="background-color: ${monster.color || '#7dd3fc'};">
+                                <div class="monster-pupil-left"></div>
+                                <div class="monster-pupil-right"></div>
+                            </div>
+                        </div>
+                        <div class="monster-name">${monster.name}</div>
+                        <div class="monster-type">${type}</div>
+                        <div class="monster-hp">❤️ ${monster.hp || 78} HP</div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" style="width: ${monster.hp || 78}%;"></div>
+                        </div>
+                        <div class="monster-features">
+                            ${(monster.features || []).map(f => 
+                                `<span class="feature-badge">${getFeatureEmoji(f)} ${f}</span>`
+                            ).join('')}
+                        </div>
+                        <div class="card-footer">
+                            <button class="battle-btn" onclick="startBattle(${monster.id})">⚔️ Battle</button>
+                            <button class="delete-btn" onclick="deleteMonster(${monster.id})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            console.log("Monsters displayed:", monsters.length);
+        }
+
+        // Start battle
+        function startBattle(monsterId) {
+            console.log("Starting battle with monster:", monsterId);
+            window.location.href = `battle.html?monster=${monsterId}`;
+        }
+
+        // Delete monster
+        function deleteMonster(monsterId) {
+            if (confirm('Delete this monster?')) {
+                allMonsters = allMonsters.filter(m => m.id !== monsterId);
+                localStorage.setItem('monsters', JSON.stringify(allMonsters));
+                displayMonsters(allMonsters);
+                updateStats(allMonsters);
+            }
+        }
+
+        // Update stats
+        function updateStats(monsters) {
+            document.getElementById('totalCount').textContent = monsters.length;
+            
+            if (monsters.length === 0) {
+                document.getElementById('avgHp').textContent = '0';
+                document.getElementById('totalFeatures').textContent = '0';
+                document.getElementById('strongestMonster').textContent = '-';
+                return;
+            }
+            
+            const totalHp = monsters.reduce((sum, m) => sum + (m.hp || 0), 0);
+            const avgHp = Math.round(totalHp / monsters.length);
+            document.getElementById('avgHp').textContent = avgHp;
+            
+            const totalFeatures = monsters.reduce((sum, m) => sum + (m.features?.length || 0), 0);
+            document.getElementById('totalFeatures').textContent = totalFeatures;
+            
+            const strongest = monsters.reduce((prev, current) => (prev.hp > current.hp) ? prev : current);
+            document.getElementById('strongestMonster').textContent = strongest.name.split(' ')[0];
+        }
+
+        // Filter monsters by type
+        function filterMonsters(type, element) {
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+            
+            if (type === 'all') {
+                displayMonsters(allMonsters);
+            } else {
+                const filtered = allMonsters.filter(monster => {
+                    if (type === 'anxiety') return !monster.features?.includes('chains') && !monster.features?.includes('teeth');
+                    if (type === 'depression') return monster.features?.includes('chains');
+                    if (type === 'self-criticism') return monster.features?.includes('teeth');
+                    return true;
+                });
+                displayMonsters(filtered);
+            }
+        }
+
+        // Search monsters
+        function searchMonsters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                displayMonsters(allMonsters);
+            } else {
+                const filtered = allMonsters.filter(monster => 
+                    monster.name.toLowerCase().includes(searchTerm)
+                );
+                displayMonsters(filtered);
+            }
+            
+            // Reset filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.filter-tab[onclick*="all"]').classList.add('active');
+        }
+
+        // Update stress indicator
+        function updateStressIndicator() {
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Initialize
+        window.onload = function() {
+            console.log("Initializing monsters page");
+            loadMonsters();
+            updateStressIndicator();
+        };
+    </script>
+</body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
+</html>

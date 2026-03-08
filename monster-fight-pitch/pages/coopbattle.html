@@ -51,6 +51,111 @@
             font-size: 11px;
         }
 
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Stress indicator */
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
         /* Enhanced Boss Monster */
         .boss-container {
             background: linear-gradient(135deg, #0c4a6e, #082032);
@@ -702,11 +807,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="app-header" style="margin-bottom: 20px;">
+        <!-- Header with clickable logo -->
+        <div class="app-header">
             <div class="header-left">
-                <button class="menu-btn" onclick="window.location.href='squaddetail.html'">←</button>
-                <span class="logo">CO-OP BATTLE</span>
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -858,7 +966,7 @@
                     <div class="squad-skill-icon">⚔️</div>
                     <div class="squad-skill-name">Squad Attack</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">45 DMG</span>
+                        <span class="squad-skill-damage">45-60 DMG</span>
                         <span class="squad-skill-energy">8 EN</span>
                     </div>
                     <div class="squad-skill-desc">All members attack together</div>
@@ -868,7 +976,7 @@
                     <div class="squad-skill-icon">💚</div>
                     <div class="squad-skill-name">Mass Heal</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">+15 EN</span>
+                        <span class="squad-skill-damage">+20 EN</span>
                         <span class="squad-skill-energy">10 EN</span>
                     </div>
                     <div class="squad-skill-desc">Restore all members' energy</div>
@@ -904,7 +1012,7 @@
                     <div class="squad-skill-icon">🌬️</div>
                     <div class="squad-skill-name">Grounding Breath</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">8 DMG</span>
+                        <span class="squad-skill-damage">48-55 DMG</span>
                         <span class="squad-skill-energy">3 EN</span>
                     </div>
                 </button>
@@ -913,7 +1021,7 @@
                     <div class="squad-skill-icon">🛡️</div>
                     <div class="squad-skill-name">Cognitive Shield</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">12 DMG</span>
+                        <span class="squad-skill-damage">52-60 DMG</span>
                         <span class="squad-skill-energy">5 EN</span>
                     </div>
                 </button>
@@ -922,7 +1030,7 @@
                     <div class="squad-skill-icon">💚</div>
                     <div class="squad-skill-name">Self-Compassion</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">6 DMG</span>
+                        <span class="squad-skill-damage">66-72 DMG</span>
                         <span class="squad-skill-energy">2 EN</span>
                     </div>
                 </button>
@@ -931,7 +1039,7 @@
                     <div class="squad-skill-icon">🚶</div>
                     <div class="squad-skill-name">Mindful Microbreak</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">10 DMG</span>
+                        <span class="squad-skill-damage">70-78 DMG</span>
                         <span class="squad-skill-energy">4 EN</span>
                     </div>
                 </button>
@@ -940,7 +1048,7 @@
                     <div class="squad-skill-icon">💪</div>
                     <div class="squad-skill-name">Progressive Muscle Relaxation</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">14 DMG</span>
+                        <span class="squad-skill-damage">64-70 DMG</span>
                         <span class="squad-skill-energy">6 EN</span>
                     </div>
                 </button>
@@ -949,7 +1057,7 @@
                     <div class="squad-skill-icon">🪨</div>
                     <div class="squad-skill-name">Sensory Anchor</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">7 DMG</span>
+                        <span class="squad-skill-damage">57-64 DMG</span>
                         <span class="squad-skill-energy">3 EN</span>
                     </div>
                 </button>
@@ -958,7 +1066,7 @@
                     <div class="squad-skill-icon">🎵</div>
                     <div class="squad-skill-name">Calming Sounds</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">9 DMG</span>
+                        <span class="squad-skill-damage">49-56 DMG</span>
                         <span class="squad-skill-energy">4 EN</span>
                     </div>
                 </button>
@@ -967,7 +1075,7 @@
                     <div class="squad-skill-icon">🏷️</div>
                     <div class="squad-skill-name">Thought Labeling</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">11 DMG</span>
+                        <span class="squad-skill-damage">51-58 DMG</span>
                         <span class="squad-skill-energy">5 EN</span>
                     </div>
                 </button>
@@ -976,7 +1084,7 @@
                     <div class="squad-skill-icon">⏳</div>
                     <div class="squad-skill-name">WAIT Rule</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">13 DMG</span>
+                        <span class="squad-skill-damage">43-50 DMG</span>
                         <span class="squad-skill-energy">6 EN</span>
                     </div>
                 </button>
@@ -985,7 +1093,7 @@
                     <div class="squad-skill-icon">🏝️</div>
                     <div class="squad-skill-name">Calm Place Visualization</div>
                     <div class="squad-skill-stats">
-                        <span class="squad-skill-damage">15 DMG</span>
+                        <span class="squad-skill-damage">67-74 DMG</span>
                         <span class="squad-skill-energy">7 EN</span>
                     </div>
                 </button>
@@ -1038,24 +1146,28 @@
         </div>
 
         <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <button class="nav-item" onclick="window.location.href='home.html'">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='progress.html'">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Progress</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
-                <span class="nav-icon">👥</span>
-                <span class="nav-label">Community</span>
-            </button>
-            <button class="nav-item active" onclick="window.location.href='learn.html'">
-                <span class="nav-icon">📚</span>
-                <span class="nav-label">Learn</span>
-            </button>
-        </div>
+<div class="bottom-nav">
+    <button class="nav-item" onclick="window.location.href='home.html'">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='monsters.html'">
+        <span class="nav-icon">👾</span>
+        <span class="nav-label">Monsters</span>
+    </button>
+    <button class="nav-item active" onclick="window.location.href='progress.html'">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Progress</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='community.html'">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Community</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='learn.html'">
+        <span class="nav-icon">📚</span>
+        <span class="nav-label">Learn</span>
+    </button>
+</div>
     </div>
 
     <!-- Modal for mini-interventions -->
@@ -1065,6 +1177,7 @@
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
         // Battle State
         let bossMaxHp = 500;
@@ -1088,18 +1201,78 @@
             "The deadline is coming! You're running out of time!"
         ];
 
-        // Skill definitions (same as battle.html)
+        // Skill definitions with enhanced damage ranges (higher than solo battle)
         const skills = {
-            grounding: { name: 'Grounding Breath', damage: 8, cost: 3, type: 'breathing' },
-            cognitive: { name: 'Cognitive Shield', damage: 12, cost: 5, type: 'cbt' },
-            compassion: { name: 'Self-Compassion', damage: 6, cost: 2, type: 'affirmation' },
-            microbreak: { name: 'Mindful Microbreak', damage: 10, cost: 4, type: 'microbreak' },
-            pmr: { name: 'Progressive Muscle Relaxation', damage: 14, cost: 6, type: 'pmr' },
-            sensory: { name: 'Sensory Anchor', damage: 7, cost: 3, type: 'sensory' },
-            music: { name: 'Calming Sounds', damage: 9, cost: 4, type: 'music' },
-            labeling: { name: 'Thought Labeling', damage: 11, cost: 5, type: 'labeling' },
-            wait: { name: 'WAIT Rule', damage: 13, cost: 6, type: 'wait' },
-            visualize: { name: 'Calm Place Visualization', damage: 15, cost: 7, type: 'visualize' }
+            grounding: { 
+                name: 'Grounding Breath', 
+                minDamage: 48, 
+                maxDamage: 55, 
+                cost: 3, 
+                type: 'breathing' 
+            },
+            cognitive: { 
+                name: 'Cognitive Shield', 
+                minDamage: 52, 
+                maxDamage: 60, 
+                cost: 5, 
+                type: 'cbt' 
+            },
+            compassion: { 
+                name: 'Self-Compassion', 
+                minDamage: 66, 
+                maxDamage: 72, 
+                cost: 2, 
+                type: 'affirmation' 
+            },
+            microbreak: { 
+                name: 'Mindful Microbreak', 
+                minDamage: 70, 
+                maxDamage: 78, 
+                cost: 4, 
+                type: 'microbreak' 
+            },
+            pmr: { 
+                name: 'Progressive Muscle Relaxation', 
+                minDamage: 64, 
+                maxDamage: 70, 
+                cost: 6, 
+                type: 'pmr' 
+            },
+            sensory: { 
+                name: 'Sensory Anchor', 
+                minDamage: 57, 
+                maxDamage: 64, 
+                cost: 3, 
+                type: 'sensory' 
+            },
+            music: { 
+                name: 'Calming Sounds', 
+                minDamage: 49, 
+                maxDamage: 56, 
+                cost: 4, 
+                type: 'music' 
+            },
+            labeling: { 
+                name: 'Thought Labeling', 
+                minDamage: 51, 
+                maxDamage: 58, 
+                cost: 5, 
+                type: 'labeling' 
+            },
+            wait: { 
+                name: 'WAIT Rule', 
+                minDamage: 43, 
+                maxDamage: 50, 
+                cost: 6, 
+                type: 'wait' 
+            },
+            visualize: { 
+                name: 'Calm Place Visualization', 
+                minDamage: 67, 
+                maxDamage: 74, 
+                cost: 7, 
+                type: 'visualize' 
+            }
         };
 
         // CBT Tasks
@@ -1149,6 +1322,43 @@
             "A cozy cabin with a fireplace during snowfall",
             "A serene lake reflecting the stars at night"
         ];
+
+        function bossAttack() {
+            if (!battleActive) return;
+            
+            // Random damage between 3 and 7 (weaker than solo battle boss)
+            const damageToYou = Math.floor(Math.random() * 5) + 3;
+            
+            // Boss also attacks squad members randomly
+            const damageToAlex = Math.floor(Math.random() * 5) + 3;
+            const damageToJordan = Math.floor(Math.random() * 5) + 3;
+            const damageToTaylor = Math.floor(Math.random() * 5) + 3;
+            
+            // Apply damage
+            userEnergy = Math.max(0, userEnergy - damageToYou);
+            squadMembers[0].energy = Math.max(0, squadMembers[0].energy - damageToAlex);
+            squadMembers[1].energy = Math.max(0, squadMembers[1].energy - damageToJordan);
+            squadMembers[2].energy = Math.max(0, squadMembers[2].energy - damageToTaylor);
+            
+            addToLog(`👾 Boss attacks! You lose ${damageToYou} energy, squad loses ${damageToAlex}, ${damageToJordan}, ${damageToTaylor} energy`);
+            
+            updateUI();
+            
+            // Check if anyone is defeated
+            if (userEnergy <= 0) {
+                addToLog('😔 You are defeated! Your squad continues...');
+                // Disable your skills
+                disableAllSkillButtons(true);
+            }
+            
+            if (squadMembers.every(m => m.energy <= 0) && userEnergy <= 0) {
+                addToLog('😔 Entire squad defeated...');
+                setTimeout(() => {
+                    alert('The boss defeated your squad!');
+                    window.location.href = 'squaddetail.html';
+                }, 1500);
+            }
+        }
 
         // Show modal
         function showModal(title, content) {
@@ -1515,7 +1725,7 @@
             };
         }
 
-        // Use individual skill (same as battle.html)
+        // Use individual skill
         function useSkill(skillKey) {
             if (!battleActive) {
                 alert('Start the battle first!');
@@ -1543,26 +1753,29 @@
             disableAllSkillButtons(true);
             
             const afterSkill = function() {
-                let damage = skill.damage;
+                // Calculate random damage within skill's range
+                const damage = Math.floor(Math.random() * (skill.maxDamage - skill.minDamage + 1)) + skill.minDamage;
+                
+                let finalDamage = damage;
                 if (comboActive) {
-                    damage = Math.floor(damage * 1.5);
+                    finalDamage = Math.floor(damage * 1.5);
                     addToLog('🔥 COMBO! 50% bonus damage!');
                     comboActive = false;
                     document.getElementById('comboIndicator').style.display = 'none';
                 }
                 
-                bossCurrentHp = Math.max(0, bossCurrentHp - damage);
+                bossCurrentHp = Math.max(0, bossCurrentHp - finalDamage);
                 userEnergy -= skill.cost;
                 
                 updateBossHP();
-                addToLog('🎯 You used ' + skill.name + '! Deals ' + damage + ' damage');
+                addToLog('🎯 You used ' + skill.name + '! Deals ' + finalDamage + ' damage');
                 
                 if (bossCurrentHp <= 0) {
                     victory();
                 } else {
                     updateBossDialogue();
                     setTimeout(() => {
-                        bossCounterAttack();
+                        bossAttack();
                         skillInProgress = false;
                         disableAllSkillButtons(false);
                         updateUI();
@@ -1628,11 +1841,16 @@
                 return;
             }
 
+            if (skillInProgress) {
+                alert('Complete your current skill first!');
+                return;
+            }
+            
             const squadSkills = {
-                attack: { name: 'Squad Attack', damage: 45, cost: 8 },
-                heal: { name: 'Mass Heal', damage: 0, cost: 10 },
-                boost: { name: 'Squad Boost', damage: 0, cost: 6 },
-                shield: { name: 'Team Shield', damage: 0, cost: 7 }
+                attack: { name: 'Squad Attack', minDamage: 45, maxDamage: 60, cost: 8 },
+                heal: { name: 'Mass Heal', damage: 20, cost: 10 },
+                boost: { name: 'Squad Boost', cost: 6 },
+                shield: { name: 'Team Shield', cost: 7 }
             };
             
             const selectedSkill = squadSkills[skill];
@@ -1642,10 +1860,11 @@
                 return;
             }
             
+            skillInProgress = true;
             userEnergy -= selectedSkill.cost;
             
             if (skill === 'attack') {
-                let damage = selectedSkill.damage;
+                const damage = Math.floor(Math.random() * (selectedSkill.maxDamage - selectedSkill.minDamage + 1)) + selectedSkill.minDamage;
                 bossCurrentHp = Math.max(0, bossCurrentHp - damage);
                 updateBossHP();
                 addToLog('⚔️ Squad attack deals ' + damage + ' damage!');
@@ -1654,36 +1873,27 @@
                 if (bossCurrentHp <= 0) {
                     victory();
                 } else {
-                    setTimeout(bossCounterAttack, 1000);
+                    setTimeout(() => {
+                        bossAttack();
+                        skillInProgress = false;
+                    }, 800);
                 }
             } else if (skill === 'heal') {
                 squadMembers.forEach(member => {
-                    member.energy = Math.min(100, member.energy + 15);
+                    member.energy = Math.min(100, member.energy + 20);
                 });
-                userEnergy = Math.min(100, userEnergy + 15);
-                addToLog('💚 Mass heal restores 15 energy to all squad members!');
+                userEnergy = Math.min(100, userEnergy + 20);
+                addToLog('💚 Mass heal restores 20 energy to all squad members!');
+                skillInProgress = false;
             } else if (skill === 'boost') {
                 comboActive = true;
                 document.getElementById('comboIndicator').style.display = 'block';
-                addToLog('⬆️ Squad boost activated! Next attack deals double damage!');
+                addToLog('⬆️ Squad boost activated! Next attack deals 50% bonus damage!');
+                skillInProgress = false;
             } else if (skill === 'shield') {
                 addToLog('🛡️ Team shield blocks the next boss attack!');
-            }
-            
-            updateUI();
-        }
-
-        function bossCounterAttack() {
-            if (bossCurrentHp <= 0) return;
-            
-            const damage = Math.floor(Math.random() * 10) + 5;
-            userEnergy = Math.max(0, userEnergy - damage);
-            
-            addToLog('👾 Boss attacks! Your energy -' + damage);
-            
-            if (userEnergy <= 0) {
-                addToLog('😔 You ran out of energy...');
-                battleActive = false;
+                // Implement shield logic here
+                skillInProgress = false;
             }
             
             updateUI();
@@ -1720,13 +1930,13 @@
                 document.getElementById('skillLabeling').disabled = userEnergy < 5;
                 document.getElementById('skillWAIT').disabled = userEnergy < 6;
                 document.getElementById('skillVisualize').disabled = userEnergy < 7;
+                
+                // Update squad skills
+                document.getElementById('squadAttack').disabled = userEnergy < 8;
+                document.getElementById('squadHeal').disabled = userEnergy < 10;
+                document.getElementById('squadBoost').disabled = userEnergy < 6;
+                document.getElementById('squadShield').disabled = userEnergy < 7;
             }
-            
-            // Update squad skills
-            document.getElementById('squadAttack').disabled = userEnergy < 8;
-            document.getElementById('squadHeal').disabled = userEnergy < 10;
-            document.getElementById('squadBoost').disabled = userEnergy < 6;
-            document.getElementById('squadShield').disabled = userEnergy < 7;
         }
 
         function addToLog(message) {
@@ -1842,6 +2052,31 @@
         document.getElementById('chatInput')?.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendChat();
         });
+        
+        // Update stress indicator
+        function updateStressIndicator() {
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+        
+        // Initialize
+        window.onload = function() {
+            updateStressIndicator();
+        };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

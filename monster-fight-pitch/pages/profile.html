@@ -6,51 +6,6 @@
     <title>Profile - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        /* Same bottom nav as home */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 40px;
-            padding: 15px 0;
-            border-top: 1px solid rgba(255,255,255,0.5);
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            margin-bottom: 10px;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: #334155;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        .nav-item:hover {
-            color: #0c4a6e;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .nav-item.active {
-            color: #0c4a6e;
-            font-weight: bold;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .nav-label {
-            font-size: 11px;
-        }
-
         /* Profile specific styles */
         .profile-header {
             background: linear-gradient(135deg, #0c4a6e, #082032);
@@ -105,7 +60,7 @@
             font-size: 36px;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #a4e0fd; /* Updated to requested color */
+            color: #a4e0fd;
         }
 
         .profile-username {
@@ -135,37 +90,37 @@
         }
 
         .stat-card-large {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg-solid);
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 25px 15px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px var(--shadow-color);
             transition: all 0.3s ease;
         }
 
         .stat-card-large:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(12, 74, 110, 0.2);
+            box-shadow: 0 15px 30px var(--shadow-color);
         }
 
         .stat-value-large {
             font-size: 42px;
             font-weight: bold;
-            color: #0c4a6e;
+            color: var(--accent-primary);
             line-height: 1;
             margin-bottom: 5px;
         }
 
         .stat-label-large {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
         .section-title {
             font-size: 24px;
             font-weight: bold;
-            color: #082032;
+            color: var(--text-primary);
             margin: 40px 0 20px;
             display: flex;
             align-items: center;
@@ -180,7 +135,7 @@
         }
 
         .badge-item {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg-solid);
             backdrop-filter: blur(10px);
             border-radius: 25px;
             padding: 25px 15px;
@@ -191,7 +146,7 @@
 
         .badge-item:hover {
             transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.9);
+            background: white;
         }
 
         .badge-icon {
@@ -202,11 +157,11 @@
         .badge-name {
             font-weight: bold;
             margin-bottom: 5px;
-            color: #082032;
+            color: var(--text-primary);
         }
 
         .badge-desc {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 12px;
         }
 
@@ -215,7 +170,7 @@
         }
 
         .progress-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg-solid);
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 25px;
@@ -232,18 +187,18 @@
         .progress-title {
             font-size: 18px;
             font-weight: bold;
-            color: #082032;
+            color: var(--text-primary);
         }
 
         .progress-percent {
-            color: #0c4a6e;
+            color: var(--accent-primary);
             font-weight: bold;
         }
 
         .progress-bar-custom {
             width: 100%;
             height: 10px;
-            background: rgba(255,255,255,0.5);
+            background: var(--card-bg-darker);
             border-radius: 5px;
             overflow: hidden;
             margin: 10px 0;
@@ -251,13 +206,13 @@
 
         .progress-fill-custom {
             height: 100%;
-            background: linear-gradient(90deg, #0c4a6e, #7dd3fc);
+            background: linear-gradient(90deg, var(--accent-primary), #7dd3fc);
             border-radius: 5px;
             transition: width 0.3s ease;
         }
 
         .settings-list {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg-solid);
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 20px;
@@ -269,13 +224,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 15px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--border-light);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .setting-item:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--card-bg-darker);
             border-radius: 15px;
         }
 
@@ -292,7 +247,7 @@
         .setting-icon {
             width: 50px;
             height: 50px;
-            background: #0c4a6e;
+            background: var(--accent-primary);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -305,48 +260,17 @@
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 3px;
-            color: #082032;
+            color: var(--text-primary);
         }
 
         .setting-info p {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 13px;
         }
 
         .setting-right {
-            color: #0c4a6e;
+            color: var(--accent-primary);
             font-size: 20px;
-        }
-
-        .toggle-switch {
-            width: 60px;
-            height: 30px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 30px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .toggle-switch.active {
-            background: #0c4a6e;
-        }
-
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-switch.active::after {
-            left: 32px;
         }
 
         .danger-zone {
@@ -354,7 +278,7 @@
             border-radius: 30px;
             padding: 25px;
             margin: 40px 0;
-            background: rgba(239, 68, 68, 0.1);
+            background: var(--danger-bg);
         }
 
         .danger-title {
@@ -390,7 +314,7 @@
             align-items: center;
             gap: 15px;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.5);
+            background: var(--card-bg-darker);
             border-radius: 20px;
             margin-bottom: 10px;
         }
@@ -399,7 +323,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: #0c4a6e;
+            background: var(--accent-primary);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -415,27 +339,27 @@
         .friend-name {
             font-weight: bold;
             margin-bottom: 3px;
-            color: #082032;
+            color: var(--text-primary);
         }
 
         .friend-action {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 13px;
         }
 
         .friend-time {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 12px;
         }
 
         /* Contact Us Section Styles */
         .contact-section {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg-solid);
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 30px;
             margin: 40px 0;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--border-light);
         }
 
         .contact-header {
@@ -453,7 +377,7 @@
             background: white;
             border-radius: 20px;
             padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px var(--shadow-color);
         }
 
         .company-info {
@@ -463,12 +387,12 @@
         .company-name {
             font-size: 28px;
             font-weight: bold;
-            color: #082032;
+            color: var(--text-primary);
             margin-bottom: 5px;
         }
 
         .company-tagline {
-            color: #0c4a6e;
+            color: var(--accent-primary);
             font-size: 16px;
             font-style: italic;
         }
@@ -489,7 +413,7 @@
         .contact-icon {
             width: 50px;
             height: 50px;
-            background: #0c4a6e;
+            background: var(--accent-primary);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -502,22 +426,22 @@
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 3px;
-            color: #082032;
+            color: var(--text-primary);
         }
 
         .contact-text p {
-            color: #334155;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
         .contact-text a {
-            color: #0c4a6e;
+            color: var(--accent-primary);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .contact-text a:hover {
-            color: #082032;
+            color: var(--accent-secondary);
             text-decoration: underline;
         }
 
@@ -531,7 +455,7 @@
         .social-link {
             width: 45px;
             height: 45px;
-            background: #0c4a6e;
+            background: var(--accent-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -544,8 +468,8 @@
 
         .social-link:hover {
             transform: translateY(-3px);
-            background: #082032;
-            box-shadow: 0 5px 15px rgba(12, 74, 110, 0.3);
+            background: var(--accent-secondary);
+            box-shadow: 0 5px 15px var(--shadow-color);
         }
 
         @media (max-width: 768px) {
@@ -575,11 +499,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header (same as home) -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
-                <span class="logo">STRIDE</span>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -741,15 +668,16 @@
                 <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
             </div>
 
+            <!-- Dark Mode Toggle -->
             <div class="setting-item">
                 <div class="setting-left">
                     <div class="setting-icon">🌙</div>
                     <div class="setting-info">
                         <h4>Dark Mode</h4>
-                        <p>Switch theme</p>
+                        <p>Switch between light and dark theme</p>
                     </div>
                 </div>
-                <div class="toggle-switch" onclick="toggleSetting(this)"></div>
+                <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode(this)"></div>
             </div>
 
             <div class="setting-item">
@@ -786,7 +714,7 @@
             </div>
         </div>
 
-        <!-- ===== CONTACT US SECTION WITH TECHNOGANG LOGO ===== -->
+        <!-- Contact Us Section -->
         <div class="section-title">
             <span>📞</span> Contact Us
         </div>
@@ -860,44 +788,68 @@
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
             </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
+            </button>
             <button class="nav-item" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
                 <span class="nav-label">Progress</span>
             </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
+            <button class="nav-item active" onclick="window.location.href='community.html'">
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Community</span>
             </button>
-            <button class="nav-item active" onclick="window.location.href='profile.html'">
-                <span class="nav-icon">👤</span>
-                <span class="nav-label">Profile</span>
+            <button class="nav-item" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
             </button>
         </div>
     </div>
 
-    <script>
-        function toggleSetting(element) {
-            element.classList.toggle('active');
+<script>
+    // Keep ONLY these functions (remove initDarkMode and updateStressIndicator)
+    function toggleDarkMode(element) {
+        element.classList.toggle('active');
+        
+        if (document.body.classList.contains('dark-mode')) {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', 'disabled');
+        } else {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', 'enabled');
         }
+    }
 
-        function exportData() {
-            alert('📤 Your data is being exported. Check downloads folder.');
+    function toggleSetting(element) {
+        element.classList.toggle('active');
+    }
+
+    function exportData() {
+        alert('📤 Your data is being exported. Check downloads folder.');
+    }
+
+    function logout() {
+        if (confirm('Are you sure you want to log out?')) {
+            window.location.href = '../index.html';
         }
+    }
 
-        function logout() {
-            if (confirm('Are you sure you want to log out?')) {
+    function deleteAccount() {
+        if (confirm('⚠️ This action cannot be undone. Are you absolutely sure?')) {
+            if (confirm('Type "DELETE" to confirm')) {
+                alert('Account deleted. We\'re sorry to see you go.');
                 window.location.href = '../index.html';
             }
         }
-
-        function deleteAccount() {
-            if (confirm('⚠️ This action cannot be undone. Are you absolutely sure?')) {
-                if (confirm('Type "DELETE" to confirm')) {
-                    alert('Account deleted. We\'re sorry to see you go.');
-                    window.location.href = '../index.html';
-                }
-            }
-        }
-    </script>
+    }
+</script>
 </body>
+<!-- At the bottom, before closing </body> -->
+<script src="darkmode.js"></script>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

@@ -3,595 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mood Check - STRIDE </title>
+    <title>Quick Mood Check - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        /* Same bottom nav as home */
-        .bottom-nav {
+        body {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+            min-height: 100vh;
             display: flex;
-            justify-content: space-around;
-            margin-top: 40px;
-            padding: 15px 0;
-            border-top: 1px solid rgba(255,255,255,0.5);
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            margin-bottom: 10px;
-        }
-
-        .nav-item {
-            background: none;
-            border: none;
-            color: #334155;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 20px;
-        }
-
-        .nav-item:hover {
-            color: #0c4a6e;
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .nav-item.active {
-            color: #0c4a6e;
-            font-weight: bold;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .nav-label {
-            font-size: 11px;
-        }
-
-        /* Mood Check specific styles */
-        .mood-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .current-stress {
-            background: linear-gradient(135deg, #0c4a6e, #082032);
-            border-radius: 30px;
-            padding: 25px;
-            color: white;
-            margin: 30px 0;
-            text-align: center;
-        }
-
-        .stress-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-
-        .stress-dots-large {
-            display: flex;
-            gap: 15px;
             justify-content: center;
-            margin: 20px 0;
-        }
-
-        .dot-large {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .dot-large.filled {
-            background: #7dd3fc;
-            box-shadow: 0 0 20px #7dd3fc;
-        }
-
-        .stress-label {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 5px;
-
-        }
-
-        .mood-grid-large {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin: 40px 0;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
         }
 
         .mood-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px 15px;
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            box-shadow: 0 30px 60px rgba(12, 74, 110, 0.35);
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
         }
 
-        .mood-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .mood-card.selected {
-            border-color: #0c4a6e;
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .mood-emoji-large {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
-        .mood-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
+        h2 {
+            font-size: 32px;
             color: #082032;
+            margin-bottom: 10px;
+            font-weight: 800;
         }
 
-        .mood-description {
-            font-size: 12px;
+        .subtitle {
             color: #334155;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
 
-        .intensity-section {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            margin: 30px 0;
-        }
-
-        .intensity-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .mood-emoji {
+            font-size: 80px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
         }
 
-        .intensity-title {
+        .stress-level-label {
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
             color: #082032;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.5);
+            padding: 10px 20px;
+            border-radius: 40px;
+            display: inline-block;
         }
 
-        .intensity-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #0c4a6e;
+        .slider-container {
+            margin: 40px 0;
+            position: relative;
+            padding: 0 10px;
         }
 
-        .intensity-slider {
+        .stress-slider {
+            -webkit-appearance: none;
             width: 100%;
             height: 10px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 5px;
+            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+            border-radius: 10px;
             outline: none;
-            -webkit-appearance: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .intensity-slider::-webkit-slider-thumb {
+        .stress-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 30px;
             height: 30px;
+            background: white;
             border-radius: 50%;
-            background: #0c4a6e;
             cursor: pointer;
-            box-shadow: 0 0 15px #0c4a6e;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 3px solid #0c4a6e;
+            transition: all 0.2s ease;
         }
 
-        .intensity-labels {
+        .stress-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            background: #f0f9ff;
+        }
+
+        .slider-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            margin-top: 15px;
             color: #334155;
             font-size: 14px;
+            font-weight: 600;
+            padding: 0 5px;
         }
 
-        .validation-card {
-            background: linear-gradient(135deg, #0c4a6e, #082032);
-            border-radius: 30px;
-            padding: 30px;
-            color: white;
+        .slider-label {
+            background: rgba(255,255,255,0.5);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .dot-preview {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
             margin: 30px 0;
-            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50px;
         }
 
-        .validation-emoji {
-            font-size: 80px;
-            margin-bottom: 20px;
+        .preview-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
         }
 
-        .validation-title {
+        .preview-dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 15px #0c4a6e;
+            transform: scale(1.2);
+        }
+
+        .quick-tip {
+            background: rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #082032;
+            border-left: 4px solid #0c4a6e;
+            text-align: left;
+        }
+
+        .tip-icon {
             font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .validation-message {
-            font-size: 18px;
-            margin-bottom: 25px;
-            opacity: 0.9;
-            line-height: 1.6;
+            margin-right: 10px;
+            vertical-align: middle;
         }
 
         .action-buttons {
             display: flex;
             gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            margin-top: 30px;
         }
 
-        .action-button {
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+        .primary-btn {
+            flex: 1;
+            background: #0c4a6e;
             color: white;
-            padding: 15px 30px;
+            border: none;
+            padding: 16px 24px;
             border-radius: 50px;
-            font-size: 16px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            box-shadow: 0 10px 20px rgba(12,74,110,0.3);
         }
 
-        .action-button:hover {
+        .primary-btn:hover {
+            background: #082032;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(12,74,110,0.4);
+        }
+
+        .secondary-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.7);
+            color: #082032;
+            border: 2px solid #0c4a6e;
+            padding: 16px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
             background: white;
-            color: #0c4a6e;
             transform: translateY(-2px);
         }
 
-        .history-section {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 30px 0;
-        }
-
-        .history-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        .back-btn {
+            background: rgba(255,255,255,0.5);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
             color: #082032;
-            display: flex;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            transition: 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: inline-flex;
             align-items: center;
             gap: 8px;
         }
 
-        .history-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            text-align: center;
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
         }
 
-        .history-day {
-            font-size: 12px;
-            color: #334155;
-            margin-bottom: 5px;
-        }
-
-        .history-emoji {
-            font-size: 24px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            padding: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .mood-grid-large {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 480px) {
+            .mood-card {
+                padding: 30px 20px;
+            }
+            
+            h2 {
+                font-size: 28px;
+            }
+            
+            .mood-emoji {
+                font-size: 60px;
             }
             
             .action-buttons {
                 flex-direction: column;
             }
-            
-            .history-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container mood-container">
-        <!-- Header (same as home) -->
-        <div class="app-header">
-            <div class="header-left">
-                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">STRIDE</span>
-            </div>
-            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
-                <span class="stress-label">Stress:</span>
-                <span class="dot filled"></span>
-                <span class="dot filled"></span>
-                <span class="dot filled"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </div>
-
-        <!-- Back Button -->
-        <div style="margin-bottom: 20px;">
-            <button class="back-btn" onclick="window.location.href='home.html'">← Back</button>
-        </div>
-
-        <!-- Page Title -->
-        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">😊 Mood Check</h1>
-        <p style="color: #334155; margin-bottom: 20px; font-size: 20px;">How are you feeling right now?</p>
-        <!-- Current Stress Display -->
-        <div class="current-stress">
-            <div class="stress-title">Your current stress level</div>
-            <div class="stress-dots-large">
-                <span class="dot-large filled"></span>
-                <span class="dot-large filled"></span>
-                <span class="dot-large filled"></span>
-                <span class="dot-large"></span>
-                <span class="dot-large"></span>
-            </div>
-            <div class="stress-label">High Stress</div>
-        </div>
-
-        <!-- Mood Grid -->
-        <div class="mood-grid-large">
-            <div class="mood-card" onclick="selectMood('overwhelmed')">
-                <div class="mood-emoji-large">😫</div>
-                <div class="mood-name">Overwhelmed</div>
-                <div class="mood-description">Too much, can't cope</div>
-            </div>
-            
-            <div class="mood-card" onclick="selectMood('irritable')">
-                <div class="mood-emoji-large">😠</div>
-                <div class="mood-name">Irritable</div>
-                <div class="mood-description">Everything's annoying</div>
-            </div>
-            
-            <div class="mood-card" onclick="selectMood('anxious')">
-                <div class="mood-emoji-large">😰</div>
-                <div class="mood-name">Anxious</div>
-                <div class="mood-description">Heart racing, worried</div>
-            </div>
-            
-            <div class="mood-card" onclick="selectMood('down')">
-                <div class="mood-emoji-large">😔</div>
-                <div class="mood-name">Down</div>
-                <div class="mood-description">Sad, heavy, low</div>
-            </div>
-            
-            <div class="mood-card" onclick="selectMood('exhausted')">
-                <div class="mood-emoji-large">🥱</div>
-                <div class="mood-name">Exhausted</div>
-                <div class="mood-description">No energy, depleted</div>
-            </div>
-            
-            <div class="mood-card" onclick="selectMood('numb')">
-                <div class="mood-emoji-large">😐</div>
-                <div class="mood-name">Numb</div>
-                <div class="mood-description">Can't feel anything</div>
-            </div>
-        </div>
-
-        <!-- Intensity Slider -->
-        <div class="intensity-section">
-            <div class="intensity-header">
-                <span class="intensity-title">How intense is this?</span>
-                <span class="intensity-value" id="intensityValue">3/5</span>
-            </div>
-            <input type="range" min="1" max="5" value="3" class="intensity-slider" id="intensitySlider" oninput="updateIntensity(this.value)">
-            <div class="intensity-labels">
-                <span>Very mild</span>
-                <span>Mild</span>
-                <span>Moderate</span>
-                <span>Intense</span>
-                <span>Severe</span>
-            </div>
-        </div>
-
-        <!-- Validation Message (shown after mood selection) -->
-        <div class="validation-card" id="validationCard" style="display: none;">
-            <div class="validation-emoji" id="validationEmoji">😊</div>
-            <div class="validation-title" id="validationTitle">It's okay to feel this way</div>
-            <div class="validation-message" id="validationMessage">
-                Your feelings are valid. You're not alone in this.
-            </div>
-            
-            <div class="action-buttons">
-                <button class="action-button" onclick="suggestAction('breathing')">
-                    <span>🌬️</span> 5-Minute Breathing
-                </button>
-                <button class="action-button" onclick="suggestAction('grounding')">
-                    <span>🌍</span> Grounding Exercise
-                </button>
-                <button class="action-button" onclick="suggestAction('journal')">
-                    <span>📝</span> Quick Journal
-                </button>
-            </div>
-        </div>
-
-        <!-- Save Button -->
-        <button class="save-btn" style="width: 100%; margin: 20px 0; padding-top: 8px; padding-bottom: 8px; padding-left: 16px; padding-right: 16px;" onclick="saveMood()" id="saveMoodBtn" disabled>Log This Mood</button>
-
-        <!-- Mood History -->
-        <div class="history-section">
-            <div class="history-title">
-                <span>📊</span> This Week's Mood
-            </div>
-            <div class="history-grid">
-                <div>
-                    <div class="history-day">Mon</div>
-                    <div class="history-emoji">😫</div>
-                </div>
-                <div>
-                    <div class="history-day">Tue</div>
-                    <div class="history-emoji">😰</div>
-                </div>
-                <div>
-                    <div class="history-day">Wed</div>
-                    <div class="history-emoji">😔</div>
-                </div>
-                <div>
-                    <div class="history-day">Thu</div>
-                    <div class="history-emoji">🙂</div>
-                </div>
-                <div>
-                    <div class="history-day">Fri</div>
-                    <div class="history-emoji">😊</div>
-                </div>
-                <div>
-                    <div class="history-day">Sat</div>
-                    <div class="history-emoji">😐</div>
-                </div>
-                <div>
-                    <div class="history-day">Sun</div>
-                    <div class="history-emoji">-</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <button class="nav-item active" onclick="window.location.href='home.html'">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
+    <div class="mood-card">
+        <!-- Back button -->
+        <div style="text-align: left; margin-bottom: 20px;">
+            <button class="back-btn" onclick="window.location.href='home.html'">
+                <span>←</span> Back
             </button>
-            <button class="nav-item" onclick="window.location.href='progress.html'">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Progress</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
-                <span class="nav-icon">👥</span>
-                <span class="nav-label">Community</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='learn.html'">
-                <span class="nav-icon">📚</span>
-                <span class="nav-label">Learn</span>
-            </button>
+        </div>
+
+        <!-- Main content -->
+        <h2>Quick Mood Check</h2>
+        <p class="subtitle">How are you feeling right now? (5 seconds)</p>
+
+        <!-- Dynamic emoji based on stress level -->
+        <div class="mood-emoji" id="moodEmoji">😐</div>
+
+        <!-- Stress level label -->
+        <div class="stress-level-label" id="stressLabel">Moderate Stress</div>
+
+        <!-- Custom slider -->
+        <div class="slider-container">
+            <input type="range" min="1" max="5" value="3" class="stress-slider" id="stressSlider">
+            <div class="slider-labels">
+                <span class="slider-label">Very Low</span>
+                <span class="slider-label">Low</span>
+                <span class="slider-label">Medium</span>
+                <span class="slider-label">High</span>
+                <span class="slider-label">Very High</span>
+            </div>
+        </div>
+
+        <!-- Dot preview (matches stress indicator) -->
+        <div class="dot-preview" id="dotPreview">
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+            <span class="preview-dot"></span>
+        </div>
+
+        <!-- Quick tip based on stress level -->
+        <div class="quick-tip" id="quickTip">
+            <span class="tip-icon">💡</span>
+            <span>Moderate stress is normal. Try some deep breathing.</span>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons">
+            <button class="secondary-btn" onclick="window.location.href='home.html'">Maybe Later</button>
+            <button class="primary-btn" onclick="updateStressLevel()">✓ Update & Continue</button>
+        </div>
+
+        <!-- Quick links to coping tools -->
+        <div style="margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <span style="color: #334155; font-size: 13px;">Need help now?</span>
+            <a href="quickbreathing.html" style="color: #0c4a6e; text-decoration: none; font-weight: 600;">🌬️ Breathe</a>
+            <a href="quickgrounding.html" style="color: #0c4a6e; text-decoration: none; font-weight: 600;">🌍 Ground</a>
+            <a href="distract.html" style="color: #0c4a6e; text-decoration: none; font-weight: 600;">🎮 Distract</a>
         </div>
     </div>
 
     <script>
-        let currentMood = '';
-        
-        const moodMessages = {
-            overwhelmed: {
-                emoji: '😫',
-                message: "This is a lot to carry right now. It makes sense to feel overwhelmed. Let's take it one breath at a time."
-            },
-            irritable: {
-                emoji: '😠',
-                message: "Your frustration is valid. Something is bothering you, and that's okay. Let's find a way to release it."
-            },
-            anxious: {
-                emoji: '😰',
-                message: "Anxiety is trying to protect you. Thank it, then let's help you feel safer in this moment."
-            },
-            down: {
-                emoji: '😔',
-                message: "It's heavy right now. That's real. You don't have to carry it alone. This feeling will pass."
-            },
-            exhausted: {
-                emoji: '🥱',
-                message: "You've been running on empty. Rest is not a reward—it's a need. You deserve to pause."
-            },
-            numb: {
-                emoji: '😐',
-                message: "Sometimes we need to go numb to survive. Let's gently come back to the present, at your own pace."
-            }
-        };
+        // Elements
+        const slider = document.getElementById('stressSlider');
+        const moodEmoji = document.getElementById('moodEmoji');
+        const stressLabel = document.getElementById('stressLabel');
+        const quickTip = document.getElementById('quickTip');
+        const dots = document.querySelectorAll('.preview-dot');
 
-        function selectMood(mood) {
-            currentMood = mood;
+        // Update UI based on slider value
+        function updateMoodUI() {
+            const value = parseInt(slider.value);
             
-            // Clear previous selection
-            document.querySelectorAll('.mood-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            // Mark current as selected
-            event.currentTarget.classList.add('selected');
-            
-            // Show validation card
-            document.getElementById('validationCard').style.display = 'block';
-            document.getElementById('validationEmoji').textContent = moodMessages[mood].emoji;
-            document.getElementById('validationMessage').textContent = moodMessages[mood].message;
-            
-            // Enable save button
-            document.getElementById('saveMoodBtn').disabled = false;
-        }
-
-        function updateIntensity(value) {
-            document.getElementById('intensityValue').textContent = value + '/5';
-        }
-
-        function suggestAction(action) {
-            switch(action) {
-                case 'breathing':
-                    window.location.href = 'quickbreathing.html';
-                    break;
-                case 'grounding':
-                    window.location.href = 'quickgrounding.html';
-                    break;
-                case 'journal':
-                    window.location.href = 'quickjournal.html';
-                    break;
-            }
-        }
-
-        function saveMood() {
-            const intensity = document.getElementById('intensitySlider').value;
-            
-            // Update stress indicator
-            const stressLevel = Math.ceil(intensity);
-            const dots = document.querySelectorAll('.dot, .dot-large');
+            // Update dots
             dots.forEach((dot, index) => {
-                if (index < stressLevel) {
+                if (index < value) {
                     dot.classList.add('filled');
                 } else {
                     dot.classList.remove('filled');
                 }
             });
+
+            // Update emoji and label based on value
+            switch(value) {
+                case 1:
+                    moodEmoji.textContent = '😊';
+                    stressLabel.textContent = 'Very Low Stress';
+                    quickTip.innerHTML = '<span class="tip-icon">💡</span> <span>That\'s great! What\'s going well right now?</span>';
+                    break;
+                case 2:
+                    moodEmoji.textContent = '🙂';
+                    stressLabel.textContent = 'Low Stress';
+                    quickTip.innerHTML = '<span class="tip-icon">💡</span> <span>Feeling calm? Take a moment to appreciate it.</span>';
+                    break;
+                case 3:
+                    moodEmoji.textContent = '😐';
+                    stressLabel.textContent = 'Moderate Stress';
+                    quickTip.innerHTML = '<span class="tip-icon">💡</span> <span>Moderate stress is normal. Try some deep breathing.</span>';
+                    break;
+                case 4:
+                    moodEmoji.textContent = '😟';
+                    stressLabel.textContent = 'High Stress';
+                    quickTip.innerHTML = '<span class="tip-icon">💡</span> <span>Take a 5-minute break. Grounding exercises can help.</span>';
+                    break;
+                case 5:
+                    moodEmoji.textContent = '😫';
+                    stressLabel.textContent = 'Very High Stress';
+                    quickTip.innerHTML = '<span class="tip-icon">🚨</span> <span>You\'re overwhelmed. Try the 5-4-3-2-1 grounding technique now.</span>';
+                    break;
+            }
+        }
+
+        // Update stress level and return to home
+        function updateStressLevel() {
+            const value = parseInt(slider.value);
             
-            // Update stress label
-            const stressLabels = ['Minimal', 'Mild', 'Moderate', 'High', 'Severe'];
-            document.querySelector('.stress-label').textContent = stressLabels[stressLevel - 1] + ' Stress';
+            // Save to localStorage - use 'stressLevel' key (consistent with home page)
+            localStorage.setItem('stressLevel', value);
             
-            alert(`✨ Mood logged: ${currentMood} (intensity: ${intensity}/5)`);
+            // Also save as 'currentStressLevel' for backward compatibility
+            localStorage.setItem('currentStressLevel', value);
+            
+            // Show success message
+            alert('✅ Mood updated! Stress level: ' + value + '/5');
+            
+            // Redirect to home
             window.location.href = 'home.html';
         }
 
-        // Initialize stress display
+        // Listen to slider changes
+        slider.addEventListener('input', updateMoodUI);
+
+        // Initialize on load
         window.onload = function() {
-            const hours = new Date().getHours();
-            let stressLevel = 3;
-            
-            if (hours < 10) stressLevel = 4;
-            else if (hours < 15) stressLevel = 3;
-            else if (hours < 19) stressLevel = 4;
-            else stressLevel = 2;
-            
-            const dots = document.querySelectorAll('.dot-large');
-            dots.forEach((dot, index) => {
-                if (index < stressLevel) {
-                    dot.classList.add('filled');
-                }
-            });
-            
-            const stressLabels = ['Minimal', 'Mild', 'Moderate', 'High', 'Severe'];
-            document.querySelector('.stress-label').textContent = stressLabels[stressLevel - 1] + ' Stress';
+            // Check if there's a saved stress level
+            const savedStress = localStorage.getItem('stressLevel');
+            if (savedStress) {
+                slider.value = savedStress;
+            }
+            updateMoodUI();
         };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

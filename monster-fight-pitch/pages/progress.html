@@ -52,6 +52,111 @@
             font-size: 11px;
         }
 
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
         /* Progress page specific styles */
         .stats-grid {
             display: grid;
@@ -302,7 +407,6 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
             .monster-details {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -311,11 +415,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header (same as home) -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">STRIDE</span>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -328,7 +435,7 @@
         </div>
 
         <!-- Page Title -->
-        <h1 style="font-size: 28px; margin: 20px 0; color: #082032;">📊 Monster Battleground</h1>
+        <h1 style="font-size: 28px; margin: 20px 0; color: var(--text-primary, #082032);">📊 Monster Battleground</h1>
 
         <!-- Stats Grid -->
         <div class="stats-grid">
@@ -362,9 +469,9 @@
 
         <!-- Month Selector -->
         <div class="month-selector">
-            <button class="month-btn active" onclick="switchMonth('feb2026')">February 2026</button>
-            <button class="month-btn" onclick="switchMonth('jan2026')">January 2026</button>
-            <button class="month-btn" onclick="switchMonth('dec2025')">December 2025</button>
+            <button class="month-btn active" onclick="switchMonth('feb2026', this)">February 2026</button>
+            <button class="month-btn" onclick="switchMonth('jan2026', this)">January 2026</button>
+            <button class="month-btn" onclick="switchMonth('dec2025', this)">December 2025</button>
         </div>
 
         <!-- Monster Timeline Display -->
@@ -378,7 +485,7 @@
         </div>
 
         <!-- Monster Progress Sections -->
-        <h2 style="margin: 30px 0 15px; color: #082032;">👾 Current Monster Roster</h2>
+        <h2 style="margin: 30px 0 15px; color: var(--text-primary, #082032);">👾 Current Monster Roster</h2>
 
         <!-- February 2026 Monsters -->
         <div id="feb2026-monsters" style="display: block;">
@@ -679,7 +786,7 @@
 
         <!-- December 2025 Monsters -->
         <div id="dec2025-monsters" style="display: none;">
-            <!--Social Anxiety: Christmas Edition -->
+            <!-- Social Anxiety: Christmas Edition -->
             <div class="monster-progress-card">
                 <div class="monster-header" onclick="toggleDetails(this)">
                     <div class="monster-name">
@@ -828,16 +935,13 @@
         </div>
 
         <!-- Insights -->
-        <h2 style="margin: 30px 0 15px; color: #082032;">💡 Battle Intelligence</h2>
-
+        <h2 style="margin: 30px 0 15px; color: var(--text-primary, #082032);">💡 Battle Intelligence</h2>
         <div class="insight-card" id="insight1">
             <!-- Dynamic content updated by JavaScript -->
         </div>
-
         <div class="insight-card" id="insight2">
             <!-- Dynamic content updated by JavaScript -->
         </div>
-
         <div class="insight-card" id="insight3">
             <!-- Dynamic content updated by JavaScript -->
         </div>
@@ -847,6 +951,10 @@
             <button class="nav-item" onclick="window.location.href='home.html'">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
             </button>
             <button class="nav-item active" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
@@ -863,17 +971,19 @@
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
         // Initialize with February 2026
         window.onload = function() {
             updateDisplay('feb2026');
+            updateStressIndicator();
         };
 
         function updateDisplay(month) {
             updateTimeline(month);
             updateChart(month);
             updateInsights(month);
-            
+
             // Show/hide monster sections
             document.getElementById('feb2026-monsters').style.display = month === 'feb2026' ? 'block' : 'none';
             document.getElementById('jan2026-monsters').style.display = month === 'jan2026' ? 'block' : 'none';
@@ -903,15 +1013,12 @@
             };
 
             const data = timelineData[month];
-            
             document.getElementById('timeline-display').innerHTML = `
                 <div class="month-label">
                     <span>🗓️ ${data.month}</span>
                     <span class="monster-badge">${data.active}</span>
                 </div>
-                <div>
-                    ${data.monsters.map(m => `<span class="monster-tag">${m}</span>`).join('')}
-                </div>
+                <div>${data.monsters.map(m => `<span class="monster-tag">${m}</span>`).join('')}</div>
                 <div style="margin-top: 15px; color: #475569; font-size: 13px;">
                     <span>${data.insight}</span>
                 </div>
@@ -923,89 +1030,101 @@
             
             // Clear existing chart
             Chart.getChart(ctx.canvas)?.destroy();
-
+            
             let chartData;
             let title;
-            
+
             if (month === 'feb2026') {
                 chartData = {
                     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    datasets: [{
-                        label: 'Burnout Beast',
-                        data: [96, 78, 61, 44],
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Comparison Trap',
-                        data: [88, 79, 64, 50],
-                        borderColor: '#a855f7',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Deadline Dementor',
-                        data: [94, 82, 67, 49],
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    datasets: [
+                        {
+                            label: 'Burnout Beast',
+                            data: [96, 78, 61, 44],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Comparison Trap',
+                            data: [88, 79, 64, 50],
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Deadline Dementor',
+                            data: [94, 82, 67, 49],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
                 };
                 title = 'February 2026 - Current Monster Battles';
             } else if (month === 'jan2026') {
                 chartData = {
                     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    datasets: [{
-                        label: 'Imposter Syndrome',
-                        data: [95, 78, 64, 37],
-                        borderColor: '#a855f7',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Perfectionism',
-                        data: [92, 84, 71, 50],
-                        borderColor: '#0c4a6e',
-                        backgroundColor: 'rgba(12, 74, 110, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Monday Dread',
-                        data: [89, 72, 52, 28],
-                        borderColor: '#f59e0b',
-                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    datasets: [
+                        {
+                            label: 'Imposter Syndrome',
+                            data: [95, 78, 64, 37],
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Perfectionism',
+                            data: [92, 84, 71, 50],
+                            borderColor: '#0c4a6e',
+                            backgroundColor: 'rgba(12, 74, 110, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Monday Dread',
+                            data: [89, 72, 52, 28],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
                 };
                 title = 'January 2026 - Two Monsters Defeated!';
             } else if (month === 'dec2025') {
                 chartData = {
                     labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-                    datasets: [{
-                        label: 'Social Anxiety: Christmas Edition',
-                        data: [98, 82, 51, 25],
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Family Expectations Entity',
-                        data: [91, 74, 52, 33],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }, {
-                        label: 'Year-End Reflection Monster',
-                        data: [87, 65, 44, 23],
-                        borderColor: '#a855f7',
-                        backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    datasets: [
+                        {
+                            label: 'Social Anxiety: Christmas Edition',
+                            data: [98, 82, 51, 25],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Family Expectations Entity',
+                            data: [91, 74, 52, 33],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Year-End Reflection Monster',
+                            data: [87, 65, 44, 23],
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
                 };
                 title = 'December 2025 - Holiday Monster Massacre';
             }
@@ -1046,69 +1165,23 @@
         function updateInsights(month) {
             const insights = {
                 'feb2026': {
-                    insight1: {
-                        icon: '📅',
-                        title: 'Peak Monster Activity:',
-                        desc: 'Thursday afternoons',
-                        detail: 'Burnout Beast is 40% stronger on Thursdays at 3pm'
-                    },
-                    insight2: {
-                        icon: '⚔️',
-                        title: 'Most Improved:',
-                        desc: 'Burnout Beast',
-                        detail: '↓ 52% reduction this month'
-                    },
-                    insight3: {
-                        icon: '🎯',
-                        title: 'Next Target:',
-                        desc: 'Comparison Trap',
-                        detail: 'On track to defeat by March 10'
-                    }
+                    insight1: { icon: '📅', title: 'Peak Monster Activity:', desc: 'Thursday afternoons', detail: 'Burnout Beast is 40% stronger on Thursdays at 3pm' },
+                    insight2: { icon: '⚔️', title: 'Most Improved:', desc: 'Burnout Beast', detail: '↓ 52% reduction this month' },
+                    insight3: { icon: '🎯', title: 'Next Target:', desc: 'Comparison Trap', detail: 'On track to defeat by March 10' }
                 },
                 'jan2026': {
-                    insight1: {
-                        icon: '🏆',
-                        title: 'Victories:',
-                        desc: '2 Monsters Defeated',
-                        detail: 'Imposter Syndrome & Monday Dread conquered!'
-                    },
-                    insight2: {
-                        icon: '📊',
-                        title: 'Best Performance:',
-                        desc: 'Monday Dread',
-                        detail: '↓ 61% reduction - New record!'
-                    },
-                    insight3: {
-                        icon: '🎯',
-                        title: 'Carryover:',
-                        desc: 'Perfectionism',
-                        detail: 'Continues to February at 50% HP'
-                    }
+                    insight1: { icon: '🏆', title: 'Victories:', desc: '2 Monsters Defeated', detail: 'Imposter Syndrome & Monday Dread conquered!' },
+                    insight2: { icon: '📊', title: 'Best Performance:', desc: 'Monday Dread', detail: '↓ 61% reduction - New record!' },
+                    insight3: { icon: '🎯', title: 'Carryover:', desc: 'Perfectionism', detail: 'Continues to February at 50% HP' }
                 },
                 'dec2025': {
-                    insight1: {
-                        icon: '🎄',
-                        title: 'Holiday Special:',
-                        desc: 'All Monsters Defeated',
-                        detail: 'Perfect record for December!'
-                    },
-                    insight2: {
-                        icon: '⚡',
-                        title: 'Most Stubborn:',
-                        desc: 'Social Anxiety: Christmas Edition',
-                        detail: 'Took 4 weeks to defeat'
-                    },
-                    insight3: {
-                        icon: '🌟',
-                        title: 'MVP Weapon:',
-                        desc: 'Setting Boundaries',
-                        detail: 'Most effective against Family Expectations'
-                    }
+                    insight1: { icon: '🎄', title: 'Holiday Special:', desc: 'All Monsters Defeated', detail: 'Perfect record for December!' },
+                    insight2: { icon: '⚡', title: 'Most Stubborn:', desc: 'Social Anxiety: Christmas Edition', detail: 'Took 4 weeks to defeat' },
+                    insight3: { icon: '🌟', title: 'MVP Weapon:', desc: 'Setting Boundaries', detail: 'Most effective against Family Expectations' }
                 }
             };
 
             const data = insights[month];
-            
             document.getElementById('insight1').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <span style="font-size: 24px;">${data.insight1.icon}</span>
@@ -1118,7 +1191,6 @@
                     </div>
                 </div>
             `;
-
             document.getElementById('insight2').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <span style="font-size: 24px;">${data.insight2.icon}</span>
@@ -1128,7 +1200,6 @@
                     </div>
                 </div>
             `;
-
             document.getElementById('insight3').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 15px;">
                     <span style="font-size: 24px;">${data.insight3.icon}</span>
@@ -1140,11 +1211,10 @@
             `;
         }
 
-        function switchMonth(month) {
+        function switchMonth(month, element) {
             // Update active button
             document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
+            element.classList.add('active');
             updateDisplay(month);
         }
 
@@ -1160,6 +1230,25 @@
                 arrow.textContent = '▼';
             }
         }
+
+        function updateStressIndicator() {
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

@@ -6,7 +6,621 @@
     <title>Journal - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        /* Same bottom nav as home */
+        /* Global Styles */
+        body {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .journal-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(12, 74, 110, 0.3));
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .header-left a:hover .logo {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Stress Indicator */
+        .stress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #082032;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Page Title */
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #082032;
+            margin: 20px 0 10px;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            color: #334155;
+            margin-bottom: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Mood Selector */
+        .mood-selector {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .mood-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .mood-option {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 30px;
+        }
+
+        .mood-option:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-3px);
+        }
+
+        .mood-emoji {
+            font-size: 48px;
+            margin-bottom: 8px;
+            filter: grayscale(0.3);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .mood-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .mood-option.selected {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .mood-option.selected .mood-emoji {
+            filter: grayscale(0);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .mood-option.selected .mood-label {
+            color: #0c4a6e;
+            font-weight: 700;
+        }
+
+        /* Journal Section */
+        .journal-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(12, 74, 110, 0.15);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .section-icon {
+            font-size: 48px;
+            background: rgba(255,255,255,0.3);
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .section-header-text {
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #082032;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            color: #334155;
+            font-size: 16px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Prompts List - Matching your image */
+        .prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 20px 0 30px;
+            padding: 0 10px;
+        }
+
+        .prompt-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 12px;
+            color: #082032;
+        }
+
+        .prompt-item:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(8px);
+        }
+
+        .prompt-bullet {
+            font-size: 20px;
+            color: #0c4a6e;
+            font-weight: bold;
+            width: 20px;
+            text-align: center;
+        }
+
+        .prompt-text {
+            font-size: 16px;
+            color: #082032;
+            font-weight: 500;
+        }
+
+        /* Journal Textarea */
+        .journal-textarea {
+            width: 100%;
+            height: 300px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            line-height: 1.8;
+            resize: vertical;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            color: #082032;
+        }
+
+        .journal-textarea:focus {
+            outline: none;
+            border-color: #0c4a6e;
+            background: white;
+            box-shadow: 0 10px 30px rgba(12,74,110,0.15);
+        }
+
+        .journal-textarea::placeholder {
+            color: #64748b;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        /* Entry Actions */
+        .entry-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(12,74,110,0.3);
+            min-width: 160px;
+        }
+
+        .save-btn:hover {
+            background: #082032;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(12,74,110,0.4);
+        }
+
+        .clear-btn {
+            background: rgba(255,255,255,0.7);
+            border: 2px solid #334155;
+            color: #334155;
+            padding: 16px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .clear-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Previous Entries */
+        .previous-entries {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .entries-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .entries-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #082032;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .export-btn {
+            background: rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #082032;
+            font-weight: 600;
+        }
+
+        .export-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .entry-card {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .entry-card:hover {
+            background: white;
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .entry-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #0c4a6e;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .entry-card:hover::before {
+            opacity: 1;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .entry-date {
+            color: #0c4a6e;
+            font-weight: 600;
+            font-size: 14px;
+            background: rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 30px;
+        }
+
+        .entry-mood {
+            font-size: 24px;
+        }
+
+        .entry-text {
+            color: #082032;
+            line-height: 1.8;
+            font-size: 15px;
+            margin: 15px 0;
+            padding: 0 5px;
+        }
+
+        .entry-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .entry-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .entry-tag {
+            background: rgba(12, 74, 110, 0.1);
+            color: #0c4a6e;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .delete-entry {
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-entry:hover {
+            opacity: 1;
+            background: rgba(239,68,68,0.1);
+            transform: scale(1.1);
+        }
+
+        .empty-entries {
+            text-align: center;
+            padding: 50px 20px;
+            color: #334155;
+            font-style: italic;
+        }
+
+        .empty-entries-emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .secondary-btn {
+            background: rgba(255,255,255,0.5);
+            border: 2px solid #0c4a6e;
+            color: #0c4a6e;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background: #0c4a6e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            color: #0c4a6e;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .quick-link:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Bottom Navigation */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
@@ -36,6 +650,7 @@
         .nav-item:hover {
             color: #0c4a6e;
             background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
         .nav-item.active {
@@ -51,259 +666,7 @@
             font-size: 11px;
         }
 
-        /* Journal specific styles */
-        .journal-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .mood-selector {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .mood-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #082032;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .mood-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-        }
-
-        .mood-option {
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .mood-emoji {
-            font-size: 40px;
-            margin-bottom: 8px;
-            filter: grayscale(0.5);
-            opacity: 0.7;
-            transition: all 0.3s ease;
-        }
-
-        .mood-label {
-            font-size: 12px;
-            color: #334155;
-        }
-
-        .mood-option.selected .mood-emoji {
-            filter: grayscale(0);
-            opacity: 1;
-            transform: scale(1.2);
-        }
-
-        .mood-option.selected .mood-label {
-            color: #0c4a6e;
-            font-weight: bold;
-        }
-
-        .prompt-section {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .prompt-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #082032;
-        }
-
-        .prompt-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .prompt-chip {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(255,255,255,0.5);
-            border-radius: 50px;
-            padding: 12px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #082032;
-        }
-
-        .prompt-chip:hover {
-            background: white;
-            border-color: #0c4a6e;
-            transform: translateY(-2px);
-        }
-
-        .journal-entry-area {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .journal-textarea {
-            width: 100%;
-            height: 250px;
-            padding: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            font-size: 16px;
-            line-height: 1.6;
-            resize: vertical;
-            margin-bottom: 20px;
-        }
-
-        .journal-textarea:focus {
-            outline: none;
-            border-color: #0c4a6e;
-            background: white;
-        }
-
-        .entry-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: flex-end;
-        }
-
-        .save-btn {
-            background: #0c4a6e;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .save-btn:hover {
-            background: #082032;
-            transform: scale(1.05);
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: 2px solid #334155;
-            color: #334155;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .clear-btn:hover {
-            border-color: #ef4444;
-            color: #ef4444;
-        }
-
-        .previous-entries {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .entries-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #082032;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .entry-card {
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.5);
-            transition: all 0.3s ease;
-        }
-
-        .entry-card:hover {
-            background: white;
-            transform: translateX(5px);
-        }
-
-        .entry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .entry-date {
-            color: #0c4a6e;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .entry-mood {
-            font-size: 20px;
-        }
-
-        .entry-text {
-            color: #082032;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        .entry-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .entry-tags {
-            display: flex;
-            gap: 8px;
-        }
-
-        .entry-tag {
-            background: rgba(12, 74, 110, 0.1);
-            color: #0c4a6e;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 11px;
-        }
-
-        .delete-entry {
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 14px;
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
-
-        .delete-entry:hover {
-            opacity: 1;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
             .mood-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -312,16 +675,74 @@
             .entry-actions {
                 flex-direction: column;
             }
+            
+            .section-header {
+                gap: 15px;
+            }
+            
+            .section-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 36px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .section-subtitle {
+                font-size: 14px;
+            }
+            
+            .save-btn, .clear-btn {
+                width: 100%;
+            }
+            
+            .prompt-item {
+                padding: 6px 10px;
+            }
+            
+            .prompt-text {
+                font-size: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .header-logo {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stress-indicator {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container journal-container">
-        <!-- Header (same as home) -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">STRIDE</span>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -334,13 +755,15 @@
         </div>
 
         <!-- Back Button -->
-        <div style="margin-bottom: 20px;">
-            <button class="back-btn" onclick="window.location.href='home.html'">← Back</button>
+        <div>
+            <button class="back-btn" onclick="window.location.href='home.html'">
+                <span>←</span> Back to Home
+            </button>
         </div>
 
         <!-- Page Title -->
-        <h1 style="font-size: 32px; margin: 20px 0; color: #082032;">📝 Daily Journal</h1>
-        <p style="color: #334155; margin-bottom: 30px;">Write freely, no judgment, no rules.</p>
+        <h1 class="page-title">📝 Daily Journal</h1>
+        <p class="page-subtitle">Write freely, no judgment, no rules.</p>
 
         <!-- Mood Selector -->
         <div class="mood-selector">
@@ -348,108 +771,106 @@
                 <span>😊</span> How are you feeling?
             </div>
             <div class="mood-grid" id="moodGrid">
-                <div class="mood-option" onclick="selectMood('amazing')">
+                <div class="mood-option" onclick="selectMood('amazing', event)">
                     <div class="mood-emoji">😊</div>
                     <div class="mood-label">Amazing</div>
                 </div>
-                <div class="mood-option" onclick="selectMood('good')">
+                <div class="mood-option" onclick="selectMood('good', event)">
                     <div class="mood-emoji">🙂</div>
                     <div class="mood-label">Good</div>
                 </div>
-                <div class="mood-option" onclick="selectMood('okay')">
+                <div class="mood-option" onclick="selectMood('okay', event)">
                     <div class="mood-emoji">😐</div>
                     <div class="mood-label">Okay</div>
                 </div>
-                <div class="mood-option" onclick="selectMood('down')">
+                <div class="mood-option" onclick="selectMood('down', event)">
                     <div class="mood-emoji">😔</div>
                     <div class="mood-label">Down</div>
                 </div>
-                <div class="mood-option" onclick="selectMood('struggling')">
+                <div class="mood-option" onclick="selectMood('struggling', event)">
                     <div class="mood-emoji">😫</div>
                     <div class="mood-label">Struggling</div>
                 </div>
             </div>
         </div>
 
-        <!-- Writing Prompts -->
-        <div class="prompt-section">
-            <div class="prompt-title">
-                <span>✨</span> Need inspiration?
+        <!-- Journal Entry Section -->
+        <div class="journal-section">
+            <div class="section-header">
+                <div class="section-icon">✍️</div>
+                <div class="section-header-text">
+                    <div class="section-title">Write It Out</div>
+                    <div class="section-subtitle">No rules, no judgment. Just let it flow.</div>
+                </div>
             </div>
-            <div class="prompt-chips">
-                <span class="prompt-chip" onclick="usePrompt('What made me smile today?')">😊 What made me smile?</span>
-                <span class="prompt-chip" onclick="usePrompt('What is my monster telling me?')">👾 What is my monster saying?</span>
-                <span class="prompt-chip" onclick="usePrompt('One thing I did well...')">💪 One thing I did well</span>
-                <span class="prompt-chip" onclick="usePrompt('I am grateful for...')">🙏 I am grateful for...</span>
-                <span class="prompt-chip" onclick="usePrompt('Tomorrow I want to...')">⭐ Tomorrow I want to...</span>
-                <span class="prompt-chip" onclick="usePrompt('A victory I had today...')">🏆 A victory I had</span>
-            </div>
-        </div>
 
-        <!-- Journal Entry -->
-        <div class="journal-entry-area">
-            <textarea id="journalEntry" class="journal-textarea" placeholder="Write your thoughts here... No rules, no judgment. Just let it out."></textarea>
+            <!-- Writing Prompts List - Clean bullet style -->
+            <div class="prompts-list">
+                <div class="prompt-item" onclick="usePrompt('😊 What made me smile today?')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">😊 What made me smile?</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('👾 What is my monster telling me?')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">👾 What is my monster saying?</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('💪 One thing I did well...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">💪 One thing I did well</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('🙏 I am grateful for...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">🙏 I am grateful for...</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('⭐ Tomorrow I want to...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">⭐ Tomorrow I want to...</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('🏆 A victory I had today...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">🏆 A victory I had</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('🥹 What I need right now...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">🥹 What I need right now</span>
+                </div>
+                <div class="prompt-item" onclick="usePrompt('❤️ I feel...')">
+                    <span class="prompt-bullet">•</span>
+                    <span class="prompt-text">❤️ I feel...</span>
+                </div>
+            </div>
+
+            <!-- Journal Textarea -->
+            <textarea id="journalEntry" class="journal-textarea" placeholder="Write your thoughts here... What's on your mind? How are you feeling? There's no wrong way to journal."></textarea>
             
+            <!-- Entry Actions -->
             <div class="entry-actions">
                 <button class="clear-btn" onclick="clearJournal()">Clear</button>
                 <button class="save-btn" onclick="saveJournal()">Save Entry</button>
             </div>
         </div>
 
+        <!-- Quick Links to Other Tools -->
+        <div class="quick-links">
+            <a href="distract.html" class="quick-link">🎮 Distract</a>
+            <a href="quickbreathing.html" class="quick-link">🌬️ Breathe</a>
+            <a href="quickgrounding.html" class="quick-link">🌍 Ground</a>
+            <a href="calmdown.html" class="quick-link">😮‍💨 Calm Down</a>
+        </div>
+
         <!-- Previous Entries -->
         <div class="previous-entries">
-            <div class="entries-title">
-                <span>📖</span> Previous Entries
+            <div class="entries-header">
+                <div class="entries-title">
+                    <span>📖</span> Previous Entries
+                </div>
+                <button class="export-btn" onclick="exportJournal()">📤 Export All</button>
             </div>
 
-            <div class="entry-card" id="entry1">
-                <div class="entry-header">
-                    <span class="entry-date">March 6, 2025 • 10:30 PM</span>
-                    <span class="entry-mood">😊</span>
-                </div>
-                <div class="entry-text">
-                    "Today was better. My squad helped me fight my Thesis Panic Monster. Grounding breath really works. Grateful for Alex and Jordan."
-                </div>
-                <div class="entry-footer">
-                    <div class="entry-tags">
-                        <span class="entry-tag">victory</span>
-                        <span class="entry-tag">squad</span>
-                    </div>
-                    <span class="delete-entry" onclick="deleteEntry('entry1')">🗑️</span>
-                </div>
-            </div>
-
-            <div class="entry-card" id="entry2">
-                <div class="entry-header">
-                    <span class="entry-date">March 5, 2025 • 11:15 PM</span>
-                    <span class="entry-mood">😫</span>
-                </div>
-                <div class="entry-text">
-                    "Struggling tonight. Monster is strong. Can't sleep. Trying to remember this will pass. Used grounding exercise, helped a little."
-                </div>
-                <div class="entry-footer">
-                    <div class="entry-tags">
-                        <span class="entry-tag">struggle</span>
-                        <span class="entry-tag">anxiety</span>
-                    </div>
-                    <span class="delete-entry" onclick="deleteEntry('entry2')">🗑️</span>
-                </div>
-            </div>
-
-            <div class="entry-card" id="entry3">
-                <div class="entry-header">
-                    <span class="entry-date">March 4, 2025 • 8:00 PM</span>
-                    <span class="entry-mood">🙂</span>
-                </div>
-                <div class="entry-text">
-                    "Squad battle victory! We all fought together. Felt less alone. Need to do this more often. Alex said something that really helped."
-                </div>
-                <div class="entry-footer">
-                    <div class="entry-tags">
-                        <span class="entry-tag">squad</span>
-                        <span class="entry-tag">victory</span>
-                    </div>
-                    <span class="delete-entry" onclick="deleteEntry('entry3')">🗑️</span>
+            <div id="entriesContainer">
+                <div class="empty-entries">
+                    <div class="empty-entries-emoji">📝</div>
+                    <p>No journal entries yet. Write your first one above!</p>
                 </div>
             </div>
         </div>
@@ -461,9 +882,13 @@
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <button class="nav-item active" onclick="window.location.href='home.html'">
+            <button class="nav-item" onclick="window.location.href='home.html'">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
             </button>
             <button class="nav-item" onclick="window.location.href='progress.html'">
                 <span class="nav-icon">📊</span>
@@ -473,7 +898,7 @@
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Community</span>
             </button>
-            <button class="nav-item" onclick="window.location.href='learn.html'">
+            <button class="nav-item active" onclick="window.location.href='learn.html'">
                 <span class="nav-icon">📚</span>
                 <span class="nav-label">Learn</span>
             </button>
@@ -482,8 +907,58 @@
 
     <script>
         let selectedMood = '';
+        let entries = [];
 
-        function selectMood(mood) {
+        // Load entries from localStorage
+        function loadEntries() {
+            const saved = localStorage.getItem('journalEntries');
+            if (saved) {
+                entries = JSON.parse(saved);
+                displayEntries();
+            }
+        }
+
+        // Display entries
+        function displayEntries() {
+            const container = document.getElementById('entriesContainer');
+            
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-entries">
+                        <div class="empty-entries-emoji">📝</div>
+                        <p>No journal entries yet. Write your first one above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort by date (newest first)
+            entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            container.innerHTML = entries.map((entry, index) => {
+                const date = new Date(entry.date);
+                const dateStr = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+                return `
+                    <div class="entry-card" data-index="${index}">
+                        <div class="entry-header">
+                            <span class="entry-date">${dateStr} • ${timeStr}</span>
+                            <span class="entry-mood">${entry.emoji || '📝'}</span>
+                        </div>
+                        <div class="entry-text">${entry.text.replace(/\n/g, '<br>')}</div>
+                        <div class="entry-footer">
+                            <div class="entry-tags">
+                                ${entry.tags ? entry.tags.map(tag => `<span class="entry-tag">${tag}</span>`).join('') : ''}
+                            </div>
+                            <span class="delete-entry" onclick="deleteEntry(${index})">🗑️</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectMood(mood, event) {
             selectedMood = mood;
             
             // Clear previous selection
@@ -509,47 +984,43 @@
         }
 
         function saveJournal() {
-            const entry = document.getElementById('journalEntry').value.trim();
+            const text = document.getElementById('journalEntry').value.trim();
             
-            if (entry === '') {
+            if (text === '') {
                 alert('Please write something before saving.');
                 return;
             }
-            
-            // Create new entry card
-            const entriesContainer = document.querySelector('.previous-entries');
-            const newEntry = document.createElement('div');
-            newEntry.className = 'entry-card';
-            
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            
+
+            // Get mood emoji
             const moodEmoji = selectedMood ? 
                 document.querySelector('.mood-option.selected .mood-emoji')?.textContent || '📝' : '📝';
+
+            // Determine tags
+            const tags = [];
+            if (selectedMood) tags.push(selectedMood);
+            if (text.toLowerCase().includes('monster')) tags.push('monster');
+            if (text.toLowerCase().includes('grateful')) tags.push('gratitude');
+            if (text.toLowerCase().includes('victory')) tags.push('victory');
+
+            const entry = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                mood: selectedMood,
+                emoji: moodEmoji,
+                text: text,
+                tags: tags
+            };
+
+            entries.push(entry);
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
             
-            newEntry.innerHTML = `
-                <div class="entry-header">
-                    <span class="entry-date">${dateStr} • ${timeStr}</span>
-                    <span class="entry-mood">${moodEmoji}</span>
-                </div>
-                <div class="entry-text">"${entry.substring(0, 100)}${entry.length > 100 ? '...' : ''}"</div>
-                <div class="entry-footer">
-                    <div class="entry-tags">
-                        <span class="entry-tag">new</span>
-                        ${selectedMood ? `<span class="entry-tag">${selectedMood}</span>` : ''}
-                    </div>
-                    <span class="delete-entry" onclick="deleteEntry(this.parentElement.parentElement.parentElement.id)">🗑️</span>
-                </div>
-            `;
-            
-            // Add to top of list
-            entriesContainer.insertBefore(newEntry, entriesContainer.children[1]);
-            
-            // Clear textarea and mood
+            // Clear form
             document.getElementById('journalEntry').value = '';
             document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
             selectedMood = '';
+            
+            // Refresh display
+            displayEntries();
             
             alert('✨ Journal entry saved!');
         }
@@ -560,20 +1031,31 @@
             }
         }
 
-        function deleteEntry(entryId) {
+        function deleteEntry(index) {
             if (confirm('Delete this entry?')) {
-                const entry = document.getElementById(entryId);
-                if (entry) {
-                    entry.remove();
-                } else {
-                    // For dynamically created entries
-                    event.target.closest('.entry-card').remove();
-                }
+                entries.splice(index, 1);
+                localStorage.setItem('journalEntries', JSON.stringify(entries));
+                displayEntries();
             }
         }
 
         function exportJournal() {
-            alert('📤 Export feature coming soon! Your entries will be downloadable as PDF/JSON.');
+            if (entries.length === 0) {
+                alert('No entries to export.');
+                return;
+            }
+
+            const dataStr = JSON.stringify(entries, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `stride-journal-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            alert('📤 Journal entries exported!');
         }
 
         // Auto-save draft
@@ -582,12 +1064,30 @@
             clearTimeout(draftTimeout);
             draftTimeout = setTimeout(() => {
                 localStorage.setItem('journalDraft', this.value);
-                console.log('Draft saved');
             }, 1000);
         });
 
-        // Load draft
+        // Update stress indicator
+        function updateStressIndicator() {
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Initialize
         window.onload = function() {
+            loadEntries();
+            updateStressIndicator();
+            
+            // Load draft
             const draft = localStorage.getItem('journalDraft');
             if (draft) {
                 document.getElementById('journalEntry').value = draft;
@@ -595,4 +1095,11 @@
         };
     </script>
 </body>
+<!-- At the bottom, before closing </body> -->
+<script src="darkmode.js"></script>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

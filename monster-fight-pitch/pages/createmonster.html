@@ -484,6 +484,25 @@
             transform: none;
         }
 
+.header-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Make the logo link not have underline */
+.header-left a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
         /* Stats Grid */
         .stats-grid {
             display: grid;
@@ -832,28 +851,28 @@
         </div>
 
         <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <button class="nav-item" onclick="window.location.href='home.html'">
-                <span class="nav-icon">🏠</span>
-                <span class="nav-label">Home</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='monsters.html'">
-                <span class="nav-icon">👾</span>
-                <span class="nav-label">Monsters</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='progress.html'">
-                <span class="nav-icon">📊</span>
-                <span class="nav-label">Progress</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='community.html'">
-                <span class="nav-icon">👥</span>
-                <span class="nav-label">Community</span>
-            </button>
-            <button class="nav-item" onclick="window.location.href='learn.html'">
-                <span class="nav-icon">📚</span>
-                <span class="nav-label">Learn</span>
-            </button>
-        </div>
+<div class="bottom-nav">
+    <button class="nav-item" onclick="window.location.href='home.html'">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='monsters.html'">
+        <span class="nav-icon">👾</span>
+        <span class="nav-label">Monsters</span>
+    </button>
+    <button class="nav-item active" onclick="window.location.href='progress.html'">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Progress</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='community.html'">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Community</span>
+    </button>
+    <button class="nav-item" onclick="window.location.href='learn.html'">
+        <span class="nav-icon">📚</span>
+        <span class="nav-label">Learn</span>
+    </button>
+</div>
     </div>
 
     <script>
@@ -1171,4 +1190,11 @@
         };
     </script>
 </body>
+<!-- At the bottom, before closing </body> -->
+<script src="darkmode.js"></script>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

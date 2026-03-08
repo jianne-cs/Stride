@@ -41,6 +41,24 @@
             gap: 15px;
         }
 
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
         .menu-btn {
             background: rgba(255, 255, 255, 0.8);
             border: none;
@@ -136,7 +154,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        /* Squad header */
+        /* Squad header - CENTERED */
         .squad-header {
             background: linear-gradient(135deg, #0c4a6e, #082032);
             border-radius: 40px;
@@ -146,6 +164,10 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .squad-header::before {
@@ -167,12 +189,19 @@
         .squad-header-content {
             position: relative;
             z-index: 2;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .squad-icon-large {
             font-size: 60px;
             margin-bottom: 15px;
             filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.5));
+            display: inline-block;
         }
 
         .squad-name {
@@ -181,15 +210,19 @@
             margin-bottom: 8px;
             color: white;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-align: center;
+            width: 100%;
         }
 
         .squad-meta {
             color: #7dd3fc;
             font-size: 1rem;
             margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
         }
 
-        /* Online badge */
+        /* Online badge - CENTERED */
         .online-badge {
             display: inline-block;
             background: #10b981;
@@ -197,9 +230,10 @@
             border-radius: 40px;
             color: white;
             font-weight: bold;
-            margin-top: 10px;
+            margin: 10px auto 0;
             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
             animation: pulse 2s infinite;
+            text-align: center;
         }
 
         @keyframes pulse {
@@ -870,47 +904,42 @@
             .squad-stats {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .action-buttons {
                 flex-direction: column;
             }
-
             .squad-avatar-group {
                 gap: 15px;
             }
-
             .squad-member-large {
                 min-width: 80px;
             }
-
             .squad-avatar-large {
                 width: 70px;
                 height: 70px;
                 font-size: 28px;
             }
-
             .squad-name {
                 font-size: 28px;
             }
-
             .boss-name {
                 font-size: 20px;
             }
-
             .message-bubble {
                 max-width: 90%;
             }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <!-- Header with Profile and Stress -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
                 <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
-                <span class="logo">STRIDE</span>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -927,14 +956,14 @@
             <span>←</span> Back to Community
         </button>
 
-        <!-- Squad Header -->
+        <!-- Squad Header - CENTERED -->
         <div class="squad-header">
             <div class="squad-header-content">
                 <div class="squad-icon-large">⚔️</div>
                 <h1 class="squad-name">CIIT Battle Squad</h1>
                 <div class="squad-meta">Founded January 2025 • 69 squad battles</div>
                 
-                <!-- Online Count Badge -->
+                <!-- Online Count Badge - CENTERED -->
                 <div class="online-badge">
                     ● 3 members online
                 </div>
@@ -1330,6 +1359,7 @@
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
         // Show selected tab
         function showSquadTab(tabName, element) {
@@ -1418,14 +1448,9 @@
 
         // Update stress indicator based on time
         function updateStressIndicator() {
-            const hours = new Date().getHours();
+            const savedStress = localStorage.getItem('stressLevel');
             const dots = document.querySelectorAll('.dot');
-            
-            let stressLevel = 3;
-            if (hours < 10) stressLevel = 4;
-            else if (hours < 15) stressLevel = 3;
-            else if (hours < 19) stressLevel = 4;
-            else stressLevel = 2;
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
             
             dots.forEach((dot, index) => {
                 if (index < stressLevel) {
@@ -1463,4 +1488,9 @@
         };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Help - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .help-container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            box-shadow: 0 30px 60px rgba(12, 74, 110, 0.35);
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #082032;
+            margin: 20px 0 10px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #334155;
+            margin-bottom: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 15px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #0c4a6e;
+            border-color: #0c4a6e;
+        }
+
+        /* Content Sections */
+        .help-section {
+            margin-top: 20px;
+        }
+
+        .distract-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .help-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            border-color: #0c4a6e;
+        }
+
+        .help-emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .help-title {
+            font-weight: 600;
+            color: #082032;
+            margin-bottom: 5px;
+        }
+
+        .help-desc {
+            font-size: 11px;
+            color: #334155;
+        }
+
+        .calm-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .calm-item {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .calm-item:hover {
+            background: white;
+            transform: translateX(5px);
+        }
+
+        .sos-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            width: 100%;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .sos-btn:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 480px) {
+            .distract-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <h1>🆘 Quick Help</h1>
+        <p class="subtitle">Choose what you need right now</p>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('distract')" id="distractTab">🎮 Distract Me</button>
+            <button class="tab-btn" onclick="switchTab('calm')" id="calmTab">😮‍💨 Calm Down</button>
+        </div>
+
+        <!-- Distract Section -->
+        <div id="distractSection" class="help-section">
+            <div class="distract-grid">
+                <div class="help-card" onclick="showJoke()">
+                    <div class="help-emoji">😂</div>
+                    <div class="help-title">Tell Me a Joke</div>
+                    <div class="help-desc">Quick laugh to shift your mood</div>
+                </div>
+                <div class="help-card" onclick="showFunFact()">
+                    <div class="help-emoji">🦒</div>
+                    <div class="help-title">Fun Fact</div>
+                    <div class="help-desc">Learn something random</div>
+                </div>
+                <div class="help-card" onclick="showRiddle()">
+                    <div class="help-emoji">🧩</div>
+                    <div class="help-title">Riddle</div>
+                    <div class="help-desc">Solve a quick puzzle</div>
+                </div>
+                <div class="help-card" onclick="showWouldYouRather()">
+                    <div class="help-emoji">🤔</div>
+                    <div class="help-title">Would You Rather?</div>
+                    <div class="help-desc">Fun dilemmas</div>
+                </div>
+            </div>
+            <div id="distractResult" style="background: rgba(255,255,255,0.5); border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center;">
+                Click any button above for a quick distraction
+            </div>
+        </div>
+
+        <!-- Calm Section -->
+        <div id="calmSection" class="help-section" style="display: none;">
+            <div class="calm-list">
+                <div class="calm-item" onclick="quickCalm('478')">
+                    <span style="font-size: 32px;">🌬️</span>
+                    <div>
+                        <div style="font-weight: bold;">4-7-8 Breathing</div>
+                        <div style="font-size: 12px;">Inhale 4 • Hold 7 • Exhale 8</div>
+                    </div>
+                </div>
+                <div class="calm-item" onclick="quickCalm('box')">
+                    <span style="font-size: 32px;">⬛</span>
+                    <div>
+                        <div style="font-weight: bold;">Box Breathing</div>
+                        <div style="font-size: 12px;">4-4-4-4 technique</div>
+                    </div>
+                </div>
+                <div class="calm-item" onclick="quickCalm('butterfly')">
+                    <span style="font-size: 32px;">🦋</span>
+                    <div>
+                        <div style="font-weight: bold;">Butterfly Hug</div>
+                        <div style="font-size: 12px;">Self-soothing tapping</div>
+                    </div>
+                </div>
+                <div class="calm-item" onclick="quickCalm('grounding')">
+                    <span style="font-size: 32px;">🔍</span>
+                    <div>
+                        <div style="font-weight: bold;">5-4-3-2-1 Grounding</div>
+                        <div style="font-size: 12px;">Sensory awareness</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="sos-btn" onclick="showCrisisSupport()">🚨 Need to Talk to Someone?</button>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            if (tab === 'distract') {
+                document.getElementById('distractSection').style.display = 'block';
+                document.getElementById('calmSection').style.display = 'none';
+                document.getElementById('distractTab').classList.add('active');
+                document.getElementById('calmTab').classList.remove('active');
+            } else {
+                document.getElementById('distractSection').style.display = 'none';
+                document.getElementById('calmSection').style.display = 'block';
+                document.getElementById('calmTab').classList.add('active');
+                document.getElementById('distractTab').classList.remove('active');
+            }
+        }
+
+        // Distraction functions (simplified versions)
+        function showJoke() {
+            const jokes = [
+                "Why don't scientists trust atoms? Because they make up everything!",
+                "What do you call a fake noodle? An impasta!",
+                "Why did the scarecrow win an award? He was outstanding in his field!"
+            ];
+            document.getElementById('distractResult').innerHTML = `
+                <div style="font-size: 24px;">😂</div>
+                <p style="margin-top: 10px;">${jokes[Math.floor(Math.random() * jokes.length)]}</p>
+            `;
+        }
+
+        function showFunFact() {
+            const facts = [
+                "Octopuses have three hearts!",
+                "Bananas are berries, but strawberries aren't!",
+                "A day on Venus is longer than a year on Venus!"
+            ];
+            document.getElementById('distractResult').innerHTML = `
+                <div style="font-size: 24px;">🦒</div>
+                <p style="margin-top: 10px;">${facts[Math.floor(Math.random() * facts.length)]}</p>
+            `;
+        }
+
+        function showRiddle() {
+            const riddles = [
+                { q: "I speak without a mouth and hear without ears. What am I?", a: "An echo" },
+                { q: "What has to be broken before you can use it?", a: "An egg" }
+            ];
+            const riddle = riddles[Math.floor(Math.random() * riddles.length)];
+            document.getElementById('distractResult').innerHTML = `
+                <div style="font-size: 24px;">🧩</div>
+                <p style="margin-top: 10px;">${riddle.q}</p>
+                <button onclick="alert('${riddle.a}')" style="margin-top: 10px; padding: 8px 20px; border-radius: 30px; border: none; background: #0c4a6e; color: white;">Show Answer</button>
+            `;
+        }
+
+        function showWouldYouRather() {
+            const wyr = [
+                "Have the ability to fly or be invisible?",
+                "Live in the mountains or by the beach?"
+            ];
+            document.getElementById('distractResult').innerHTML = `
+                <div style="font-size: 24px;">🤔</div>
+                <p style="margin-top: 10px;">${wyr[Math.floor(Math.random() * wyr.length)]}</p>
+            `;
+        }
+
+        function quickCalm(type) {
+            const messages = {
+                '478': "🌬️ 4-7-8 Breathing:\n\nInhale 4 sec\nHold 7 sec\nExhale 8 sec\n\nRepeat 3-4 times.",
+                'box': "⬛ Box Breathing:\n\nInhale 4 sec\nHold 4 sec\nExhale 4 sec\nHold 4 sec",
+                'butterfly': "🦋 Butterfly Hug:\n\nCross arms and tap alternately for 30 seconds.",
+                'grounding': "🔍 5-4-3-2-1 Grounding:\n\n5 things you see\n4 things you touch\n3 things you hear\n2 things you smell\n1 thing you taste"
+            };
+            alert(messages[type]);
+        }
+
+        function showCrisisSupport() {
+            alert("🚨 Crisis Support:\n\nNational Suicide Prevention Lifeline: 988\nCrisis Text Line: Text HOME to 741741\n\nYou are not alone.");
+        }
+    </script>
+</body>
+<!-- At the bottom, before closing </body> -->
+<script src="darkmode.js"></script>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
+</html>

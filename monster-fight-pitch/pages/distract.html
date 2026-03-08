@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grounding Exercise - STRIDE</title>
+    <title>Distract Me - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
         /* Global Styles */
@@ -21,7 +21,7 @@
             padding: 20px;
         }
 
-        .grounding-container {
+        .distract-container {
             max-width: 800px;
             margin: 0 auto;
         }
@@ -181,121 +181,110 @@
             text-align: center;
         }
 
-        /* Grounding Card */
-        .grounding-card {
+        /* Distraction Grid */
+        .distract-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .distract-card {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(20px);
-            border-radius: 48px;
+            border-radius: 30px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .distract-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #f59e0b;
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+        }
+
+        .distract-emoji {
+            font-size: 48px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .distract-title {
+            font-weight: 700;
+            font-size: 20px;
+            color: #082032;
+            margin-bottom: 8px;
+        }
+
+        .distract-desc {
+            font-size: 13px;
+            color: #334155;
+        }
+
+        /* Content Display Area */
+        .content-area {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
             padding: 40px;
             margin: 30px 0;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 20px 40px rgba(12, 74, 110, 0.15);
             text-align: center;
-        }
-
-        .sense-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .sense-title {
-            font-size: 48px;
-            font-weight: 800;
-            color: #082032;
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.3);
-            display: inline-block;
-            padding: 10px 40px;
-            border-radius: 60px;
-        }
-
-        .sense-instruction {
-            font-size: 28px;
-            color: #334155;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .sense-count {
-            font-size: 24px;
-            color: #0c4a6e;
-            font-weight: 700;
-            margin-bottom: 40px;
-            background: rgba(255,255,255,0.3);
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 40px;
-        }
-
-        .grounding-progress {
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            min-height: 200px;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin: 40px 0;
         }
 
-        .progress-dot {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transition: all 0.3s ease;
+        .content-emoji {
+            font-size: 70px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
         }
 
-        .progress-dot.active {
-            background: #0c4a6e;
-            transform: scale(1.3);
-            box-shadow: 0 0 15px #0c4a6e;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .progress-dot.completed {
-            background: #10b981;
+        .content-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #082032;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 18px;
+            color: #334155;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            max-width: 500px;
         }
 
         .next-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
             border: none;
-            padding: 18px 50px;
+            padding: 15px 40px;
             border-radius: 50px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
         }
 
         .next-btn:hover {
-            background: #059669;
+            background: #d97706;
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
-        }
-
-        .reset-btn {
-            background: transparent;
-            border: 2px solid #334155;
-            color: #334155;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 15px;
-        }
-
-        .reset-btn:hover {
-            border-color: #0c4a6e;
-            color: #0c4a6e;
-            background: rgba(255,255,255,0.3);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
         }
 
         /* Quick Links */
@@ -372,20 +361,24 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .sense-title {
-                font-size: 36px;
-            }
-            
-            .sense-instruction {
-                font-size: 22px;
+            .distract-grid {
+                grid-template-columns: 1fr;
             }
             
             .page-title {
                 font-size: 28px;
             }
             
-            .grounding-card {
+            .content-area {
                 padding: 30px 20px;
+            }
+            
+            .content-emoji {
+                font-size: 50px;
+            }
+            
+            .content-text {
+                font-size: 16px;
             }
         }
 
@@ -399,19 +392,11 @@
                 width: 100%;
                 justify-content: center;
             }
-            
-            .sense-title {
-                font-size: 28px;
-            }
-            
-            .sense-instruction {
-                font-size: 18px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container grounding-container">
+    <div class="container distract-container">
         <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
@@ -439,46 +424,48 @@
         </div>
 
         <!-- Page Title -->
-        <h1 class="page-title">🌍 5-4-3-2-1 Grounding</h1>
-        <p class="page-subtitle">Come back to the present moment using your senses</p>
+        <h1 class="page-title">🎮 Distract Me</h1>
+        <p class="page-subtitle">Quick mental breaks to reset your thoughts</p>
 
-        <!-- Grounding Card -->
-        <div class="grounding-card">
-            <div class="sense-icon" id="senseIcon">👁️</div>
-            <div class="sense-title" id="senseTitle">SEE</div>
-            <div class="sense-instruction" id="senseInstruction">Name 5 things you can see</div>
-            <div class="sense-count" id="senseCount">0/5</div>
-
-            <!-- Progress Dots -->
-            <div class="grounding-progress" id="progressDots">
-                <span class="progress-dot active"></span>
-                <span class="progress-dot"></span>
-                <span class="progress-dot"></span>
-                <span class="progress-dot"></span>
-                <span class="progress-dot"></span>
+        <!-- Distraction Grid -->
+        <div class="distract-grid">
+            <div class="distract-card" onclick="showJoke()">
+                <div class="distract-emoji">😂</div>
+                <div class="distract-title">Tell Me a Joke</div>
+                <div class="distract-desc">Quick laugh to shift your mood</div>
             </div>
 
-            <!-- Next Button -->
-            <button class="next-btn" onclick="nextStep()" id="nextBtn">Next Sense →</button>
-            <button class="reset-btn" onclick="resetGrounding()">↻ Start Over</button>
+            <div class="distract-card" onclick="showFunFact()">
+                <div class="distract-emoji">🦒</div>
+                <div class="distract-title">Fun Fact</div>
+                <div class="distract-desc">Learn something random</div>
+            </div>
+
+            <div class="distract-card" onclick="showRiddle()">
+                <div class="distract-emoji">🧩</div>
+                <div class="distract-title">Riddle Me This</div>
+                <div class="distract-desc">Solve a quick puzzle</div>
+            </div>
+
+            <div class="distract-card" onclick="showWouldYouRather()">
+                <div class="distract-emoji">🤔</div>
+                <div class="distract-title">Would You Rather?</div>
+                <div class="distract-desc">Fun dilemmas to ponder</div>
+            </div>
         </div>
 
-        <!-- Quick Tips -->
-        <div style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 30px; padding: 25px; margin: 30px 0;">
-            <h3 style="color: #082032; margin-bottom: 15px;">💡 Tips</h3>
-            <ul style="color: #334155; line-height: 1.8; padding-left: 20px;">
-                <li>Take your time with each step</li>
-                <li>Say each item out loud if you can</li>
-                <li>Notice small details you might usually miss</li>
-                <li>Breathe slowly between each item</li>
-            </ul>
+        <!-- Content Display Area -->
+        <div class="content-area" id="contentArea">
+            <div class="content-emoji">🎯</div>
+            <div class="content-title">Pick a Distraction</div>
+            <div class="content-text">Click any button above for a quick mental break</div>
         </div>
 
         <!-- Quick Links to Other Tools -->
         <div class="quick-links">
-            <a href="distract.html" class="quick-link">🎮 Distract</a>
-            <a href="quickbreathing.html" class="quick-link">🌬️ Breathe</a>
             <a href="calmdown.html" class="quick-link">😮‍💨 Calm Down</a>
+            <a href="quickbreathing.html" class="quick-link">🌬️ Breathe</a>
+            <a href="quickgrounding.html" class="quick-link">🌍 Ground</a>
         </div>
 
         <!-- Bottom Navigation -->
@@ -507,67 +494,104 @@
     </div>
 
     <script>
-        // Grounding steps
-        const groundingSteps = [
-            { sense: 'SEE', icon: '👁️', instruction: 'Name 5 things you can see', count: 5 },
-            { sense: 'TOUCH', icon: '✋', instruction: 'Name 4 things you can feel', count: 4 },
-            { sense: 'HEAR', icon: '👂', instruction: 'Name 3 things you can hear', count: 3 },
-            { sense: 'SMELL', icon: '👃', instruction: 'Name 2 things you can smell', count: 2 },
-            { sense: 'TASTE', icon: '👅', instruction: 'Name 1 thing you can taste', count: 1 }
+        // Jokes array
+        const jokes = [
+            "Why don't scientists trust atoms? Because they make up everything!",
+            "What do you call a fake noodle? An impasta!",
+            "Why did the scarecrow win an award? He was outstanding in his field!",
+            "What do you call a bear with no teeth? A gummy bear!",
+            "Why don't eggs tell jokes? They'd crack each other up!",
+            "What do you call a sleeping bull? A bulldozer!",
+            "Why did the math book look sad? Because it had too many problems!",
+            "What do you call a fish with no eyes? A fsh!"
         ];
 
-        let currentStep = 0;
-        let currentCount = 0;
+        // Fun facts array
+        const funFacts = [
+            "Octopuses have three hearts!",
+            "Bananas are berries, but strawberries aren't!",
+            "A day on Venus is longer than a year on Venus!",
+            "Honey never spoils! Archaeologists found 3000-year-old honey still edible.",
+            "Your brain is 60% fat!",
+            "The Eiffel Tower can be 15 cm taller during summer!",
+            "A group of flamingos is called a 'flamboyance'!",
+            "Wombat poop is cube-shaped!"
+        ];
 
-        function updateDisplay() {
-            const step = groundingSteps[currentStep];
-            document.getElementById('senseIcon').textContent = step.icon;
-            document.getElementById('senseTitle').textContent = step.sense;
-            document.getElementById('senseInstruction').textContent = step.instruction;
-            document.getElementById('senseCount').textContent = `${currentCount}/${step.count}`;
-            
-            // Update progress dots
-            const dots = document.querySelectorAll('.progress-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.remove('active', 'completed');
-                if (index === currentStep) {
-                    dot.classList.add('active');
-                } else if (index < currentStep) {
-                    dot.classList.add('completed');
-                }
-            });
+        // Riddles array
+        const riddles = [
+            { question: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", answer: "An echo" },
+            { question: "You measure my life in hours and I serve you by expiring. I'm quick when I'm thin and slow when I'm fat. The wind is my enemy. What am I?", answer: "A candle" },
+            { question: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?", answer: "A map" },
+            { question: "What can you catch but not throw?", answer: "A cold" },
+            { question: "What has to be broken before you can use it?", answer: "An egg" },
+            { question: "I'm tall when I'm young, and I'm short when I'm old. What am I?", answer: "A candle" }
+        ];
+
+        // Would You Rather questions
+        const wouldYouRather = [
+            "Have the ability to fly or be invisible?",
+            "Live in the mountains or by the beach?",
+            "Be able to talk to animals or speak all languages?",
+            "Never have to sleep or never have to eat?",
+            "Have unlimited wifi or unlimited snacks?",
+            "Be 2 feet taller or 2 feet shorter?",
+            "Have a personal chef or a personal driver?",
+            "Be famous or be rich?"
+        ];
+
+        function showJoke() {
+            const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+            document.getElementById('contentArea').innerHTML = `
+                <div class="content-emoji">😂</div>
+                <div class="content-title">Here's a Joke</div>
+                <div class="content-text">${randomJoke}</div>
+                <button class="next-btn" onclick="showJoke()">Another Joke →</button>
+            `;
         }
 
-        function nextStep() {
-            const step = groundingSteps[currentStep];
-            
-            if (currentCount < step.count) {
-                currentCount++;
-                document.getElementById('senseCount').textContent = `${currentCount}/${step.count}`;
-                
-                if (currentCount === step.count && currentStep < groundingSteps.length - 1) {
-                    setTimeout(() => {
-                        if (confirm(`Great! You found ${step.count} things. Ready for the next sense?`)) {
-                            currentStep++;
-                            currentCount = 0;
-                            updateDisplay();
-                        }
-                    }, 500);
-                } else if (currentCount === step.count && currentStep === groundingSteps.length - 1) {
-                    setTimeout(() => {
-                        alert('✨ Grounding complete! You are present and aware.');
-                        window.location.href = 'home.html';
-                    }, 500);
-                }
-            }
+        function showFunFact() {
+            const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+            document.getElementById('contentArea').innerHTML = `
+                <div class="content-emoji">🦒</div>
+                <div class="content-title">Did You Know?</div>
+                <div class="content-text">${randomFact}</div>
+                <button class="next-btn" onclick="showFunFact()">Another Fact →</button>
+            `;
         }
 
-        function resetGrounding() {
-            if (confirm('Start the grounding exercise over?')) {
-                currentStep = 0;
-                currentCount = 0;
-                updateDisplay();
-            }
+        function showRiddle() {
+            const randomRiddle = riddles[Math.floor(Math.random() * riddles.length)];
+            document.getElementById('contentArea').innerHTML = `
+                <div class="content-emoji">🧩</div>
+                <div class="content-title">Riddle Me This</div>
+                <div class="content-text">${randomRiddle.question}</div>
+                <button class="next-btn" onclick="showRiddleAnswer('${randomRiddle.answer}')">Show Answer</button>
+            `;
+        }
+
+        function showRiddleAnswer(answer) {
+            const currentContent = document.getElementById('contentArea').innerHTML;
+            document.getElementById('contentArea').innerHTML = currentContent + `
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.3); border-radius: 20px; font-weight: bold;">
+                    Answer: ${answer}
+                </div>
+                <button class="next-btn" style="margin-top: 20px;" onclick="showRiddle()">Next Riddle →</button>
+            `;
+        }
+
+        function showWouldYouRather() {
+            const randomWYR = wouldYouRather[Math.floor(Math.random() * wouldYouRather.length)];
+            document.getElementById('contentArea').innerHTML = `
+                <div class="content-emoji">🤔</div>
+                <div class="content-title">Would You Rather...</div>
+                <div class="content-text">${randomWYR}</div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin: 20px 0;">
+                    <button class="next-btn" style="background: #0c4a6e;" onclick="alert('Good choice!')">Option A</button>
+                    <button class="next-btn" style="background: #0c4a6e;" onclick="alert('Interesting!')">Option B</button>
+                </div>
+                <button class="next-btn" style="margin-top: 10px;" onclick="showWouldYouRather()">Next Question →</button>
+            `;
         }
 
         // Update stress indicator
@@ -587,7 +611,6 @@
 
         // Initialize
         window.onload = function() {
-            updateDisplay();
             updateStressIndicator();
         };
     </script>

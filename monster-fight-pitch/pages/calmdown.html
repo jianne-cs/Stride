@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calm Down - STRIDE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .calm-container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            box-shadow: 0 30px 60px rgba(12, 74, 110, 0.35);
+            padding: 30px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #082032;
+            margin: 20px 0 10px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #334155;
+            margin-bottom: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* Calming Techniques List */
+        .techniques-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .technique-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .technique-card:hover {
+            transform: translateX(8px);
+            background: white;
+            border-color: #0c4a6e;
+            box-shadow: 0 20px 35px rgba(12, 74, 110, 0.3);
+        }
+
+        .technique-emoji {
+            font-size: 48px;
+            min-width: 70px;
+            text-align: center;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+
+        .technique-info {
+            flex: 1;
+        }
+
+        .technique-title {
+            font-weight: 700;
+            font-size: 20px;
+            color: #082032;
+            margin-bottom: 5px;
+        }
+
+        .technique-desc {
+            font-size: 14px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .technique-time {
+            font-size: 12px;
+            color: #0c4a6e;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Active Exercise Area */
+        .exercise-area {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .breathing-circle {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #0c4a6e, #082032);
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            transition: transform 4s ease;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .breathing-circle.inhale {
+            transform: scale(1.3);
+        }
+
+        .breathing-circle.exhale {
+            transform: scale(0.8);
+        }
+
+        .timer-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: #0c4a6e;
+            margin: 20px 0;
+        }
+
+        .instruction-text {
+            font-size: 24px;
+            color: #082032;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #0c4a6e;
+            transition: width 0.3s ease;
+        }
+
+        .start-btn {
+            background: #0c4a6e;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(12,74,110,0.3);
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            background: #082032;
+            transform: scale(1.05);
+        }
+
+        /* SOS Button */
+        .sos-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            width: 100%;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            box-shadow: 0 10px 20px rgba(239,68,68,0.3);
+        }
+
+        .sos-btn:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+
+        .header-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.header-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Make the logo link not have underline */
+.header-left a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+        /* Quick Links */
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            color: #0c4a6e;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .technique-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calm-container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
+                <span class="logo">STRIDE</span>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <h1>😮‍💨 Calm Down</h1>
+        <p class="subtitle">Quick techniques to regulate your nervous system</p>
+
+        <!-- Calming Techniques List -->
+        <div class="techniques-list">
+            <div class="technique-card" onclick="start478Breathing()">
+                <div class="technique-emoji">🌬️</div>
+                <div class="technique-info">
+                    <div class="technique-title">4-7-8 Breathing</div>
+                    <div class="technique-desc">Inhale 4s • Hold 7s • Exhale 8s</div>
+                    <div class="technique-time">⏱️ 1 minute • Calms nervous system</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="startBoxBreathing()">
+                <div class="technique-emoji">⬛</div>
+                <div class="technique-info">
+                    <div class="technique-title">Box Breathing</div>
+                    <div class="technique-desc">Inhale 4s • Hold 4s • Exhale 4s • Hold 4s</div>
+                    <div class="technique-time">⏱️ 2 minutes • Reduces anxiety</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="butterflyHug()">
+                <div class="technique-emoji">🦋</div>
+                <div class="technique-info">
+                    <div class="technique-title">Butterfly Hug</div>
+                    <div class="technique-desc">Cross arms and tap alternately</div>
+                    <div class="technique-time">⏱️ 30 seconds • Self-soothing</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="coldWater()">
+                <div class="technique-emoji">🧊</div>
+                <div class="technique-info">
+                    <div class="technique-title">Cold Water</div>
+                    <div class="technique-desc">Splash face or hold ice cube</div>
+                    <div class="technique-time">⏱️ 15 seconds • Shock response</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="grounding54321()">
+                <div class="technique-emoji">🔍</div>
+                <div class="technique-info">
+                    <div class="technique-title">5-4-3-2-1 Grounding</div>
+                    <div class="technique-desc">See • Touch • Hear • Smell • Taste</div>
+                    <div class="technique-time">⏱️ 2 minutes • Present moment focus</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="quickPMR()">
+                <div class="technique-emoji">💪</div>
+                <div class="technique-info">
+                    <div class="technique-title">Quick Body Scan</div>
+                    <div class="technique-desc">Tense and release muscle groups</div>
+                    <div class="technique-time">⏱️ 2 minutes • Release tension</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="alternateNostril()">
+                <div class="technique-emoji">👃</div>
+                <div class="technique-info">
+                    <div class="technique-title">Alternate Nostril Breathing</div>
+                    <div class="technique-desc">Balance left and right brain</div>
+                    <div class="technique-time">⏱️ 3 minutes • Mental clarity</div>
+                </div>
+            </div>
+
+            <div class="technique-card" onclick="mentalEscape()">
+                <div class="technique-emoji">🏝️</div>
+                <div class="technique-info">
+                    <div class="technique-title">Mental Escape</div>
+                    <div class="technique-desc">Visualize your calm place</div>
+                    <div class="technique-time">⏱️ 2 minutes • Mental vacation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Exercise Area (initially hidden) -->
+        <div id="exerciseArea" class="exercise-area" style="display: none;">
+            <!-- Content will be dynamically loaded -->
+        </div>
+
+        <!-- SOS Button -->
+        <button class="sos-btn" onclick="showCrisisSupport()">
+            🚨 Need Immediate Help?
+        </button>
+
+        <!-- Quick Links to Other Tools -->
+        <div class="quick-links">
+            <a href="quickbreathing.html" class="quick-link">🌬️ Breathe</a>
+            <a href="distract.html" class="quick-link">🎮 Distract</a>
+            <a href="quickgrounding.html" class="quick-link">🌍 Ground</a>
+        </div>
+    </div>
+
+    <script>
+        // 4-7-8 Breathing
+        function start478Breathing() {
+            const exerciseArea = document.getElementById('exerciseArea');
+            exerciseArea.style.display = 'block';
+            
+            exerciseArea.innerHTML = `
+                <div class="instruction-text" id="breathInstruction">Inhale</div>
+                <div class="timer-display" id="breathTimer">4</div>
+                <div class="breathing-circle" id="breathCircle" onclick="toggleBreathing()"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="breathProgress" style="width: 0%;"></div>
+                </div>
+                <div style="margin-top: 15px; color: #334155;" id="breathPhase">Inhale through nose</div>
+                <button class="start-btn" onclick="start478Timer()" id="startBtn">▶ Start</button>
+                <button class="start-btn" onclick="stopBreathing()" id="stopBtn" style="display: none; background: #ef4444;">⏹️ Stop</button>
+            `;
+            
+            window.currentExercise = '478';
+        }
+
+        // Box Breathing
+        function startBoxBreathing() {
+            const exerciseArea = document.getElementById('exerciseArea');
+            exerciseArea.style.display = 'block';
+            
+            exerciseArea.innerHTML = `
+                <div class="instruction-text" id="breathInstruction">Inhale</div>
+                <div class="timer-display" id="breathTimer">4</div>
+                <div class="breathing-circle" id="breathCircle" onclick="toggleBreathing()"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="breathProgress" style="width: 0%;"></div>
+                </div>
+                <div style="margin-top: 15px; color: #334155;" id="breathPhase">Inhale</div>
+                <button class="start-btn" onclick="startBoxTimer()" id="startBtn">▶ Start</button>
+                <button class="start-btn" onclick="stopBreathing()" id="stopBtn" style="display: none; background: #ef4444;">⏹️ Stop</button>
+            `;
+            
+            window.currentExercise = 'box';
+        }
+
+        // Timer variables
+        let breathInterval;
+        let phaseIndex = 0;
+        let countdown = 4;
+        let isRunning = false;
+
+        // 4-7-8 Timer
+        function start478Timer() {
+            const phases = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+            const durations = [4, 7, 8, 0];
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            
+            isRunning = true;
+            phaseIndex = 0;
+            countdown = durations[0];
+            
+            update478Phase(phases, durations);
+            
+            breathInterval = setInterval(() => {
+                if (!isRunning) return;
+                
+                countdown--;
+                document.getElementById('breathTimer').textContent = countdown;
+                
+                const circle = document.getElementById('breathCircle');
+                if (phaseIndex === 0) {
+                    circle.classList.add('inhale');
+                    circle.classList.remove('exhale');
+                } else if (phaseIndex === 2) {
+                    circle.classList.add('exhale');
+                    circle.classList.remove('inhale');
+                }
+                
+                if (countdown <= 0) {
+                    phaseIndex++;
+                    if (phaseIndex < phases.length) {
+                        update478Phase(phases, durations);
+                    } else {
+                        clearInterval(breathInterval);
+                        document.getElementById('breathInstruction').textContent = 'Complete!';
+                        document.getElementById('breathPhase').textContent = 'Great job!';
+                        document.getElementById('stopBtn').style.display = 'none';
+                        document.getElementById('startBtn').style.display = 'inline-block';
+                        document.getElementById('startBtn').textContent = '🔄 Try Again';
+                        isRunning = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function update478Phase(phases, durations) {
+            document.getElementById('breathInstruction').textContent = phases[phaseIndex];
+            countdown = durations[phaseIndex];
+            document.getElementById('breathTimer').textContent = countdown;
+            
+            if (phaseIndex === 0) {
+                document.getElementById('breathPhase').textContent = 'Inhale through nose';
+            } else if (phaseIndex === 1) {
+                document.getElementById('breathPhase').textContent = 'Hold your breath';
+            } else if (phaseIndex === 2) {
+                document.getElementById('breathPhase').textContent = 'Exhale through mouth';
+            } else if (phaseIndex === 3) {
+                document.getElementById('breathPhase').textContent = 'Hold empty lungs';
+            }
+        }
+
+        // Box Breathing Timer
+        function startBoxTimer() {
+            const phases = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+            
+            document.getElementById('startBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            
+            isRunning = true;
+            phaseIndex = 0;
+            countdown = 4;
+            
+            updateBoxPhase(phases);
+            
+            breathInterval = setInterval(() => {
+                if (!isRunning) return;
+                
+                countdown--;
+                document.getElementById('breathTimer').textContent = countdown;
+                
+                const circle = document.getElementById('breathCircle');
+                if (phaseIndex === 0) {
+                    circle.classList.add('inhale');
+                    circle.classList.remove('exhale');
+                } else if (phaseIndex === 2) {
+                    circle.classList.add('exhale');
+                    circle.classList.remove('inhale');
+                }
+                
+                if (countdown <= 0) {
+                    phaseIndex = (phaseIndex + 1) % 4;
+                    countdown = 4;
+                    updateBoxPhase(phases);
+                }
+            }, 1000);
+        }
+
+        function updateBoxPhase(phases) {
+            document.getElementById('breathInstruction').textContent = phases[phaseIndex];
+            document.getElementById('breathTimer').textContent = countdown;
+            
+            if (phaseIndex === 0) {
+                document.getElementById('breathPhase').textContent = 'Inhale through nose';
+            } else if (phaseIndex === 1) {
+                document.getElementById('breathPhase').textContent = 'Hold your breath';
+            } else if (phaseIndex === 2) {
+                document.getElementById('breathPhase').textContent = 'Exhale through mouth';
+            } else if (phaseIndex === 3) {
+                document.getElementById('breathPhase').textContent = 'Hold empty lungs';
+            }
+        }
+
+        function stopBreathing() {
+            clearInterval(breathInterval);
+            isRunning = false;
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('startBtn').style.display = 'inline-block';
+            document.getElementById('startBtn').textContent = '▶ Start Over';
+            
+            const circle = document.getElementById('breathCircle');
+            circle.classList.remove('inhale', 'exhale');
+        }
+
+        function toggleBreathing() {
+            if (isRunning) {
+                stopBreathing();
+            } else {
+                if (window.currentExercise === '478') {
+                    start478Timer();
+                } else {
+                    startBoxTimer();
+                }
+            }
+        }
+
+        // Other calming techniques
+        function butterflyHug() {
+            const exerciseArea = document.getElementById('exerciseArea');
+            exerciseArea.style.display = 'block';
+            
+            exerciseArea.innerHTML = `
+                <div class="technique-emoji" style="font-size: 60px;">🦋</div>
+                <div class="instruction-text">Butterfly Hug</div>
+                <div style="margin: 20px 0;">
+                    1. Cross your arms over your chest<br><br>
+                    2. Tap alternately left and right<br><br>
+                    3. Breathe slowly for 30 seconds
+                </div>
+                <div class="timer-display" id="hugTimer">30</div>
+                <button class="start-btn" onclick="startHugTimer()">▶ Start</button>
+            `;
+        }
+
+        function startHugTimer() {
+            let time = 30;
+            const timer = setInterval(() => {
+                time--;
+                document.getElementById('hugTimer').textContent = time;
+                if (time <= 0) {
+                    clearInterval(timer);
+                    document.getElementById('hugTimer').textContent = "Done! 🎉";
+                }
+            }, 1000);
+        }
+
+        function coldWater() {
+            alert("🧊 Cold Water Technique:\n\n1. Splash cold water on your face\n2. OR hold an ice cube for 10-15 seconds\n3. OR run wrists under cold water\n\nThe shock helps reset your nervous system!");
+        }
+
+        function grounding54321() {
+            const exerciseArea = document.getElementById('exerciseArea');
+            exerciseArea.style.display = 'block';
+            
+            exerciseArea.innerHTML = `
+                <div class="technique-emoji" style="font-size: 60px;">🔍</div>
+                <div class="instruction-text">5-4-3-2-1 Grounding</div>
+                <div style="text-align: left; margin: 20px; line-height: 2;">
+                    <div>👁️ <strong>5</strong> things you can SEE</div>
+                    <div>✋ <strong>4</strong> things you can TOUCH</div>
+                    <div>👂 <strong>3</strong> things you can HEAR</div>
+                    <div>👃 <strong>2</strong> things you can SMELL</div>
+                    <div>👅 <strong>1</strong> thing you can TASTE</div>
+                </div>
+                <button class="start-btn" onclick="alert('Take your time naming each one. You\'re doing great!')">Got It</button>
+            `;
+        }
+
+        function quickPMR() {
+            alert("💪 Quick Body Scan:\n\nTense your feet for 5 seconds... release.\nTense your legs... release.\nTense your hands... release.\nTense your shoulders... release.\nTense your jaw... release.\n\nNotice the relaxation throughout your body.");
+        }
+
+        function alternateNostril() {
+            alert("👃 Alternate Nostril Breathing:\n\n1. Close right nostril, inhale left (4 sec)\n2. Close both, hold (4 sec)\n3. Release right, exhale right (4 sec)\n4. Inhale right (4 sec)\n5. Close both, hold (4 sec)\n6. Release left, exhale left (4 sec)\n\nRepeat 3-5 times.");
+        }
+
+        function mentalEscape() {
+            const escapes = [
+                "Imagine yourself on a warm, sandy beach. Feel the sun on your skin, hear the waves, smell the salt air.",
+                "Picture a peaceful forest with sunlight filtering through the trees. Birds singing, soft moss under your feet.",
+                "Visualize a cozy cabin in the mountains. A crackling fire, soft blanket, snow falling outside.",
+                "Imagine floating on a calm lake, staring at the stars. Gentle ripples, cool water, infinite sky.",
+                "Picture a beautiful garden with flowers blooming. Butterflies, warm breeze, peaceful silence."
+            ];
+            
+            const randomEscape = escapes[Math.floor(Math.random() * escapes.length)];
+            
+            const exerciseArea = document.getElementById('exerciseArea');
+            exerciseArea.style.display = 'block';
+            
+            exerciseArea.innerHTML = `
+                <div class="technique-emoji" style="font-size: 60px;">🏝️</div>
+                <div class="instruction-text">Your Calm Place</div>
+                <div style="margin: 20px; font-style: italic; line-height: 1.6;">"${randomEscape}"</div>
+                <button class="start-btn" onclick="mentalEscape()">Another Place →</button>
+            `;
+        }
+
+        function showCrisisSupport() {
+            alert("🚨 Crisis Support:\n\nNational Suicide Prevention Lifeline: 988\nCrisis Text Line: Text HOME to 741741\n\nYou are not alone. Help is available 24/7.");
+        }
+    </script>
+</body>
+<!-- At the bottom, before closing </body> -->
+<script src="darkmode.js"></script>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
+</html>

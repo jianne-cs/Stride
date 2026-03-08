@@ -6,378 +6,1131 @@
     <title>Monster Diary - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        .diary-entry {
-            background: #0c4a6e;
-            border-radius: 16px;
+        /* Global body style */
+        body {
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid transparent;
+        }
+
+        /* Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Stress indicator */
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
             transition: all 0.3s ease;
         }
-        
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
+        /* Back button */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #082032;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary, #082032);
+            margin: 0;
+        }
+
+        /* Monster Selector Cards - FIXED EYES */
+        .monster-selector-grid {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: thin;
+            scrollbar-color: #0c4a6e rgba(255,255,255,0.3);
+        }
+
+        .monster-selector-grid::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .monster-selector-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        .monster-selector-grid::-webkit-scrollbar-thumb {
+            background: #0c4a6e;
+            border-radius: 10px;
+        }
+
+        .selector-card {
+            min-width: 140px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .selector-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #0c4a6e;
+        }
+
+        .selector-card.active {
+            border-color: #0c4a6e;
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(12,74,110,0.3);
+        }
+
+        /* FIXED: Monster shape with proper eyes for selector cards */
+        .selector-card .monster-shape {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            position: relative;
+            background-color: #0c4a6e;
+        }
+
+        .selector-card .monster-shape.default {
+            clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
+        }
+
+        /* Eyes for selector cards */
+        .selector-card .monster-shape::before,
+        .selector-card .monster-shape::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .selector-card .monster-shape::before {
+            left: 15px;
+        }
+
+        .selector-card .monster-shape::after {
+            right: 15px;
+        }
+
+        /* Pupils for selector cards */
+        .selector-card .monster-pupil-left,
+        .selector-card .monster-pupil-right {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #082032;
+            border-radius: 50%;
+            top: 24px;
+            z-index: 3;
+            transition: all 0.3s ease;
+        }
+
+        .selector-card .monster-pupil-left {
+            left: 19px;
+        }
+
+        .selector-card .monster-pupil-right {
+            right: 19px;
+        }
+
+        .selector-name {
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+            margin-bottom: 5px;
+        }
+
+        .selector-stats {
+            font-size: 12px;
+            color: var(--text-secondary, #334155);
+        }
+
+        /* Stats Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.3);
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-primary, #0c4a6e);
+            line-height: 1.2;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary, #334155);
+            font-weight: 600;
+        }
+
+        /* Insight Badges */
+        .insights-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .insight-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 12px 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
+            cursor: help;
+        }
+
+        .insight-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .insight-icon {
+            font-size: 24px;
+        }
+
+        .insight-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary, #082032);
+        }
+
+        /* Diary Entry */
+        .diary-entry {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 6px solid transparent;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .diary-entry:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
         .diary-entry.victory {
             border-left-color: #10b981;
         }
-        
+
         .diary-entry.defeat {
             border-left-color: #ef4444;
         }
-        
+
         .diary-entry.partial {
             border-left-color: #f59e0b;
         }
-        
+
         .diary-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        
+
+        .diary-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .monster-name-large {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+        }
+
         .diary-date {
-            color: #7dd3fc;
+            color: var(--text-secondary, #334155);
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        
+
         .diary-outcome {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
+
         .outcome-victory {
             background: #10b981;
             color: white;
+            box-shadow: 0 5px 15px rgba(16,185,129,0.3);
         }
-        
+
         .outcome-defeat {
             background: #ef4444;
             color: white;
+            box-shadow: 0 5px 15px rgba(239,68,68,0.3);
         }
-        
+
         .outcome-partial {
             background: #f59e0b;
             color: white;
+            box-shadow: 0 5px 15px rgba(245,158,11,0.3);
         }
-        
-        .skill-tag {
-            background: #1e3a5f;
-            padding: 4px 10px;
+
+        /* Battle Stats */
+        .battle-stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            background: rgba(255,255,255,0.2);
+            padding: 15px 20px;
             border-radius: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .stat-label-small {
             font-size: 12px;
+            color: var(--text-secondary, #334155);
+            margin-bottom: 5px;
+        }
+
+        .stat-value-large {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary, #082032);
+        }
+
+        .hp-before {
+            color: #ef4444;
+        }
+
+        .hp-after.victory {
+            color: #10b981;
+        }
+
+        .hp-after.partial {
+            color: #f59e0b;
+        }
+
+        .hp-after.defeat {
+            color: #ef4444;
+        }
+
+        /* Skills Used */
+        .skills-section {
+            margin-bottom: 20px;
+        }
+
+        .skills-label {
+            color: var(--text-secondary, #334155);
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            margin-right: 8px;
-            margin-bottom: 8px;
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
         }
-        
+
         .skill-tag.effective {
-            background: #7dd3fc;
-            color: #082032;
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
         }
-        
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.4);
+        }
+
         .rating-stars {
             color: #f59e0b;
             letter-spacing: 2px;
+            font-size: 12px;
         }
-        
-        .timeline-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #7dd3fc;
-            position: relative;
-        }
-        
-        .timeline-dot::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 40px;
-            background: #1e3a5f;
-            top: 12px;
-            left: 5px;
-        }
-        
-        .insight-badge {
-            background: #1e3a5f;
+
+        /* Notes Section */
+        .notes-section {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 8px 15px;
-            display: inline-flex;
+            padding: 20px;
+            margin-top: 15px;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .notes-label {
+            display: flex;
             align-items: center;
-            gap: 10px;
-            margin-right: 10px;
+            gap: 8px;
+            color: var(--text-secondary, #334155);
             margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .notes-content {
+            color: var(--text-primary, #082032);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Load More Button */
+        .load-more-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .load-more-btn {
+            background: linear-gradient(135deg, #0c4a6e, #082032);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(12,74,110,0.3);
+        }
+
+        .load-more-btn:hover {
+            background: #082032;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(12,74,110,0.4);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: var(--text-secondary, #334155);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-primary, #0c4a6e);
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            color: var(--accent-primary, #0c4a6e);
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .nav-label {
+            font-size: 11px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .diary-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .battle-stats {
+                gap: 15px;
+            }
+            
+            .stat-item {
+                min-width: 60px;
+            }
+            
+            .insight-badges {
+                flex-direction: column;
+            }
+            
+            .insight-badge {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stress-indicator {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .battle-stats {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
-            <button class="back-btn" onclick="window.location.href='home.html'">←</button>
-            <h1>Monster Diary</h1>
+        <!-- Header with clickable logo -->
+        <div class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
+            </div>
+            <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
+                <span class="stress-label">Stress:</span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot filled"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
         </div>
 
-        <!-- Monster Selector -->
-        <div style="display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding: 10px 0;">
-            <div class="monster-card" style="min-width: 120px; background: #7dd3fc; color: #082032;" onclick="filterDiary('thesis')">
-                <div class="monster-shape small" style="background: #082032; margin-bottom: 10px;"></div>
-                <div class="monster-name">Thesis Panic</div>
-                <div style="font-size: 12px;">67 battles</div>
+        <!-- Page Header -->
+        <div class="page-header">
+            <button class="back-btn" onclick="window.location.href='home.html'">
+                <span>←</span> Back
+            </button>
+            <h1 class="page-title">📖 Monster Diary</h1>
+        </div>
+
+        <!-- Monster Selector - FIXED EYES -->
+        <div class="monster-selector-grid">
+            <div class="selector-card active" onclick="filterDiary('thesis', this)">
+                <div class="monster-shape default" style="background-color: #ef4444;">
+                    <div class="monster-pupil-left"></div>
+                    <div class="monster-pupil-right"></div>
+                </div>
+                <div class="selector-name">Thesis Panic</div>
+                <div class="selector-stats">67 battles</div>
             </div>
             
-            <div class="monster-card" style="min-width: 120px;" onclick="filterDiary('social')">
-                <div class="monster-shape small" style="background: #7dd3fc; margin-bottom: 10px;"></div>
-                <div class="monster-name">Social Anxiety</div>
-                <div style="font-size: 12px;">23 battles</div>
+            <div class="selector-card" onclick="filterDiary('social', this)">
+                <div class="monster-shape default" style="background-color: #8b5cf6;">
+                    <div class="monster-pupil-left"></div>
+                    <div class="monster-pupil-right"></div>
+                </div>
+                <div class="selector-name">Social Anxiety</div>
+                <div class="selector-stats">23 battles</div>
             </div>
             
-            <div class="monster-card" style="min-width: 120px;" onclick="filterDiary('procrastination')">
-                <div class="monster-shape small" style="background: #7dd3fc; margin-bottom: 10px;"></div>
-                <div class="monster-name">Procrastination</div>
-                <div style="font-size: 12px;">15 battles</div>
+            <div class="selector-card" onclick="filterDiary('procrastination', this)">
+                <div class="monster-shape default" style="background-color: #f59e0b;">
+                    <div class="monster-pupil-left"></div>
+                    <div class="monster-pupil-right"></div>
+                </div>
+                <div class="selector-name">Procrastination</div>
+                <div class="selector-stats">15 battles</div>
             </div>
             
-            <div class="monster-card" style="min-width: 120px;" onclick="filterDiary('all')">
-                <div class="monster-shape small" style="background: #7dd3fc; margin-bottom: 10px;"></div>
-                <div class="monster-name">All Monsters</div>
-                <div style="font-size: 12px;">85 battles</div>
+            <div class="selector-card" onclick="filterDiary('all', this)">
+                <div class="monster-shape default" style="background: linear-gradient(135deg, #ef4444, #8b5cf6, #f59e0b);">
+                    <div class="monster-pupil-left"></div>
+                    <div class="monster-pupil-right"></div>
+                </div>
+                <div class="selector-name">All Monsters</div>
+                <div class="selector-stats">105 battles</div>
             </div>
         </div>
 
         <!-- Stats Summary -->
-        <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 30px;">
+        <div class="stat-grid">
             <div class="stat-card">
-                <div class="stat-value">67</div>
+                <div class="stat-value">105</div>
                 <div class="stat-label">Total Battles</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">32</div>
+                <div class="stat-value">67</div>
                 <div class="stat-label">Victories</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">12</div>
+                <div class="stat-value">28</div>
                 <div class="stat-label">Defeats</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">3</div>
+                <div class="stat-value">10</div>
                 <div class="stat-label">Retreats</div>
             </div>
         </div>
 
         <!-- Insights Section -->
-        <div style="margin-bottom: 30px;">
-            <h2 style="margin-bottom: 15px;">📊 Battle Insights</h2>
-            <div style="display: flex; flex-wrap: wrap;">
-                <div class="insight-badge">
-                    <span>⚡</span>
-                    <span>Most effective: Grounding Breath (92%)</span>
+        <div class="insights-section">
+            <div class="section-title">
+                <span>📊</span> Battle Insights
+            </div>
+            <div class="insight-badges">
+                <div class="insight-badge" title="Most effective skill based on success rate">
+                    <span class="insight-icon">⚡</span>
+                    <span class="insight-text">Most effective: Grounding Breath (92%)</span>
                 </div>
-                <div class="insight-badge">
-                    <span>📅</span>
-                    <span>Peak battles: Monday 9 AM</span>
+                <div class="insight-badge" title="Your peak battle time">
+                    <span class="insight-icon">📅</span>
+                    <span class="insight-text">Peak battles: Monday 9 AM</span>
                 </div>
-                <div class="insight-badge">
-                    <span>👥</span>
-                    <span>Squad battles: 35% more wins</span>
+                <div class="insight-badge" title="Squad battles are more effective">
+                    <span class="insight-icon">👥</span>
+                    <span class="insight-text">Squad battles: 35% more wins</span>
                 </div>
-                <div class="insight-badge">
-                    <span>📈</span>
-                    <span>HP reduced by 22% this month</span>
+                <div class="insight-badge" title="Progress this month">
+                    <span class="insight-icon">📈</span>
+                    <span class="insight-text">HP reduced by 22% this month</span>
                 </div>
             </div>
         </div>
 
         <!-- Diary Entries -->
-        <h2 style="margin-bottom: 15px;">📝 Battle History</h2>
+        <div class="section-title">
+            <span>📝</span> Battle History
+        </div>
 
         <!-- Entry 1 - Victory -->
         <div class="diary-entry victory">
             <div class="diary-header">
-                <div>
-                    <span style="font-weight: bold; font-size: 18px;">Thesis Panic Monster</span>
-                    <span class="diary-date"> • March 5, 2025 • 8:30 PM</span>
+                <div class="diary-title">
+                    <span class="monster-name-large">Thesis Panic Monster</span>
+                    <span class="diary-date">📅 March 5, 2025 • 8:30 PM</span>
                 </div>
-                <span class="diary-outcome outcome-victory">VICTORY</span>
+                <span class="diary-outcome outcome-victory">🏆 VICTORY</span>
             </div>
             
-            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP Before</div>
-                    <div style="font-size: 20px; color: #ef4444;">78</div>
+            <div class="battle-stats">
+                <div class="stat-item">
+                    <div class="stat-label-small">HP Before</div>
+                    <div class="stat-value-large hp-before">78</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP After</div>
-                    <div style="font-size: 20px; color: #10b981;">0</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">HP After</div>
+                    <div class="stat-value-large hp-after victory">0</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Duration</div>
-                    <div style="font-size: 20px;">8 min</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Duration</div>
+                    <div class="stat-value-large">8m</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Squad</div>
-                    <div style="font-size: 20px;">👥 3</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Squad</div>
+                    <div class="stat-value-large">👥 3</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Energy Used</div>
+                    <div class="stat-value-large">24</div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <div style="color: #7dd3fc; margin-bottom: 8px;">Skills Used:</div>
-                <div>
-                    <span class="skill-tag effective">⚡ Grounding Breath <span class="rating-stars">★★★★★</span></span>
+            <div class="skills-section">
+                <div class="skills-label">⚔️ Skills Used:</div>
+                <div class="skills-container">
+                    <span class="skill-tag effective">🌬️ Grounding Breath <span class="rating-stars">★★★★★</span></span>
                     <span class="skill-tag effective">🛡️ Cognitive Shield <span class="rating-stars">★★★★☆</span></span>
                     <span class="skill-tag">🤝 Squad Rally <span class="rating-stars">★★★☆☆</span></span>
                 </div>
             </div>
 
-            <div style="background: #1e3a5f; padding: 12px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #7dd3fc; margin-bottom: 5px;">📝 Notes:</div>
-                <div style="color: white;">"Squad battle made all the difference. Grounding Breath worked really well when I felt the panic rising."</div>
+            <div class="notes-section">
+                <div class="notes-label">
+                    <span>📝</span> Notes:
+                </div>
+                <div class="notes-content">
+                    "Squad battle made all the difference. Grounding Breath worked really well when I felt the panic rising. Alex and Jordan were really supportive."
+                </div>
             </div>
         </div>
 
         <!-- Entry 2 - Partial Victory -->
         <div class="diary-entry partial">
             <div class="diary-header">
-                <div>
-                    <span style="font-weight: bold; font-size: 18px;">Social Anxiety Specter</span>
-                    <span class="diary-date"> • March 4, 2025 • 2:15 PM</span>
+                <div class="diary-title">
+                    <span class="monster-name-large">Social Anxiety Specter</span>
+                    <span class="diary-date">📅 March 4, 2025 • 2:15 PM</span>
                 </div>
-                <span class="diary-outcome outcome-partial">PARTIAL</span>
+                <span class="diary-outcome outcome-partial">⚠️ PARTIAL</span>
             </div>
             
-            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP Before</div>
-                    <div style="font-size: 20px; color: #ef4444;">65</div>
+            <div class="battle-stats">
+                <div class="stat-item">
+                    <div class="stat-label-small">HP Before</div>
+                    <div class="stat-value-large hp-before">65</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP After</div>
-                    <div style="font-size: 20px; color: #f59e0b;">32</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">HP After</div>
+                    <div class="stat-value-large hp-after partial">32</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Duration</div>
-                    <div style="font-size: 20px;">5 min</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Duration</div>
+                    <div class="stat-value-large">5m</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Squad</div>
-                    <div style="font-size: 20px;">👤 Solo</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Squad</div>
+                    <div class="stat-value-large">👤 Solo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Energy Used</div>
+                    <div class="stat-value-large">15</div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <div style="color: #7dd3fc; margin-bottom: 8px;">Skills Used:</div>
-                <div>
+            <div class="skills-section">
+                <div class="skills-label">⚔️ Skills Used:</div>
+                <div class="skills-container">
                     <span class="skill-tag effective">🌬️ Grounding Breath <span class="rating-stars">★★★★☆</span></span>
                     <span class="skill-tag">💚 Self-Compassion <span class="rating-stars">★★★☆☆</span></span>
                 </div>
             </div>
 
-            <div style="background: #1e3a5f; padding: 12px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #7dd3fc; margin-bottom: 5px;">📝 Notes:</div>
-                <div style="color: white;">"Had to stop mid-battle, but made progress. Next time I'll try squad battle."</div>
+            <div class="notes-section">
+                <div class="notes-label">
+                    <span>📝</span> Notes:
+                </div>
+                <div class="notes-content">
+                    "Had to stop mid-battle, but made progress. Next time I'll try squad battle. Grounding Breath helped calm the initial panic."
+                </div>
             </div>
         </div>
 
         <!-- Entry 3 - Victory with Squad -->
         <div class="diary-entry victory">
             <div class="diary-header">
-                <div>
-                    <span style="font-weight: bold; font-size: 18px;">Procrastination Demon</span>
-                    <span class="diary-date"> • March 3, 2025 • 10:00 PM</span>
+                <div class="diary-title">
+                    <span class="monster-name-large">Procrastination Demon</span>
+                    <span class="diary-date">📅 March 3, 2025 • 10:00 PM</span>
                 </div>
-                <span class="diary-outcome outcome-victory">VICTORY</span>
+                <span class="diary-outcome outcome-victory">🏆 VICTORY</span>
             </div>
             
-            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP Before</div>
-                    <div style="font-size: 20px; color: #ef4444;">92</div>
+            <div class="battle-stats">
+                <div class="stat-item">
+                    <div class="stat-label-small">HP Before</div>
+                    <div class="stat-value-large hp-before">92</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP After</div>
-                    <div style="font-size: 20px; color: #10b981;">0</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">HP After</div>
+                    <div class="stat-value-large hp-after victory">0</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Duration</div>
-                    <div style="font-size: 20px;">12 min</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Duration</div>
+                    <div class="stat-value-large">12m</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Squad</div>
-                    <div style="font-size: 20px;">👥 4</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Squad</div>
+                    <div class="stat-value-large">👥 4</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Energy Used</div>
+                    <div class="stat-value-large">32</div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <div style="color: #7dd3fc; margin-bottom: 8px;">Skills Used:</div>
-                <div>
+            <div class="skills-section">
+                <div class="skills-label">⚔️ Skills Used:</div>
+                <div class="skills-container">
                     <span class="skill-tag effective">🤝 Squad Rally <span class="rating-stars">★★★★★</span></span>
                     <span class="skill-tag effective">🧠 Thought Reframe <span class="rating-stars">★★★★☆</span></span>
                     <span class="skill-tag">💚 Self-Compassion <span class="rating-stars">★★★★☆</span></span>
                 </div>
             </div>
 
-            <div style="background: #1e3a5f; padding: 12px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #7dd3fc; margin-bottom: 5px;">📝 Notes:</div>
-                <div style="color: white;">"Squad battle with Alex, Jordan, and Taylor. We all fought our monsters together. So much easier!"</div>
+            <div class="notes-section">
+                <div class="notes-label">
+                    <span>📝</span> Notes:
+                </div>
+                <div class="notes-content">
+                    "Squad battle with Alex, Jordan, and Taylor. We all fought our monsters together. So much easier with squad support!"
+                </div>
             </div>
         </div>
 
         <!-- Entry 4 - Defeat -->
         <div class="diary-entry defeat">
             <div class="diary-header">
-                <div>
-                    <span style="font-weight: bold; font-size: 18px;">Thesis Panic Monster</span>
-                    <span class="diary-date"> • March 2, 2025 • 3:00 AM</span>
+                <div class="diary-title">
+                    <span class="monster-name-large">Thesis Panic Monster</span>
+                    <span class="diary-date">📅 March 2, 2025 • 3:00 AM</span>
                 </div>
-                <span class="diary-outcome outcome-defeat">DEFEAT</span>
+                <span class="diary-outcome outcome-defeat">❌ DEFEAT</span>
             </div>
             
-            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP Before</div>
-                    <div style="font-size: 20px; color: #ef4444;">85</div>
+            <div class="battle-stats">
+                <div class="stat-item">
+                    <div class="stat-label-small">HP Before</div>
+                    <div class="stat-value-large hp-before">85</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">HP After</div>
-                    <div style="font-size: 20px; color: #ef4444;">92</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">HP After</div>
+                    <div class="stat-value-large hp-after defeat">92</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Duration</div>
-                    <div style="font-size: 20px;">3 min</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Duration</div>
+                    <div class="stat-value-large">3m</div>
                 </div>
-                <div>
-                    <div style="color: #9ca3af; font-size: 12px;">Squad</div>
-                    <div style="font-size: 20px;">👤 Solo</div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Squad</div>
+                    <div class="stat-value-large">👤 Solo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label-small">Energy Used</div>
+                    <div class="stat-value-large">8</div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <div style="color: #7dd3fc; margin-bottom: 8px;">Skills Used:</div>
-                <div>
+            <div class="skills-section">
+                <div class="skills-label">⚔️ Skills Used:</div>
+                <div class="skills-container">
                     <span class="skill-tag">🌬️ Grounding Breath <span class="rating-stars">★★☆☆☆</span></span>
                 </div>
             </div>
 
-            <div style="background: #1e3a5f; padding: 12px; border-radius: 8px; margin-top: 10px;">
-                <div style="color: #7dd3fc; margin-bottom: 5px;">📝 Notes:</div>
-                <div style="color: white;">"Tried to fight at 3 AM. Bad idea. Monster got stronger. Need to stick to daytime battles."</div>
+            <div class="notes-section">
+                <div class="notes-label">
+                    <span>📝</span> Notes:
+                </div>
+                <div class="notes-content">
+                    "Tried to fight at 3 AM. Bad idea. Monster got stronger. Need to stick to daytime battles and get more sleep."
+                </div>
             </div>
         </div>
 
         <!-- Load More Button -->
-        <div style="text-align: center; margin: 40px 0;">
-            <button class="secondary-btn">Load More Entries</button>
+        <div class="load-more-container">
+            <button class="load-more-btn" onclick="loadMoreEntries()">📚 Load More Entries</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='home.html'">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='monsters.html'">
+                <span class="nav-icon">👾</span>
+                <span class="nav-label">Monsters</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='progress.html'">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Progress</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='community.html'">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Community</span>
+            </button>
+            <button class="nav-item active" onclick="window.location.href='learn.html'">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Learn</span>
+            </button>
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
-        function filterDiary(monster) {
-            alert('Filtering by: ' + monster + ' (Demo feature)');
-            // In real app, this would filter the diary entries
+        // Filter diary entries by monster
+        function filterDiary(monster, element) {
+            // Update active state
+            document.querySelectorAll('.selector-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            element.classList.add('active');
+            
+            // In a real app, this would filter the diary entries
+            // For demo, we'll show a toast
+            showToast(`Filtering by: ${monster}`);
+            
+            // You could add actual filtering logic here
+            console.log('Filtering by:', monster);
         }
+
+        // Load more entries
+        function loadMoreEntries() {
+            showToast('Loading more entries...');
+            // In a real app, this would load more diary entries
+            setTimeout(() => {
+                showToast('✨ 5 more entries loaded!');
+            }, 1000);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 50%;
+                    transform: translateX(-50%) translateY(100px);
+                    background: #0c4a6e;
+                    color: white;
+                    padding: 15px 30px;
+                    border-radius: 50px;
+                    font-weight: bold;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                    transition: all 0.3s ease;
+                    opacity: 0;
+                    z-index: 1000;
+                `;
+                document.body.appendChild(toast);
+            }
+            
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+            }, 3000);
+        }
+
+        // Update stress indicator
+        function updateStressIndicator() {
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            updateStressIndicator();
+        };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>

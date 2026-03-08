@@ -6,7 +6,7 @@
     <title>Battle - STRIDE</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
-        /* All your existing styles remain the same */
+        /* Bottom navigation */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
@@ -51,8 +51,113 @@
             font-size: 11px;
         }
 
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.1);
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            font-size: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            cursor: pointer;
+            color: #082032;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn:hover {
+            background: white;
+            transform: scale(1.05) rotate(90deg);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Stress indicator */
+        .stress-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .stress-indicator:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .stress-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #0c4a6e;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .dot.filled {
+            background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
+        }
+
         .battle-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
@@ -112,7 +217,7 @@
             z-index: 2;
         }
 
-        /* Monster shape for battle - follows design system */
+        /* Monster shape for battle */
         .monster-shape-large {
             width: 180px;
             height: 180px;
@@ -122,7 +227,7 @@
             box-shadow: 0 0 50px rgba(125, 211, 252, 0.5);
         }
 
-        /* Shape variations - matching createmonster */
+        /* Shape variations */
         .monster-shape-large.default {
             clip-path: polygon(50% 0%, 80% 20%, 100% 50%, 80% 80%, 50% 100%, 20% 80%, 0% 50%, 20% 20%);
         }
@@ -300,9 +405,9 @@
 
         .hp-bar-large {
             width: 100%;
-            height: 25px;
+            height: 20px;
             background: rgba(0,0,0,0.3);
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
             border: 2px solid rgba(255,255,255,0.2);
         }
@@ -504,6 +609,24 @@
             color: white;
         }
 
+        .reset-btn {
+            background: #f59e0b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .reset-btn:hover {
+            background: #d97706;
+            transform: scale(1.05);
+        }
+
         .squad-battle-link {
             text-align: center;
             margin: 20px 0;
@@ -524,25 +647,30 @@
             color: white;
         }
 
-        .retry-btn {
-            background: #f59e0b;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 10px;
+        .loading-state {
+            text-align: center;
+            padding: 60px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            margin: 40px 0;
         }
 
-        .retry-btn:hover {
-            background: #d97706;
-            transform: scale(1.05);
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #0c4a6e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
         }
 
-        /* Modal styles */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -550,16 +678,20 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.7);
-            display: flex;
+            backdrop-filter: blur(5px);
+            display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            display: none;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
         }
 
         .modal-content {
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-radius: 40px;
             padding: 30px;
             max-width: 500px;
@@ -576,25 +708,19 @@
             margin-bottom: 20px;
         }
 
-        .modal-title {
+        .modal-header h3 {
             font-size: 24px;
-            font-weight: bold;
             color: #082032;
         }
 
         .modal-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.1);
-            border: none;
-            font-size: 20px;
+            font-size: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            color: #334155;
         }
 
         .modal-close:hover {
-            background: rgba(0,0,0,0.2);
+            color: #ef4444;
         }
 
         .modal-body {
@@ -630,16 +756,6 @@
             color: white;
         }
 
-        .task-item.completed .task-text {
-            color: white;
-        }
-
-        .task-text {
-            font-size: 16px;
-            color: #082032;
-            margin-bottom: 10px;
-        }
-
         .timer-display {
             font-size: 48px;
             font-weight: bold;
@@ -664,12 +780,27 @@
 
         .complete-btn:hover {
             background: #082032;
-            transform: scale(1.02);
+            transform: translateY(-2px);
         }
 
         .complete-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #0c4a6e;
+            transition: width 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -708,11 +839,14 @@
 </head>
 <body>
     <div class="container battle-container">
-        <!-- Header -->
+        <!-- Header with clickable logo -->
         <div class="app-header">
             <div class="header-left">
-                <button class="menu-btn" onclick="window.location.href='home.html'">←</button>
-                <span class="logo">STRIDE</span>
+                <button class="menu-btn" onclick="window.location.href='profile.html'">☰</button>
+                <a href="home.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="../assets/images/stride-logo.png" alt="STRIDE Logo" class="header-logo">
+                    <span class="logo">STRIDE</span>
+                </a>
             </div>
             <div class="stress-indicator" onclick="window.location.href='quickmoodcheck.html'" title="Update stress level">
                 <span class="stress-label">Stress:</span>
@@ -724,162 +858,170 @@
             </div>
         </div>
 
-        <!-- Battle Arena -->
-        <div class="monster-battle-card">
-            <div class="monster-header">
-                <span class="monster-name-badge" id="monsterName">Loading...</span>
-                <span class="monster-type" id="monsterType">Loading...</span>
-            </div>
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading battle...</p>
+        </div>
 
-            <div class="monster-visual">
-                <div class="monster-shape-large" id="monsterShape" style="background-color: #7dd3fc;">
-                    <div class="monster-pupil-left"></div>
-                    <div class="monster-pupil-right"></div>
+        <!-- Battle Arena (Initially Hidden) -->
+        <div id="battleArena" style="display: none;">
+            <div class="monster-battle-card">
+                <div class="monster-header">
+                    <span class="monster-name-badge" id="monsterName">Loading...</span>
+                    <span class="monster-type" id="monsterType">Loading...</span>
+                </div>
+
+                <div class="monster-visual">
+                    <div class="monster-shape-large" id="monsterShape" style="background-color: #7dd3fc;">
+                        <div class="monster-pupil-left"></div>
+                        <div class="monster-pupil-right"></div>
+                    </div>
+                </div>
+
+                <div class="hp-section">
+                    <div class="hp-header">
+                        <span>MONSTER HP</span>
+                        <span id="monsterHpText">--/100</span>
+                    </div>
+                    <div class="hp-bar-large">
+                        <div class="hp-fill-large" id="monsterHpFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="monster-dialogue-box" id="monsterDialogue">
+                    "Loading monster..."
                 </div>
             </div>
 
-            <div class="hp-section">
-                <div class="hp-header">
-                    <span>MONSTER HP</span>
-                    <span id="monsterHpText">--/100</span>
+            <!-- User Section -->
+            <div class="user-section">
+                <div class="energy-header">
+                    <span class="energy-title">Your Energy</span>
+                    <span class="energy-value" id="energyText">82/100</span>
                 </div>
-                <div class="hp-bar-large">
-                    <div class="hp-fill-large" id="monsterHpFill" style="width: 0%;"></div>
+                <div class="energy-bar-large">
+                    <div class="energy-fill-large" id="energyFill" style="width: 82%;"></div>
+                </div>
+
+                <div class="skills-battle-grid">
+                    <button class="battle-skill-card" onclick="useSkill('grounding')" id="skillGrounding">
+                        <div class="skill-icon-battle">🌬️</div>
+                        <div class="skill-name-battle">Grounding Breath</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">12-18 DMG</span>
+                            <span class="skill-energy">3 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('cognitive')" id="skillCognitive">
+                        <div class="skill-icon-battle">🛡️</div>
+                        <div class="skill-name-battle">Cognitive Shield</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">18-25 DMG</span>
+                            <span class="skill-energy">5 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('compassion')" id="skillCompassion">
+                        <div class="skill-icon-battle">💚</div>
+                        <div class="skill-name-battle">Self-Compassion</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">8-14 DMG</span>
+                            <span class="skill-energy">2 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('microbreak')" id="skillMicrobreak">
+                        <div class="skill-icon-battle">🚶</div>
+                        <div class="skill-name-battle">Mindful Microbreak</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">15-22 DMG</span>
+                            <span class="skill-energy">4 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('pmr')" id="skillPMR">
+                        <div class="skill-icon-battle">💪</div>
+                        <div class="skill-name-battle">Progressive Muscle Relaxation</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">20-28 DMG</span>
+                            <span class="skill-energy">6 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('sensory')" id="skillSensory">
+                        <div class="skill-icon-battle">🪨</div>
+                        <div class="skill-name-battle">Sensory Anchor</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">10-16 DMG</span>
+                            <span class="skill-energy">3 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('music')" id="skillMusic">
+                        <div class="skill-icon-battle">🎵</div>
+                        <div class="skill-name-battle">Calming Sounds</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">13-20 DMG</span>
+                            <span class="skill-energy">4 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('labeling')" id="skillLabeling">
+                        <div class="skill-icon-battle">🏷️</div>
+                        <div class="skill-name-battle">Thought Labeling</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">16-24 DMG</span>
+                            <span class="skill-energy">5 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('wait')" id="skillWAIT">
+                        <div class="skill-icon-battle">⏳</div>
+                        <div class="skill-name-battle">WAIT Rule</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">19-26 DMG</span>
+                            <span class="skill-energy">6 EN</span>
+                        </div>
+                    </button>
+
+                    <button class="battle-skill-card" onclick="useSkill('visualize')" id="skillVisualize">
+                        <div class="skill-icon-battle">🏝️</div>
+                        <div class="skill-name-battle">Calm Place Visualization</div>
+                        <div class="skill-stats">
+                            <span class="skill-damage">22-30 DMG</span>
+                            <span class="skill-energy">7 EN</span>
+                        </div>
+                    </button>
                 </div>
             </div>
 
-            <div class="monster-dialogue-box" id="monsterDialogue">
-                "Loading monster..."
-            </div>
-        </div>
-
-        <!-- User Section -->
-        <div class="user-section">
-            <div class="energy-header">
-                <span class="energy-title">Your Energy</span>
-                <span class="energy-value" id="energyText">82/100</span>
-            </div>
-            <div class="energy-bar-large">
-                <div class="energy-fill-large" id="energyFill" style="width: 82%;"></div>
+            <!-- Battle Log -->
+            <div class="battle-log-container">
+                <div class="battle-log-title">
+                    <span>📋</span> Battle Log
+                    <button class="reset-btn" onclick="resetBattle()" style="margin-left: auto;">↻ Reset Battle</button>
+                </div>
+                <div class="battle-log" id="battleLog">
+                    <div class="log-entry">⚔️ Battle started!</div>
+                </div>
             </div>
 
-            <div class="skills-battle-grid">
-                <button class="battle-skill-card" onclick="useSkill('grounding')" id="skillGrounding">
-                    <div class="skill-icon-battle">🌬️</div>
-                    <div class="skill-name-battle">Grounding Breath</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">8 DMG</span>
-                        <span class="skill-energy">3 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('cognitive')" id="skillCognitive">
-                    <div class="skill-icon-battle">🛡️</div>
-                    <div class="skill-name-battle">Cognitive Shield</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">12 DMG</span>
-                        <span class="skill-energy">5 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('compassion')" id="skillCompassion">
-                    <div class="skill-icon-battle">💚</div>
-                    <div class="skill-name-battle">Self-Compassion</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">6 DMG</span>
-                        <span class="skill-energy">2 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('microbreak')" id="skillMicrobreak">
-                    <div class="skill-icon-battle">🚶</div>
-                    <div class="skill-name-battle">Mindful Microbreak</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">10 DMG</span>
-                        <span class="skill-energy">4 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('pmr')" id="skillPMR">
-                    <div class="skill-icon-battle">💪</div>
-                    <div class="skill-name-battle">Progressive Muscle Relaxation</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">14 DMG</span>
-                        <span class="skill-energy">6 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('sensory')" id="skillSensory">
-                    <div class="skill-icon-battle">🪨</div>
-                    <div class="skill-name-battle">Sensory Anchor</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">7 DMG</span>
-                        <span class="skill-energy">3 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('music')" id="skillMusic">
-                    <div class="skill-icon-battle">🎵</div>
-                    <div class="skill-name-battle">Calming Sounds</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">9 DMG</span>
-                        <span class="skill-energy">4 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('labeling')" id="skillLabeling">
-                    <div class="skill-icon-battle">🏷️</div>
-                    <div class="skill-name-battle">Thought Labeling</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">11 DMG</span>
-                        <span class="skill-energy">5 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('wait')" id="skillWAIT">
-                    <div class="skill-icon-battle">⏳</div>
-                    <div class="skill-name-battle">WAIT Rule</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">13 DMG</span>
-                        <span class="skill-energy">6 EN</span>
-                    </div>
-                </button>
-
-                <button class="battle-skill-card" onclick="useSkill('visualize')" id="skillVisualize">
-                    <div class="skill-icon-battle">🏝️</div>
-                    <div class="skill-name-battle">Calm Place Visualization</div>
-                    <div class="skill-stats">
-                        <span class="skill-damage">15 DMG</span>
-                        <span class="skill-energy">7 EN</span>
-                    </div>
-                </button>
+            <!-- Battle Controls -->
+            <div class="battle-controls">
+                <button class="retreat-btn" onclick="retreat()">🏃 Retreat</button>
             </div>
-        </div>
 
-        <!-- Battle Log -->
-        <div class="battle-log-container">
-            <div class="battle-log-title">
-                <span>📋</span> Battle Log
-                <button class="retry-btn" onclick="resetBattle()" style="margin-left: auto;">↻ Reset Battle</button>
+            <!-- Squad Battle Link -->
+            <div class="squad-battle-link">
+                <a href="coopbattle.html">→ Fight with Squad instead (35% more effective)</a>
             </div>
-            <div class="battle-log" id="battleLog">
-                <div class="log-entry">⚔️ Battle started!</div>
-            </div>
-        </div>
-
-        <!-- Battle Controls -->
-        <div class="battle-controls">
-            <button class="retreat-btn" onclick="retreat()">🏃 Retreat</button>
-        </div>
-
-        <!-- Squad Battle Link -->
-        <div class="squad-battle-link">
-            <a href="coopbattle.html">→ Fight with Squad instead (35% more effective)</a>
         </div>
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <button class="nav-item active" onclick="window.location.href='home.html'">
+            <button class="nav-item" onclick="window.location.href='home.html'">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">Home</span>
             </button>
@@ -895,7 +1037,7 @@
                 <span class="nav-icon">👥</span>
                 <span class="nav-label">Community</span>
             </button>
-            <button class="nav-item" onclick="window.location.href='learn.html'">
+            <button class="nav-item active" onclick="window.location.href='learn.html'">
                 <span class="nav-icon">📚</span>
                 <span class="nav-label">Learn</span>
             </button>
@@ -909,8 +1051,11 @@
         </div>
     </div>
 
+    <script src="darkmode.js"></script>
     <script>
         // ===== BATTLE STATE =====
+        console.log("🔴 Battle page loaded");
+
         let monsterMaxHp = 100;
         let monsterCurrentHp = 0;
         let userMaxEnergy = 100;
@@ -919,18 +1064,78 @@
         let skillInProgress = false;
         let currentMonster = null;
         
-        // Skill definitions
+        // Skill definitions with enhanced damage ranges
         const skills = {
-            grounding: { name: 'Grounding Breath', damage: 8, cost: 3, type: 'breathing' },
-            cognitive: { name: 'Cognitive Shield', damage: 12, cost: 5, type: 'cbt' },
-            compassion: { name: 'Self-Compassion', damage: 6, cost: 2, type: 'affirmation' },
-            microbreak: { name: 'Mindful Microbreak', damage: 10, cost: 4, type: 'microbreak' },
-            pmr: { name: 'Progressive Muscle Relaxation', damage: 14, cost: 6, type: 'pmr' },
-            sensory: { name: 'Sensory Anchor', damage: 7, cost: 3, type: 'sensory' },
-            music: { name: 'Calming Sounds', damage: 9, cost: 4, type: 'music' },
-            labeling: { name: 'Thought Labeling', damage: 11, cost: 5, type: 'labeling' },
-            wait: { name: 'WAIT Rule', damage: 13, cost: 6, type: 'wait' },
-            visualize: { name: 'Calm Place Visualization', damage: 15, cost: 7, type: 'visualize' }
+            grounding: { 
+                name: 'Grounding Breath', 
+                minDamage: 12, 
+                maxDamage: 18, 
+                cost: 3, 
+                type: 'breathing' 
+            },
+            cognitive: { 
+                name: 'Cognitive Shield', 
+                minDamage: 18, 
+                maxDamage: 25, 
+                cost: 5, 
+                type: 'cbt' 
+            },
+            compassion: { 
+                name: 'Self-Compassion', 
+                minDamage: 8, 
+                maxDamage: 14, 
+                cost: 2, 
+                type: 'affirmation' 
+            },
+            microbreak: { 
+                name: 'Mindful Microbreak', 
+                minDamage: 15, 
+                maxDamage: 22, 
+                cost: 4, 
+                type: 'microbreak' 
+            },
+            pmr: { 
+                name: 'Progressive Muscle Relaxation', 
+                minDamage: 20, 
+                maxDamage: 28, 
+                cost: 6, 
+                type: 'pmr' 
+            },
+            sensory: { 
+                name: 'Sensory Anchor', 
+                minDamage: 10, 
+                maxDamage: 16, 
+                cost: 3, 
+                type: 'sensory' 
+            },
+            music: { 
+                name: 'Calming Sounds', 
+                minDamage: 13, 
+                maxDamage: 20, 
+                cost: 4, 
+                type: 'music' 
+            },
+            labeling: { 
+                name: 'Thought Labeling', 
+                minDamage: 16, 
+                maxDamage: 24, 
+                cost: 5, 
+                type: 'labeling' 
+            },
+            wait: { 
+                name: 'WAIT Rule', 
+                minDamage: 19, 
+                maxDamage: 26, 
+                cost: 6, 
+                type: 'wait' 
+            },
+            visualize: { 
+                name: 'Calm Place Visualization', 
+                minDamage: 22, 
+                maxDamage: 30, 
+                cost: 7, 
+                type: 'visualize' 
+            }
         };
 
         // Monster dialogues based on type
@@ -974,11 +1179,11 @@
 
         // ===== CBT TASKS =====
         const cbtTasks = [
-            { text: "Identify one cognitive distortion in your current thinking", completed: false },
-            { text: "Write down evidence that contradicts your negative thought", completed: false },
-            { text: "What would you tell a friend in this situation?", completed: false },
-            { text: "Rate your thought on a scale of 0-10 - how true does it feel?", completed: false },
-            { text: "What's a more balanced way to look at this?", completed: false }
+            { text: "Identify one cognitive distortion in your current thinking" },
+            { text: "Write down evidence that contradicts your negative thought" },
+            { text: "What would you tell a friend in this situation?" },
+            { text: "Rate your thought on a scale of 0-10 - how true does it feel?" },
+            { text: "What's a more balanced way to look at this?" }
         ];
 
         // Affirmations
@@ -1022,32 +1227,75 @@
 
         // ===== LOAD MONSTER FROM URL =====
         function loadMonsterFromUrl() {
+            console.log("🔴 Loading monster from URL...");
+            
             const urlParams = new URLSearchParams(window.location.search);
             const monsterId = urlParams.get('monster');
             
+            console.log("🔴 Monster ID from URL:", monsterId);
+
             if (!monsterId) {
-                // No monster ID, redirect to home
-                alert('No monster selected!');
-                window.location.href = 'home.html';
+                console.error("🔴 No monster ID provided!");
+                showError("No monster selected. Redirecting...");
+                setTimeout(() => window.location.href = 'monsters.html', 2000);
                 return;
             }
 
             // Get monsters from localStorage
-            const monsters = JSON.parse(localStorage.getItem('monsters')) || [];
-            
-            // Find the monster with matching ID (convert both to numbers for comparison)
-            currentMonster = monsters.find(m => Number(m.id) === Number(monsterId));
-            
-            if (!currentMonster) {
-                alert('Monster not found!');
-                window.location.href = 'home.html';
+            const saved = localStorage.getItem('monsters');
+            console.log("🔴 Raw monsters data:", saved);
+
+            if (!saved) {
+                console.error("🔴 No monsters in localStorage!");
+                showError("No monsters found. Redirecting...");
+                setTimeout(() => window.location.href = 'monsters.html', 2000);
                 return;
             }
 
-            // Set monster HP (use stored HP or generate random)
-            monsterCurrentHp = currentMonster.hp || Math.floor(Math.random() * 30) + 70;
-            
-            // Update UI with monster data
+            try {
+                const monsters = JSON.parse(saved);
+                console.log("🔴 Parsed monsters:", monsters);
+                
+                // Find monster by ID (convert to number for comparison)
+                currentMonster = monsters.find(m => Number(m.id) === Number(monsterId));
+                console.log("🔴 Found monster:", currentMonster);
+
+                if (!currentMonster) {
+                    console.error("🔴 Monster not found with ID:", monsterId);
+                    showError("Monster not found. Redirecting...");
+                    setTimeout(() => window.location.href = 'monsters.html', 2000);
+                    return;
+                }
+
+                // Set monster HP
+                monsterCurrentHp = currentMonster.hp || 78;
+                monsterMaxHp = 100;
+
+                // Update UI
+                updateMonsterDisplay();
+                
+                // Hide loading, show battle
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('battleArena').style.display = 'block';
+
+            } catch (e) {
+                console.error("🔴 Error parsing monsters:", e);
+                showError("Error loading monster. Redirecting...");
+                setTimeout(() => window.location.href = 'monsters.html', 2000);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 60px;">❌</div>
+                    <h3 style="color: #082032;">Error</h3>
+                    <p style="color: #334155;">${message}</p>
+                </div>
+            `;
+        }
+
+        function updateMonsterDisplay() {
             document.getElementById('monsterName').textContent = currentMonster.name;
             
             // Determine monster type based on features
@@ -1060,11 +1308,9 @@
             
             document.getElementById('monsterType').textContent = type;
             
-            // Set monster appearance based on design system
+            // Set monster shape
             const monsterElement = document.getElementById('monsterShape');
-            
-            // Set shape class
-            monsterElement.className = 'monster-shape-large ' + (currentMonster.shape || 'default');
+            monsterElement.className = `monster-shape-large ${currentMonster.shape || 'default'}`;
             
             // Add eye style class
             if (currentMonster.eyeStyle && currentMonster.eyeStyle !== 'normal') {
@@ -1076,19 +1322,17 @@
                 monsterElement.classList.add('pupils-' + currentMonster.pupilSize);
             }
             
-            // Set color
             monsterElement.style.backgroundColor = currentMonster.color || '#7dd3fc';
             
             // Set HP
-            document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
-            document.getElementById('monsterHpFill').style.width = (monsterCurrentHp / monsterMaxHp * 100) + '%';
+            updateHPDisplay();
             
-            // Set initial dialogue based on monster type
+            // Set initial dialogue
             updateMonsterDialogue();
             
             // Add to log
-            addToLog('⚔️ Battle started with ' + currentMonster.name + '! HP: ' + monsterCurrentHp);
-            addToLog('⚡ Your energy: ' + userCurrentEnergy + '/100');
+            addToLog('⚔️ Battle started with ' + currentMonster.name + '!');
+            addToLog('❤️ Monster HP: ' + monsterCurrentHp + '/' + monsterMaxHp);
             
             // Log monster features
             if (currentMonster.features && currentMonster.features.length > 0) {
@@ -1119,6 +1363,37 @@
             dialogueBox.textContent = '"' + dialogueSet[randomIndex] + '"';
         }
 
+        function updateHPDisplay() {
+            const hpPercent = (monsterCurrentHp / monsterMaxHp) * 100;
+            document.getElementById('monsterHpFill').style.width = hpPercent + '%';
+            document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
+        }
+
+        function updateEnergyDisplay() {
+            const energyPercent = (userCurrentEnergy / userMaxEnergy) * 100;
+            document.getElementById('energyFill').style.width = energyPercent + '%';
+            document.getElementById('energyText').textContent = userCurrentEnergy + '/100';
+        }
+
+        function updateUI() {
+            updateHPDisplay();
+            updateEnergyDisplay();
+            
+            // Update skill buttons availability
+            if (!skillInProgress) {
+                document.getElementById('skillGrounding').disabled = userCurrentEnergy < 3;
+                document.getElementById('skillCognitive').disabled = userCurrentEnergy < 5;
+                document.getElementById('skillCompassion').disabled = userCurrentEnergy < 2;
+                document.getElementById('skillMicrobreak').disabled = userCurrentEnergy < 4;
+                document.getElementById('skillPMR').disabled = userCurrentEnergy < 6;
+                document.getElementById('skillSensory').disabled = userCurrentEnergy < 3;
+                document.getElementById('skillMusic').disabled = userCurrentEnergy < 4;
+                document.getElementById('skillLabeling').disabled = userCurrentEnergy < 5;
+                document.getElementById('skillWAIT').disabled = userCurrentEnergy < 6;
+                document.getElementById('skillVisualize').disabled = userCurrentEnergy < 7;
+            }
+        }
+
         // ===== MODAL FUNCTIONS =====
         function showModal(title, content) {
             const modal = document.getElementById('modalOverlay');
@@ -1126,19 +1401,19 @@
             
             modalContent.innerHTML = `
                 <div class="modal-header">
-                    <span class="modal-title">${title}</span>
-                    <button class="modal-close" onclick="closeModal()">✕</button>
+                    <h3>${title}</h3>
+                    <span class="modal-close" onclick="closeModal()">×</span>
                 </div>
                 <div class="modal-body">
                     ${content}
                 </div>
             `;
             
-            modal.style.display = 'flex';
+            modal.classList.add('visible');
         }
 
         function closeModal() {
-            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('modalOverlay').classList.remove('visible');
         }
 
         // ===== BREATHING EXERCISE =====
@@ -1507,10 +1782,13 @@
             disableAllSkillButtons(true);
             
             const afterSkill = function() {
-                monsterCurrentHp = Math.max(0, monsterCurrentHp - skill.damage);
+                // Calculate random damage within skill's range
+                const damage = Math.floor(Math.random() * (skill.maxDamage - skill.minDamage + 1)) + skill.minDamage;
+                
+                monsterCurrentHp = Math.max(0, monsterCurrentHp - damage);
                 userCurrentEnergy -= skill.cost;
                 
-                addToLog('✅ You used ' + skill.name + '! -' + skill.damage + ' HP');
+                addToLog('✅ You used ' + skill.name + '! -' + damage + ' HP');
                 
                 updateUI();
                 
@@ -1525,6 +1803,7 @@
                 }
             };
             
+            // Start the appropriate mini-game based on skill type
             switch(skill.type) {
                 case 'breathing':
                     startBreathingExercise(afterSkill);
@@ -1575,7 +1854,9 @@
         }
 
         function monsterCounterAttack() {
-            const damage = Math.floor(Math.random() * 8) + 3;
+            // Random damage between 1 and 5 (weaker than user)
+            const damage = Math.floor(Math.random() * 5) + 1;
+            
             userCurrentEnergy = Math.max(0, userCurrentEnergy - damage);
             
             updateMonsterDialogue();
@@ -1589,30 +1870,7 @@
                 setTimeout(() => {
                     alert('You ran out of energy. The monster is still here.');
                     window.location.href = 'home.html';
-                }, 1000);
-            }
-        }
-
-        function updateUI() {
-            const hpPercent = (monsterCurrentHp / monsterMaxHp) * 100;
-            document.getElementById('monsterHpFill').style.width = hpPercent + '%';
-            document.getElementById('monsterHpText').innerHTML = monsterCurrentHp + '/' + monsterMaxHp + ' HP';
-            
-            const energyPercent = (userCurrentEnergy / userMaxEnergy) * 100;
-            document.getElementById('energyFill').style.width = energyPercent + '%';
-            document.getElementById('energyText').textContent = userCurrentEnergy + '/100';
-            
-            if (!skillInProgress) {
-                document.getElementById('skillGrounding').disabled = userCurrentEnergy < 3;
-                document.getElementById('skillCognitive').disabled = userCurrentEnergy < 5;
-                document.getElementById('skillCompassion').disabled = userCurrentEnergy < 2;
-                document.getElementById('skillMicrobreak').disabled = userCurrentEnergy < 4;
-                document.getElementById('skillPMR').disabled = userCurrentEnergy < 6;
-                document.getElementById('skillSensory').disabled = userCurrentEnergy < 3;
-                document.getElementById('skillMusic').disabled = userCurrentEnergy < 4;
-                document.getElementById('skillLabeling').disabled = userCurrentEnergy < 5;
-                document.getElementById('skillWAIT').disabled = userCurrentEnergy < 6;
-                document.getElementById('skillVisualize').disabled = userCurrentEnergy < 7;
+                }, 1500);
             }
         }
 
@@ -1666,7 +1924,25 @@
         // Initialize on page load
         window.onload = function() {
             loadMonsterFromUrl();
+            
+            // Update stress indicator
+            const savedStress = localStorage.getItem('stressLevel');
+            const dots = document.querySelectorAll('.dot');
+            const stressLevel = savedStress ? parseInt(savedStress) : 3;
+            
+            dots.forEach((dot, index) => {
+                if (index < stressLevel) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
         };
     </script>
 </body>
+<!-- FLOATING EMERGENCY BUTTON -->
+<button class="emergency-float-btn" onclick="window.location.href='emergency.html'">
+    <span class="emergency-tooltip">🚨 Need Help?</span>
+    🚨
+</button>
 </html>
