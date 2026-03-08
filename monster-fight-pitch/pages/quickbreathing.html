@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Breathing Exercise - STRIDE</title>
+    <title>Box Breathing - STRIDE</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
         }
 
         body {
-            background: #7dd3fc;
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,14 +22,14 @@
         }
 
         .container {
-            max-width: 560px;
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.2);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 48px;
-            box-shadow: 0 25px 50px rgba(12, 74, 110, 0.3);
+            box-shadow: 0 30px 60px rgba(12, 74, 110, 0.35), inset 0 1px 3px rgba(255,255,255,0.5);
             padding: 24px 20px;
             border: 1px solid rgba(255,255,255,0.6);
         }
@@ -49,7 +49,7 @@
         }
 
         .menu-btn {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             border: none;
             font-size: 24px;
             width: 48px;
@@ -57,8 +57,8 @@
             border-radius: 30px;
             cursor: pointer;
             color: #082032;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 2px white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -66,36 +66,42 @@
 
         .menu-btn:hover {
             background: white;
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(90deg);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
         }
 
         .logo {
             font-weight: 800;
-            font-size: 1.4rem;
-            color: #082032;
-            text-shadow: 0 2px 5px rgba(255,255,255,0.5);
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.5);
         }
 
         .stress-indicator {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(4px);
-            padding: 8px 16px;
+            gap: 8px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(8px);
+            padding: 10px 18px;
             border-radius: 40px;
             cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .stress-indicator:hover {
-            background: rgba(255,255,255,0.9);
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .stress-label {
-            font-weight: 600;
-            font-size: 0.85rem;
+            font-weight: 60;
+            font-size: 0.9rem;
             color: #0c4a6e;
         }
 
@@ -103,130 +109,154 @@
             width: 10px;
             height: 10px;
             border-radius: 10px;
-            background: #94a3b8;
+            background: #cbd5e1;
+            transition: all 0.3s ease;
         }
 
         .dot.filled {
             background: #0c4a6e;
+            box-shadow: 0 0 10px #0c4a6e;
         }
 
         /* Back button */
         .back-btn {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.8);
             border: none;
             padding: 12px 24px;
             border-radius: 40px;
             font-weight: 600;
             color: #082032;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 1rem;
-            transition: 0.2s;
-            border: 1px solid rgba(255,255,255,0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.8);
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .back-btn:hover {
             background: white;
+            transform: translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         /* Exercise header */
         .exercise-header {
             text-align: center;
-            margin: 10px 0 25px;
+            margin: 10px 0 30px;
+            animation: fadeInUp 0.6s ease;
         }
 
         .exercise-title {
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             font-weight: 800;
-            color: #082032;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 20px rgba(255,255,255,0.3);
         }
 
         .exercise-subtitle {
             color: #0c4a6e;
             font-weight: 500;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.7);
             display: inline-block;
-            padding: 8px 24px;
+            padding: 10px 28px;
             border-radius: 60px;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6);
         }
 
         /* Breathing circle */
         .breathing-circle-container {
             display: flex;
             justify-content: center;
-            margin: 30px 0 20px;
+            margin: 30px 0 25px;
+            animation: fadeIn 0.8s ease;
         }
 
         .breath-circle {
-            width: 260px;
-            height: 260px;
+            width: 280px;
+            height: 280px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #0c4a6e, #082032);
-            box-shadow: 0 25px 40px rgba(8,32,48,0.5);
+            box-shadow: 0 30px 50px rgba(8,32,48,0.5), inset 0 -10px 20px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s;
+            transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
             cursor: pointer;
             position: relative;
-            border: 4px solid rgba(255,255,255,0.6);
+            border: 4px solid rgba(255,255,255,0.7);
+        }
+
+        .breath-circle::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.3);
+            animation: rotate 20s linear infinite;
         }
 
         .breath-circle::after {
             content: '';
             position: absolute;
-            inset: 10px;
+            inset: 8px;
             border-radius: 50%;
-            border: 2px dashed rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
         .breath-circle.inhale {
-            transform: scale(1.25);
-            background: radial-gradient(circle at 30% 30%, #0c4a6e, #0a3144);
-            box-shadow: 0 30px 50px #0c4a6e;
+            transform: scale(1.3);
+            box-shadow: 0 40px 70px #0c4a6e, inset 0 -10px 30px rgba(0,0,0,0.4);
         }
 
         .breath-circle.exhale {
-            transform: scale(0.9);
-            background: radial-gradient(circle at 30% 30%, #2d5a7a, #082032);
+            transform: scale(0.85);
+            box-shadow: 0 20px 40px rgba(8,32,48,0.4), inset 0 10px 20px rgba(255,255,255,0.1);
         }
 
         .breath-text {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 800;
             color: white;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
             letter-spacing: 1px;
             position: relative;
             z-index: 2;
         }
 
         .breath-phase {
-            font-size: 2rem;
+            font-size: 2.2rem;
             color: rgba(255,255,255,0.9);
             margin-top: 8px;
             position: relative;
             z-index: 2;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
         }
 
         /* Timer and cycle */
         .timer-section {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(8px);
-            border-radius: 60px;
-            padding: 20px;
-            margin: 20px 0 25px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 80px;
+            padding: 24px;
+            margin: 25px 0 30px;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1), inset 0 1px 4px white;
+            animation: slideUp 0.6s ease;
         }
 
         .timer-box {
@@ -234,79 +264,91 @@
         }
 
         .timer-label {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #334155;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .timer-number {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: #0c4a6e;
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             line-height: 1;
         }
 
         .cycle-box {
             text-align: center;
-            padding-left: 20px;
-            border-left: 2px solid rgba(255,255,255,0.5);
+            padding-left: 30px;
+            border-left: 2px solid rgba(255,255,255,0.8);
         }
 
         .cycle-number {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: #082032;
         }
 
         .cycle-label {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #334155;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Control buttons */
         .controls-grid {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
-            margin: 25px 0;
+            margin: 30px 0;
         }
 
         .control-btn {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
             border: none;
-            border-radius: 50px;
-            padding: 16px 24px;
+            border-radius: 60px;
+            padding: 18px 28px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #082032;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.9);
             flex: 1;
             justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .control-btn.primary {
-            background: #0c4a6e;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
             color: white;
             border: none;
-            box-shadow: 0 8px 16px rgba(12,74,110,0.3);
+            box-shadow: 0 12px 25px rgba(12,74,110,0.4);
         }
 
         .control-btn.primary:hover {
-            background: #082032;
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 30px rgba(12,74,110,0.5);
         }
 
         .control-btn:hover {
             background: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .control-btn:active {
+            transform: translateY(-1px);
         }
 
         .control-btn:disabled {
@@ -317,187 +359,294 @@
 
         /* Guide card */
         .guide-card {
-            background: rgba(255,255,255,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 32px;
-            padding: 25px;
-            margin: 25px 0;
-            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 28px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
         }
 
         .guide-title {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: 700;
-            color: #082032;
-            margin-bottom: 20px;
+            background: linear-gradient(135deg, #082032, #0c4a6e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+
+        .guide-title span {
+            font-size: 2rem;
+            -webkit-text-fill-color: initial;
+            color: #082032;
         }
 
         .steps-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .step-item {
-            background: rgba(255,255,255,0.6);
-            border-radius: 24px;
-            padding: 16px 8px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 28px;
+            padding: 20px 10px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+        }
+
+        .step-item:hover {
+            transform: translateY(-3px);
+            background: white;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
         }
 
         .step-number {
-            width: 40px;
-            height: 40px;
-            background: #0c4a6e;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #0c4a6e, #082032);
             color: white;
-            border-radius: 40px;
+            border-radius: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            box-shadow: 0 8px 15px rgba(12,74,110,0.3);
         }
 
         .step-name {
             font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 4px;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            color: #082032;
         }
 
         .step-duration {
-            font-size: 0.9rem;
-            color: #334155;
+            font-size: 1rem;
+            color: #0c4a6e;
+            font-weight: 600;
         }
 
         /* Benefits */
         .benefits-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin: 20px 0;
         }
 
         .benefit-item {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.8);
             border-radius: 40px;
-            padding: 10px 20px;
-            font-size: 0.95rem;
+            padding: 12px 24px;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255,255,255,0.5);
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-weight: 500;
+            color: #082032;
+        }
+
+        .benefit-item:hover {
+            background: white;
+            transform: translateX(5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         /* Tips list */
         .tips-list {
             list-style: none;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .tips-list li {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
-            gap: 12px;
+            gap: 15px;
             align-items: center;
             color: #334155;
+            font-size: 1.05rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .tips-list li:hover {
+            background: rgba(255,255,255,0.4);
         }
 
         .tips-list li span {
             color: #0c4a6e;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
         }
 
         /* Emergency button */
         .emergency-btn {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.5);
             border: 2px solid #ef4444;
             color: #b91c1c;
             font-weight: 700;
-            padding: 14px 30px;
+            padding: 18px 35px;
             border-radius: 60px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
-            font-size: 1.1rem;
-            margin: 20px 0;
+            font-size: 1.2rem;
+            margin: 25px 0;
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 20px rgba(239,68,68,0.2);
         }
 
         .emergency-btn:hover {
             background: #ef4444;
             color: white;
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(239,68,68,0.4);
         }
 
         /* Bottom navigation */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
-            background: rgba(255,255,255,0.4);
-            backdrop-filter: blur(16px);
-            border-radius: 50px;
-            padding: 12px 8px;
-            margin-top: 30px;
-            border: 1px solid rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 60px;
+            padding: 14px 12px;
+            margin-top: 35px;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .nav-item {
             background: none;
             border: none;
-            color: #334155;
+            color: #475569;
             font-weight: 600;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 30px;
-            transition: all 0.2s ease;
+            padding: 10px 20px;
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .nav-item.active {
             background: rgba(12,74,110,0.2);
             color: #0c4a6e;
             font-weight: 700;
+            transform: translateY(-2px);
         }
 
         .nav-item:hover {
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.8);
+            transform: translateY(-3px);
+            color: #082032;
         }
 
         .nav-icon {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
         }
 
         .nav-label {
-            font-size: 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Mobile responsiveness */
         @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px;
+            }
+
             .steps-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
             .breath-circle {
-                width: 220px;
-                height: 220px;
+                width: 240px;
+                height: 240px;
+            }
+
+            .breath-text {
+                font-size: 2.4rem;
             }
 
             .timer-section {
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
+                padding: 20px;
             }
 
             .cycle-box {
                 padding-left: 0;
                 border-left: none;
-                border-top: 2px solid rgba(255,255,255,0.5);
-                padding-top: 15px;
+                border-top: 2px solid rgba(255,255,255,0.8);
+                padding-top: 20px;
             }
 
             .controls-grid {
@@ -505,8 +654,52 @@
             }
 
             .control-btn {
-                flex: 1 1 calc(50% - 6px);
+                flex: 1 1 calc(50% - 8px);
+                padding: 16px 20px;
             }
+
+            .exercise-title {
+                font-size: 2.2rem;
+            }
+
+            .benefit-item {
+                width: 100%;
+            }
+        }
+
+        /* Loading animation */
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(12,74,110,0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(12,74,110,0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(12,74,110,0);
+            }
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 8px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0c4a6e, #38bdf8);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -547,6 +740,11 @@
             </div>
         </div>
 
+        <!-- Progress bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
         <!-- Timer and cycle -->
         <div class="timer-section">
             <div class="timer-box">
@@ -562,35 +760,35 @@
         <!-- Control buttons -->
         <div class="controls-grid">
             <button class="control-btn" onclick="resetBreathing()" id="resetBtn">↺ Reset</button>
-            <button class="control-btn primary" onclick="startBreathing()" id="startBtn">▶ Start</button>
-            <button class="control-btn" onclick="pauseBreathing()" id="pauseBtn" style="display: none;">⏸️ Pause</button>
+            <button class="control-btn primary" onclick="startBreathing()" id="startBtn">▶ Start Session</button>
+            <button class="control-btn" onclick="pauseBreathing()" id="pauseBtn" style="display: none;">⏸️ Pause Session</button>
         </div>
 
         <!-- Breathing guide -->
         <div class="guide-card">
             <div class="guide-title">
-                <span>📋</span> How to breathe
+                <span>📋</span> Breathing Technique
             </div>
             <div class="steps-grid">
                 <div class="step-item">
                     <div class="step-number">1</div>
                     <div class="step-name">Inhale</div>
-                    <div class="step-duration">4 sec</div>
+                    <div class="step-duration">4 seconds</div>
                 </div>
                 <div class="step-item">
                     <div class="step-number">2</div>
                     <div class="step-name">Hold</div>
-                    <div class="step-duration">4 sec</div>
+                    <div class="step-duration">4 seconds</div>
                 </div>
                 <div class="step-item">
                     <div class="step-number">3</div>
                     <div class="step-name">Exhale</div>
-                    <div class="step-duration">4 sec</div>
+                    <div class="step-duration">4 seconds</div>
                 </div>
                 <div class="step-item">
                     <div class="step-number">4</div>
                     <div class="step-name">Hold</div>
-                    <div class="step-duration">4 sec</div>
+                    <div class="step-duration">4 seconds</div>
                 </div>
             </div>
         </div>
@@ -598,7 +796,7 @@
         <!-- Benefits & tips -->
         <div class="guide-card">
             <div class="guide-title">
-                <span>✨</span> Benefits & tips
+                <span>✨</span> Benefits & Tips
             </div>
             <div class="benefits-grid">
                 <span class="benefit-item">🧠 Reduces anxiety</span>
@@ -607,18 +805,21 @@
                 <span class="benefit-item">💓 Lowers heart rate</span>
                 <span class="benefit-item">😴 Better sleep</span>
                 <span class="benefit-item">⚡ Boosts energy</span>
+                <span class="benefit-item">🫁 Lung capacity</span>
+                <span class="benefit-item">🧘 Mindfulness</span>
             </div>
             <ul class="tips-list">
                 <li><span>•</span> Sit upright with a straight back</li>
                 <li><span>•</span> Breathe through your nose</li>
                 <li><span>•</span> Let your belly expand, not your chest</li>
                 <li><span>•</span> Don't worry if your mind wanders</li>
+                <li><span>•</span> Practice daily for best results</li>
             </ul>
         </div>
 
         <!-- Emergency button -->
         <button class="emergency-btn" onclick="window.location.href='emergency.html'">
-            🚨 Need immediate help
+            🚨 Need Immediate Help?
         </button>
 
         <!-- Bottom navigation -->
@@ -645,7 +846,7 @@
     <script>
         (function() {
             // State
-            let timeLeft = 300; // 5 minutes
+            let timeLeft = 300; // 5 minutes in seconds
             let cycleCount = 0;
             let phaseIndex = 0;
             let phaseTick = 0;
@@ -653,7 +854,7 @@
             let timerInterval = null;
             let phaseInterval = null;
 
-            const totalCycles = 6;
+            const totalTime = 300; // Total time in seconds
             const phaseNames = ['Inhale', 'Hold', 'Exhale', 'Hold'];
             const phaseEmojis = ['🌬️', '⏸️', '💨', '⏸️'];
 
@@ -665,6 +866,13 @@
             const cycleDisplay = document.getElementById('cycleDisplay');
             const startBtn = document.getElementById('startBtn');
             const pauseBtn = document.getElementById('pauseBtn');
+            const progressFill = document.getElementById('progressFill');
+
+            // Audio elements (optional - for visual feedback without sound)
+            function playSoftSound() {
+                // This would be for sound effects if you want to add them
+                // You could add a subtle "ding" at phase changes
+            }
 
             function formatTime(sec) {
                 let m = Math.floor(sec / 60);
@@ -674,6 +882,9 @@
 
             function updateTimerText() {
                 timerDisplay.textContent = formatTime(timeLeft);
+                // Update progress bar
+                const progress = ((totalTime - timeLeft) / totalTime) * 100;
+                progressFill.style.width = progress + '%';
             }
 
             function updateCycleText() {
@@ -681,16 +892,22 @@
             }
 
             function updatePhaseDisplay() {
+                // Remove all classes first
+                circle.classList.remove('inhale', 'exhale');
+                
                 if (phaseIndex === 0) {
-                    circle.className = 'breath-circle inhale';
+                    circle.classList.add('inhale');
                 } else if (phaseIndex === 2) {
-                    circle.className = 'breath-circle exhale';
-                } else {
-                    circle.className = 'breath-circle';
+                    circle.classList.add('exhale');
                 }
                 
                 instruction.textContent = phaseNames[phaseIndex];
                 phaseEmoji.textContent = phaseEmojis[phaseIndex];
+                
+                // Subtle vibration effect for phase changes (mobile only)
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
             }
 
             function advancePhase() {
@@ -705,6 +922,16 @@
                     if (phaseIndex === 0) {
                         cycleCount++;
                         updateCycleText();
+                        
+                        // Visual feedback at cycle completion
+                        if (cycleCount > 0 && cycleCount <= 6) {
+                            // Flash effect
+                            circle.style.transition = 'all 0.3s';
+                            circle.style.boxShadow = '0 0 30px #38bdf8';
+                            setTimeout(() => {
+                                circle.style.boxShadow = '';
+                            }, 300);
+                        }
                     }
                 }
 
@@ -737,6 +964,9 @@
 
                 timerInterval = setInterval(timerTick, 1000);
                 phaseInterval = setInterval(advancePhase, 1000);
+                
+                // Start with a gentle pulse
+                circle.classList.add('pulse-animation');
             }
 
             function stopIntervals() {
@@ -745,6 +975,7 @@
                 timerInterval = null;
                 phaseInterval = null;
                 isRunning = false;
+                circle.classList.remove('pulse-animation');
             }
 
             function hardReset() {
@@ -758,12 +989,13 @@
                 updateTimerText();
                 updateCycleText();
                 
-                circle.className = 'breath-circle';
+                circle.classList.remove('inhale', 'exhale', 'pulse-animation');
                 instruction.textContent = 'Start';
                 phaseEmoji.textContent = '';
                 
                 startBtn.style.display = 'flex';
                 pauseBtn.style.display = 'none';
+                progressFill.style.width = '0%';
             }
 
             // Public functions
@@ -777,11 +1009,13 @@
                 startBtn.style.display = 'flex';
                 pauseBtn.style.display = 'none';
                 instruction.textContent = 'Paused';
-                phaseEmoji.textContent = '';
+                phaseEmoji.textContent = '⏸️';
             };
 
             window.resetBreathing = function() {
-                hardReset();
+                if (confirm('Reset your breathing session?')) {
+                    hardReset();
+                }
             };
 
             window.toggleBreathing = function() {
@@ -794,9 +1028,29 @@
 
             function completeExercise() {
                 stopIntervals();
-                alert('✨ Great job! You completed 5 minutes of breathing.');
-                window.location.href = 'home.html';
+                
+                // Celebration animation
+                circle.style.transition = 'all 0.5s';
+                circle.style.transform = 'scale(1.1)';
+                circle.style.boxShadow = '0 0 50px #38bdf8';
+                
+                setTimeout(() => {
+                    circle.style.transform = '';
+                    circle.style.boxShadow = '';
+                    alert('✨ Amazing! You completed 5 minutes of box breathing!\n\nHow do you feel?');
+                    window.location.href = 'home.html';
+                }, 1000);
             }
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    toggleBreathing();
+                } else if (e.code === 'KeyR') {
+                    resetBreathing();
+                }
+            });
 
             // Initialize
             hardReset();

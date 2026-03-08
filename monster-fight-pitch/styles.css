@@ -83,6 +83,8 @@ body {
     right: 67px;
 }
 
+
+
 /* Small monster */
 .monster-shape.small {
     width: 60px;
@@ -198,6 +200,8 @@ body {
     animation: fadeIn 1s ease 0.9s forwards;
     opacity: 0;
 }
+
+
 
 .pulse {
     animation: pulse 2s ease-in-out infinite;
@@ -324,7 +328,7 @@ h1, h2, h3, h4, h5, h6 {
 .stress-indicator {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 15px;
     background: rgba(255, 255, 255, 0.5);
     padding: 8px 15px;
     border-radius: 20px;

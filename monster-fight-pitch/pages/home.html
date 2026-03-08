@@ -203,6 +203,20 @@
             min-height: 200px;
         }
         
+        /* Simple blink animation */
+@keyframes simpleBlink {
+    0%, 95%, 100% {
+        transform: scaleY(1);
+    }
+    97% {
+        transform: scaleY(0.1);
+    }
+}
+
+.monster-card .monster-shape::before,
+.monster-card .monster-shape::after {
+    animation: simpleBlink 5s ease-in-out infinite;
+}
         .monster-card.create-card:hover {
             background: rgba(255, 255, 255, 0.8);
         }
